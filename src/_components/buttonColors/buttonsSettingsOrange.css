@@ -1,0 +1,33 @@
+/* src/components/buttonColors/buttonOrange.css */
+
+.btn-gradient-orange {
+  background: linear-gradient(to right, #ff7e5f, #feb47b);
+  border-radius: 30px;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .btn-gradient-orange {
+      width: 120px;
+      height: 120px;
+      font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn-gradient-orange {
+      width: 100px;
+      height: 100px;
+      font-size: 0.9rem;
+  }
+}

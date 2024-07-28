@@ -1,0 +1,33 @@
+/* src/components/buttonColors/buttonGreen.css */
+
+.btn-gradient-green {
+  background: linear-gradient(to right, #56ab2f, #a8e063);
+  border-radius: 30px;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .btn-gradient-green {
+      width: 120px;
+      height: 120px;
+      font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn-gradient-green {
+      width: 100px;
+      height: 100px;
+      font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,67 @@
+.video-container {
+    width: 100%;
+    /* Mantiene el ancho completo del contenedor */
+    height: 87vh;
+    /* Ajusta la altura deseada */
+    object-fit: cover;
+    /* Ajusta el contenido del video para llenar el contenedor manteniendo el aspecto */
+    filter: blur(20px);
+    /* Si quieres mantener el desenfoque */
+}
+.shadowCss{
+    box-shadow: 0px 20px 20px gray, 0px 20px 20px gray;
+}
+.fade-in {
+    opacity: 0;
+    transition: opacity 0.7s ease-in-out;
+}
+
+.fade-in.visible {
+    opacity: 1;
+}
+
+.scale-up-hor-right {
+    -webkit-animation: scale-up-hor-right 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+    animation: scale-up-hor-right 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+}
+
+@keyframes scale-up-width {
+    0% {
+        transform: scaleX(1);
+    }
+    100% {
+        transform: scaleX(1.5); /* Aumenta el ancho al 150% */
+    }
+}
+
+@-webkit-keyframes scale-up-hor-right {
+    0% {
+        -webkit-transform: scaleX(0.4);
+        transform: scaleX(0.4);
+        -webkit-transform-origin: 100% 100%;
+        transform-origin: 100% 100%;
+    }
+
+    100% {
+        -webkit-transform: scaleX(1);
+        transform: scaleX(1);
+        -webkit-transform-origin: 100% 100%;
+        transform-origin: 100% 100%;
+    }
+}
+
+@keyframes scale-up-hor-right {
+    0% {
+        -webkit-transform: scaleX(0.4);
+        transform: scaleX(0.4);
+        -webkit-transform-origin: 100% 100%;
+        transform-origin: 100% 100%;
+    }
+
+    100% {
+        -webkit-transform: scaleX(1);
+        transform: scaleX(1);
+        -webkit-transform-origin: 100% 100%;
+        transform-origin: 100% 100%;
+    }
+}

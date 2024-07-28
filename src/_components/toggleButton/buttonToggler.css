@@ -1,0 +1,64 @@
+.buttonBase {
+  @apply flex-1 px-5 py-2 text-lg rounded-t-lg transition-all duration-700 ease-in-out;
+}
+
+.buttonActive {
+  @apply bg-white text-primary-orange flex-grow; 
+}
+
+.buttonInactive {
+  @apply bg-inactive-bg text-inactive-text flex-shrink; 
+}
+
+.contentBase {
+  @apply absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center rounded-b-2xl transition-opacity duration-700 ease-in-out;
+}
+
+.contentActive {
+  @apply opacity-100 z-10;
+}
+
+.contentInactive {
+  @apply opacity-0 z-0;
+}
+
+.formBase {
+  @apply flex flex-col items-center text-white max-w-md w-full relative z-10;
+}
+
+.inputBase {
+  @apply w-[350px] p-2 border border-white rounded-full bg-white text-black outline-none focus:border-blue-500 hover:bg-yellow-100 xxs: w-[10];
+}
+
+.submitButtonBase {
+  @apply mt-2 w-[250px] py-2 rounded bg-orange-600 text-white text-lg transition-colors duration-300 ease-in-out hover:bg-orange-700;
+}
+
+.orangeBackground {
+  @apply bg-primary-orange opacity-80 w-full max-w-screen-lg h-[89%] rounded-b-[200px] absolute top-0 z-0;
+}
+
+/* Media :)*/
+@media (max-width: 768px) {
+  .orangeBackground {
+    @apply w-[80vw] h-[65vh] rounded-b-[100px];
+  }
+
+  .formBase {
+    @apply w-[90%];
+  }
+}
+
+@media (max-width: 480px) {
+  .inputBase {
+    @apply text-sm;
+  }
+
+  .submitButtonBase {
+    @apply text-lg;
+  }
+
+  .orangeBackground {
+    @apply w-[82vw] h-[70vh] rounded-b-[50px];
+  }
+}

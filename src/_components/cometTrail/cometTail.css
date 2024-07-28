@@ -1,0 +1,8 @@
+.trail {
+    position: absolute;
+    border-radius: 50%;
+    background: red;
+    opacity: 0;
+    pointer-events: none;
+  }
+  
