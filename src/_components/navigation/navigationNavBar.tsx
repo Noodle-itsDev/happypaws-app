@@ -23,7 +23,7 @@ export default function SimpleBottomNavigation({ labels }: SimpleBottomNavigatio
   const [value, setValue] = React.useState(0);
 
   return (
-    <Box sx={{ width: '99vw', boxShadow: '0px 4px 5px gray'}}>
+    <Box sx={{ width: '100dvw', boxShadow: '0px 4px 5px gray'}}>
       <BottomNavigation
         showLabels
         value={value}

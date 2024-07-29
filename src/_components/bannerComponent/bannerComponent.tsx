@@ -1,7 +1,6 @@
-// src/components/ImageCarousel.tsx
 import React, { useState, useEffect, useRef } from 'react';
 import { Box, Button, Typography } from '@mui/material';
-import { gsap } from 'gsap';
+import { gsap, Power2 } from 'gsap';
 import './bannerComponent.css';
 
 interface ImageCarouselProps {
@@ -16,19 +15,21 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ items }) => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
+    const textAnim = gsap.timeline();
     if (textRef.current) {
-      gsap.fromTo(textRef.current,
-        { opacity: 0, x: '-100%' },
-        { duration: 0.6, opacity: showText ? 1 : 0, x: showText ? '0%' : '-100%', ease: 'power2.out' }
+      textAnim.fromTo(textRef.current, 
+        { opacity: 0, y: '100%' }, 
+        { duration: 0.6, opacity: showText ? 1 : 0, y: showText ? '0%' : '100%', ease: Power2.easeOut }
       );
     }
   }, [showText]);
 
   useEffect(() => {
+    const imageAnim = gsap.timeline();
     if (imageRef.current) {
-      gsap.fromTo(imageRef.current,
-        { x: '100%', opacity: 0, filter: 'blur(10px)' },
-        { duration: 1.2, x: '0%', opacity: 1, filter: 'blur(0)', ease: 'power2.out' }
+      imageAnim.fromTo(imageRef.current, 
+        { x: '100%', opacity: 0, filter: 'blur(20px)' }, 
+        { duration: 1.2, x: '0%', opacity: 1, filter: 'blur(0)', ease: Power2.easeOut }
       );
     }
   }, [currentIndex]);
@@ -64,15 +65,14 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ items }) => {
   };
 
   return (
-    <Box sx={{
-      marginTop: "-107px"
-    }}className="carousel-container">
+    <Box sx={{ marginTop: "-107px" }} className="carousel-container">
       <Box className="carousel-image-container">
         <img
           src={items[currentIndex].image}
-          alt="carousel"
+          alt={items[currentIndex].text}
           className="carousel-image"
           ref={imageRef}
+          aria-hidden={!showText}
         />
       </Box>
       <div className="carousel-text" ref={textRef}>
@@ -80,12 +80,24 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ items }) => {
           {items[currentIndex].text}
         </Typography>
       </div>
-      <Button onClick={handlePrev} className="carousel-button-prev">
-        Prev
-      </Button>
-      <Button onClick={handleNext} className="carousel-button-next">
-        Next
-      </Button>
+      <div className="carousel-controls">
+        <Button onClick={handlePrev} className="carousel-button-prev" aria-label="Previous slide">
+          Prev
+        </Button>
+        <Button onClick={handleNext} className="carousel-button-next" aria-label="Next slide">
+          Next
+        </Button>
+      </div>
+      <div className="carousel-indicators">
+        {items.map((_, index) => (
+          <div
+            key={index}
+            className={`carousel-indicator ${index === currentIndex ? 'active' : ''}`}
+            aria-label={`Slide ${index + 1}`}
+            aria-current={index === currentIndex ? 'true' : 'false'}
+          ></div>
+        ))}
+      </div>
     </Box>
   );
 };

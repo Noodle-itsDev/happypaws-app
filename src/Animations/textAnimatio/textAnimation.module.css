@@ -1,0 +1,14 @@
+.floatingText {
+    position: relative;
+    z-index: 300;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    top: 10vh;
+    display: flex;
+    flex-direction: column;
+    text-align: center; /* Centra el texto */
+    color: #fff; /* Color del texto */
+    filter: drop-shadow(0 15px 15px rgba(0, 0, 0, 0.1));
+    text-shadow: 1px 5px 5px black;
+}
