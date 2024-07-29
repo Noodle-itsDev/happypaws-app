@@ -1,0 +1,13 @@
+/* Separator.module.css */
+.separatorContainer {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+  }
+  
+  .separator {
+    width: 50%;
+    height: 1px;
+    background-color: #ffffff;
+  }
+  

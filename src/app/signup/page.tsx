@@ -5,6 +5,9 @@ import "./registerLoginView.css";
 import { createTheme as createThemeDefault } from "@mui/material/styles";
 import BasicTextFields from "@/_components/inputs/usuario/inputUsuario";
 import ContainedButtons from "@/_components/buttonPlacerholder/buttonSubmit";
+import Footer from "@/_components/footerCom/footer";
+import { relative } from "path";
+import FlowerComAnimated from "@/_components/flowerComAnimated/flowerComAnimated";
 const PrimarySearchAppBar = React.lazy(
   () => import("../../_components/header/headerGradient")
 );
@@ -12,12 +15,14 @@ const SimpleBottomNavigation = React.lazy(
   () => import("../../_components/navigation/navigationNavBar")
 );
 
+
 const Signup: React.FC = () => {
   const [headerVisible, setHeaderVisible] = useState(false);
   const [navVisible, setNavVisible] = useState(false);
   const [videoVisible, setVideoVisible] = useState(false);
   const [sectionVisible, setSectionVisible] = useState(false);
   const [logoVisible, setLogoVisible] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(false); // Nuevo estado
 
   useEffect(() => {
     const timers = [
@@ -30,6 +35,16 @@ const Signup: React.FC = () => {
 
     return () => timers.forEach((timer) => clearTimeout(timer));
   }, []);
+
+  const handleRegisterClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setIsRegistering(true);
+  };
+
+  const handleLoginClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setIsRegistering(false);
+  };
 
   return (
     <>
@@ -60,7 +75,6 @@ const Signup: React.FC = () => {
           <section
             className={`relative fade-in ${videoVisible ? "visible" : ""}`}
           >
-
             <Suspense>
               <section>
                 <video
@@ -75,7 +89,17 @@ const Signup: React.FC = () => {
                     type="video/mp4"
                   />
                 </video>
-                <section
+                  <section style={{display: "flex", flexDirection: "column", alignContent: "center", justifyContent:"center"}}>
+                    {/* <section>
+                    <div style={{position: "relative", top: "-600px", zIndex: "400", left:"-500px", justifyContent: "center", alignContent: "center"}}>
+                    <FlowerComAnimated/>
+                      <img src="img/perritoGuiñando.png" alt="" style={{width:"382px", position: "relative",left: "1000px", top: "-130px"}}/>
+                      <span style={{width:"482px", position: "relative",top: "-200px", left: "-30px"}}>
+                        <p className="fontText">Adoptar una mascota mejora tu vida,<br/> y las mascotas veteranas brindan<br/> estabilidad y amor.</p>
+                      </span>
+                    </div>
+                    </section> */}
+                  <section
                   className={`scale-up-hor-right login-section  fade-in ${sectionVisible ? "visible" : ""
                     }`}
                   style={{
@@ -91,8 +115,10 @@ const Signup: React.FC = () => {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
+                    marginTop: "0.3vh"
                   }}
                 >
+
                   <div
                     style={{
                       height: "87.3vh",
@@ -104,24 +130,11 @@ const Signup: React.FC = () => {
                       alignItems: "center",
                     }}
                   >
-                    <img
-                      src="/img/yellowLogoPaws.png"
-                      alt=""
-                      className={`fade-in ${logoVisible ? "visible" : ""}`}
-                      style={{
-                        width: "15vw",
-                        marginBottom: "20px",
-                        position: "relative",
-                        top: "",
-                        zIndex: "1300",
-                      }}
-                    />
-
                     <div
                       className="shadowCss"
                       style={{
                         backgroundColor: "#40c8925d",
-                        height: "70%",
+                        height: "80%",
                         width: "60%",
                         borderRadius: "1.5rem",
                         display: "flex",
@@ -132,8 +145,8 @@ const Signup: React.FC = () => {
                       }}
                     >
                       <div>
-                        <p className="font">
-                          <span>Iniciar sesión</span>
+                        <p className="font" style={{marginBottom: "1vh"}}>
+                          <span>{isRegistering ? "Regístrate" : "Iniciar sesión"}</span>
                         </p>
                       </div>
                       <div
@@ -142,23 +155,65 @@ const Signup: React.FC = () => {
                           flexDirection: "column",
                           justifyContent: "center",
                           alignContent: "center",
-                          marginTop: "-20px",
+                          marginTop: "-80px",
                         }}
                       >
-                        <BasicTextFields
-                          id="usuario"
-                          placeholder="Usuario"
-                          backgroundColor="#f0f0f0"
-                          width="16vw"
-                          height="55px"
-                        />
-                        <BasicTextFields
-                          id="usuario"
-                          placeholder="Usuario"
-                          backgroundColor="#f0f0f0"
-                          width="16vw"
-                          height="55px"
-                        />
+                        {!isRegistering ? (
+                          <>
+                            <BasicTextFields
+                              id="usuario"
+                              placeholder="Usuario"
+                              backgroundColor="#f0f0f0"
+                              width="16vw"
+                              height="55px"
+                            />
+                            <BasicTextFields
+                              id="contraseña"
+                              placeholder="Contraseña"
+                              backgroundColor="#f0f0f0"
+                              width="16vw"
+                              height="55px"
+                            />
+                          </>
+                        ) : (
+                          <>
+                            <BasicTextFields
+                              id="nombre"
+                              placeholder="Nombre"
+                              backgroundColor="#f0f0f0"
+                              width="16vw"
+                              height="55px"
+                            />
+                            <BasicTextFields
+                              id="apellido"
+                              placeholder="Apellido"
+                              backgroundColor="#f0f0f0"
+                              width="16vw"
+                              height="55px"
+                            />
+                            <BasicTextFields
+                              id="email"
+                              placeholder="Email"
+                              backgroundColor="#f0f0f0"
+                              width="16vw"
+                              height="55px"
+                            />
+                            <BasicTextFields
+                              id="usuario"
+                              placeholder="Usuario"
+                              backgroundColor="#f0f0f0"
+                              width="16vw"
+                              height="55px"
+                            />
+                            <BasicTextFields
+                              id="contraseña"
+                              placeholder="Contraseña"
+                              backgroundColor="#f0f0f0"
+                              width="16vw"
+                              height="55px"
+                            />
+                          </>
+                        )}
                         <div
                           style={{
                             display: "flex",
@@ -169,10 +224,10 @@ const Signup: React.FC = () => {
                           <ContainedButtons
                             id="enviar"
                             color="white"
-                            width="10vw"
+                            width="15vw"
                             height="string"
                             borderRadius="string"
-                            label="Enviar"
+                            label={isRegistering ? "Registrar" : "Acceder"}
                           />
                         </div>
                       </div>
@@ -181,25 +236,41 @@ const Signup: React.FC = () => {
                           display: "flex",
                           flexDirection: "column",
                           textAlign: "center",
-                          marginTop: "-7vh",
+                          marginTop: "-9vh",
                         }}
                       >
-                        <a
-                          style={{ textDecoration: "underline", color: "blue" }}
-                          href=""
-                        >
-                          Iniciar sesión como protectora
-                        </a>
-                        <a
-                          style={{ textDecoration: "underline", color: "blue" }}
-                          href=""
-                        >
-                          ¿Aún no tiene cuenta? <br/> Regístrese
-                        </a>
+                        {!isRegistering ? (
+                          <>
+                                                   <a
+                              style={{ color: "blue" }}
+                              href=""
+                            >
+                              Iniciar sesión como protectora
+                            </a>
+                            <a
+                              style={{ color: "blue", marginTop: "1vh" }}
+                              href=""
+                              onClick={handleRegisterClick}
+                            >
+                              ¿Aún no tiene cuenta? <br/> Regístrese
+                            </a>
+   
+                          </>
+                        ) : (
+                          <a
+                            style={{ color: "blue", marginTop: "3vh" }}
+                            href=""
+                            onClick={handleLoginClick}
+                          >
+                            ¿Ya tiene cuenta? Acceda
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>
                 </section>
+                  </section>
+
 
                 <section>
                   <div
@@ -213,8 +284,9 @@ const Signup: React.FC = () => {
                       justifyContent: "space-evenly",
                       alignItems: "center",
                       marginTop: "-20px",
-                    }}>
-                        
+                    }}
+                  >
+
                   </div>
                 </section>
               </section>
@@ -222,6 +294,9 @@ const Signup: React.FC = () => {
           </section>
         </Suspense>
       </main>
+      <footer style={{ marginTop: "3vh" }}>
+        <Footer />
+      </footer>
     </>
   );
 };

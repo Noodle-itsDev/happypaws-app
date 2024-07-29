@@ -4,11 +4,12 @@ import Styles from './textAnimation.module.css';
 import { gsap } from 'gsap';
 
 interface FloatingTextProps {
+    textDos: string;
     text: string;
     id: string;
 }
 
-const FloatingText: React.FC<FloatingTextProps> = ({ text, id }) => {
+const FloatingText: React.FC<FloatingTextProps> = ({ text, textDos,id }) => {
     const textRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
@@ -45,6 +46,7 @@ const FloatingText: React.FC<FloatingTextProps> = ({ text, id }) => {
             ref={textRef}
         >
             <p>{text}</p>
+            <p>{textDos}</p>
         </div>
     );
 };
