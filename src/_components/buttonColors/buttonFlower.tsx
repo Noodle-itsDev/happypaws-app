@@ -1,38 +1,22 @@
-// src/components/ButtonFlower.tsx
-import React, { useRef, useEffect } from "react";
-import { gsap } from "gsap";
-import './buttonsSettingsFlower.css'; 
+import React from "react";
+import styles from './buttonsSettingsFlower.module.css';
+import ButtonImage from '../../../public/img/florAzul.png';
+import Image from 'next/image';
 
-const ButtonFlower: React.FC = () => {
-  const buttonRef = useRef<HTMLButtonElement | null>(null);
-
-  useEffect(() => {
-    if (buttonRef.current) {
-      gsap.fromTo(
-        buttonRef.current.querySelector('.button-image'),
-        { scale: 1, rotate: 0 },
-        {
-          scale: 1.1,
-          rotate: 360,
-          duration: 4,
-          ease: "power1.inOut",
-          repeat: -1,
-          yoyo: true,
-        }
-      );
-    }
-  }, []);
-
+const RotatingButton: React.FC = () => {
   return (
-    <button
-      ref={buttonRef}
-      className="button-flower"
-      onClick={() => window.location.href = 'https://www.tusitio.com'} // Reemplaza con la URL a la que quieras redirigir
-    >
-      <div className="button-image"></div>
-      <span className="button-text ">Cuida</span>
+    <button className={styles.rotatingButton}>
+      <div className={styles.buttonImage}>
+        <Image
+          src={ButtonImage}
+          alt="Flor Azul"
+          layout="fill"
+          objectFit="cover"
+        />
+      </div>
+      <span className={styles.buttonText}>Adopta mascotas <br/> veteranas</span>
     </button>
   );
 };
 
-export default ButtonFlower;
+export default RotatingButton;
