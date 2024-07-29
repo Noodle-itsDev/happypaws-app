@@ -1,0 +1,42 @@
+/* components/circleFloat.module.css */
+
+.button {
+    border: none; /* Elimina el borde del botón */
+    font-size: 16px; /* Tamaño de la fuente del botón */
+    color: #ffffff; /* Color del texto */
+    cursor: pointer; /* Cambia el cursor a un puntero al pasar por encima */
+    display: flex; /* Utiliza Flexbox para alinear el contenido dentro del botón */
+    justify-content: center; /* Centra el texto horizontalmente */
+    align-items: center; /* Centra el texto verticalmente */
+    text-transform: uppercase; /* Texto en mayúsculas */
+    white-space: nowrap; /* Evita que el texto se envuelva */
+    overflow: hidden; /* Asegura que el contenido no se desborde fuera del botón */
+    transition: none; /* Desactiva la transición CSS para controlar con GSAP */
+    transition: transform 0.3s ease, filter 0.3s ease; /* Transición para el hover */
+    border-radius: 50%; /* Hace que el botón sea circular */
+}
+
+.gradientCircle{
+    background: radial-gradient( #1b9e7d, #d6922c, #e98e05,#1e9fdb);
+    background-size: 600% 600%;
+
+    -webkit-animation: AnimationName 15s ease infinite;
+    -moz-animation: AnimationName 15s ease infinite;
+    animation: AnimationName 15s ease infinite;
+}
+
+@-webkit-keyframes AnimationName {
+    0%{background-position:39% 0%}
+    50%{background-position:62% 100%}
+    100%{background-position:39% 0%}
+}
+@-moz-keyframes AnimationName {
+    0%{background-position:39% 0%}
+    50%{background-position:62% 100%}
+    100%{background-position:39% 0%}
+}
+@keyframes AnimationName {
+    0%{background-position:39% 0%}
+    50%{background-position:62% 100%}
+    100%{background-position:39% 0%}
+}

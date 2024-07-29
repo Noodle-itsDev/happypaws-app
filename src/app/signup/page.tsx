@@ -214,7 +214,7 @@ const Signup: React.FC = () => {
                       alignItems: "center",
                       marginTop: "-20px",
                     }}>
-                      
+                        
                   </div>
                 </section>
               </section>

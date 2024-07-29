@@ -161,7 +161,7 @@ export default function PrimarySearchAppBar({ backgroundGradient }: PrimarySearc
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, width: "100dvw"}}>
       <AppBar position="static" sx={{ background: backgroundGradient || 'default' }}>
         <Toolbar>
           <IconButton
