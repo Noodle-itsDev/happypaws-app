@@ -1,153 +1,76 @@
-"use client";
+"use client"
 
-import React, { Suspense, useState, useEffect } from "react";
-import "./registerLoginView.css";
-import { createTheme as createThemeDefault } from "@mui/material/styles";
-import BasicTextFields from "@/_components/inputs/usuario/inputUsuario";
-import ContainedButtons from "@/_components/buttonPlacerholder/buttonSubmit";
+import React from "react";
+import Styles from './signup.module.css';
+
+import SimpleBottomNavigation from "@/_components/navigation/navigationNavBar";
+import PrimarySearchAppBar from "@/_components/header/headerGradient";
 import Footer from "@/_components/footerCom/footer";
-import { relative } from "path";
-import FlowerComAnimated from "@/_components/flowerComAnimated/flowerComAnimated";
-const PrimarySearchAppBar = React.lazy(
-  () => import("../../_components/header/headerGradient")
-);
-const SimpleBottomNavigation = React.lazy(
-  () => import("../../_components/navigation/navigationNavBar")
-);
+import RotatingFlower from "@/_components/flowerRotatingIcon/flowerRotationg.module";
 
 
-const Signup: React.FC = () => {
-  const [headerVisible, setHeaderVisible] = useState(false);
-  const [navVisible, setNavVisible] = useState(false);
-  const [videoVisible, setVideoVisible] = useState(false);
-  const [sectionVisible, setSectionVisible] = useState(false);
-  const [logoVisible, setLogoVisible] = useState(false);
-  const [isRegistering, setIsRegistering] = useState(false); // Nuevo estado
 
-  useEffect(() => {
-    const timers = [
-      setTimeout(() => setHeaderVisible(true), 500),
-      setTimeout(() => setNavVisible(true), 1000),
-      setTimeout(() => setVideoVisible(true), 1500),
-      setTimeout(() => setSectionVisible(true), 2000),
-      setTimeout(() => setLogoVisible(true), 2500),
-    ];
-
-    return () => timers.forEach((timer) => clearTimeout(timer));
-  }, []);
-
-  const handleRegisterClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    setIsRegistering(true);
-  };
-
-  const handleLoginClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    setIsRegistering(false);
-  };
+const SignupView: React.FC = () => {
 
   return (
     <>
-      <header style={{ position: "sticky", top: "0px", zIndex: "9000" }}>
-        <Suspense fallback={<div>Loading header...</div>}>
-          <div className={`fade-in ${headerVisible ? "visible" : ""}`}>
-            <PrimarySearchAppBar backgroundGradient="linear-gradient(311deg, rgba(57,200,148,1) 0%, rgba(255,214,157,1) 76%, rgba(253,141,29,1) 100%)" />
-          </div>
-        </Suspense>
-        <Suspense fallback={<div>Loading navigation...</div>}>
-          <div className={`fade-in ${navVisible ? "visible" : ""}`}>
-            <SimpleBottomNavigation
-              labels={{
-                textoUno: "Donaciones",
-                textoDos: "Protectoras",
-                textoTres: "Inicio",
-                textoCuatro: "Voluntariado",
-                textoCinco: "Sobre Nosotros",
-                textoSeis: "Contacto",
-              }}
-            />
-          </div>
-        </Suspense>
+      <header style={{ position: "fixed", top: "0", zIndex: 9000 }}>
+        <PrimarySearchAppBar
+          backgroundGradient="linear-gradient(311deg, rgba(57,200,148,1) 0%, rgba(255,214,157,1) 76%, rgba(253,141,29,1) 100%)"
+        />
+        <SimpleBottomNavigation labels={{
+          textoUno: "",
+          textoDos: "",
+          textoTres: "",
+          textoCuatro: "",
+          textoCinco: "",
+          textoSeis: ""
+        }} />
       </header>
 
-      <main style={{ maxWidth: "100vw", maxHeight: "100vh" }}>
-        <Suspense fallback={<div>Loading video...</div>}>
-          <section
-            className={`relative fade-in ${videoVisible ? "visible" : ""}`}
-          >
-            <Suspense>
-              <section>
-                <video
-                  autoPlay
-                  muted
-                  loop
-                  className={`video-container fade-in ${videoVisible ? "visible" : ""
-                    }`}
-                >
-                  <source
-                    src="/video/4625769-hd_1920_1080_30fps.mp4"
-                    type="video/mp4"
-                  />
-                </video>
-                  <section style={{display: "flex", flexDirection: "column", alignContent: "center", justifyContent:"center"}}>
-                    {/* <section>
-                    <div style={{position: "relative", top: "-600px", zIndex: "400", left:"-500px", justifyContent: "center", alignContent: "center"}}>
-                    <FlowerComAnimated/>
-                      <img src="img/perritoGuiñando.png" alt="" style={{width:"382px", position: "relative",left: "1000px", top: "-130px"}}/>
-                      <span style={{width:"482px", position: "relative",top: "-200px", left: "-30px"}}>
-                        <p className="fontText">Adoptar una mascota mejora tu vida,<br/> y las mascotas veteranas brindan<br/> estabilidad y amor.</p>
-                      </span>
+      <main style={{ height: "100vh", display: "flex", justifyContent: "center", }}>
+
+        <section style={{ height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+
+          <div className={`${Styles.videoBackground}`}>
+            <video autoPlay muted loop className={`${Styles.backgroundVideo}`}>
+              <source src="/video/4772989-uhd_3840_2160_24fps.mp4" type="video/mp4" />
+            </video>
+          </div>
+
+          <section className={`${Styles.overlayContent}`} style={{ height: "100vh", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", paddingTop: "10vh" }}>
+            <section className={`${Styles.backgroundTransparent}`} style={{ height: "80vh", width: "45vw", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#ffffff6b", borderRadius: "20px", marginLeft: "5vw" }}>
+              <div style={{ height: "70vh", width: "40vw", display: "flex", justifyContent: "space-around", alignItems: "center", borderRadius: "20px", flexDirection: "column", fontSize: "3rem"}}>
+                <div>
+                  <h1>Acceder como</h1>
+                </div>
+                <div >
+                    <div>
+                      
                     </div>
-                    </section> */}
-                  <section
-                  className={`scale-up-hor-right login-section  fade-in ${sectionVisible ? "visible" : ""
-                    }`}
-                  style={{
-                    height: "87.3vh",
-                    width: "50vw",
-                    backgroundColor: "#ffffff75",
-                    zIndex: "200",
-                    borderTopLeftRadius: "30px",
-                    borderBottomLeftRadius: "30px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginTop: "0.3vh"
-                  }}
-                >
+                    <div>
+                      
+                    </div>
+                </div>
+              </div>
+            </section>
+            <section className={`${Styles.backgroundTransparent}`} style={{ height: "100vh", width: "50vw", display: "flex", justifyContent: "center", alignItems: "center", overflow: "hidden" }}>
+              <div style={{ position: "relative", marginBottom: "70vh", right: "-30vw" }}>
+                <RotatingFlower src={"/img/florAzul.png"} alt={"Flor"} />
 
-
-                </section>
-                  </section>
-
-
-                <section>
-                  <div
-                    style={{
-                      backgroundColor: "#40c8925d",
-                      height: "70%",
-                      width: "60%",
-                      borderRadius: "1.5rem",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-evenly",
-                      alignItems: "center",
-                      marginTop: "-20px",
-                    }}
-                  >
-
-                  </div>
-                </section>
-              </section>
-            </Suspense>
+              </div>
+            </section>
           </section>
-        </Suspense>
+
+        </section>
       </main>
-      <footer style={{ marginTop: "3vh" }}>
-        <Footer />
+      <footer style={{ position: "relative", zIndex: 3 }}>
+        <Footer></Footer>
       </footer>
     </>
-  );
-};
 
-export default Signup;
+  );
+
+
+}
+export default SignupView;
