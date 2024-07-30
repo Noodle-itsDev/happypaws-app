@@ -13,7 +13,10 @@
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.16.5",
     "@mui/material": "^5.16.5",
+    "@types/gsap": "^1.20.2",
+    "axios": "^1.7.2",
     "gsap": "^3.12.5",
+    "gsap-trial": "^3.12.5",
     "next": "^14.2.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

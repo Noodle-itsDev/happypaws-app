@@ -6,7 +6,7 @@ import Styles from './footer.module.css';
 const Footer: React.FC = () => {
   return (
     <>
-      <section style={{ display: "flex", flexDirection: "row", padding: "40px", backgroundColor: "#fd9227", fontSize: "18px" }}>
+      <section style={{ display: "flex", flexDirection: "row", padding: "40px", backgroundColor: "#fd9227", fontSize: "18px", width: "100vw"}}>
         <div
           style={{
             width: "100vw",
@@ -58,7 +58,7 @@ const Footer: React.FC = () => {
         </div>
       </section>
       <div className={Styles.separator}></div>
-      <section style={{ display: "flex", flexDirection: "row", justifyContent: "center", padding: "40px", backgroundColor: "#fd9227", color: "white" }}>
+      <section style={{width:"100vw", display: "flex", flexDirection: "row", justifyContent: "center", padding: "40px", backgroundColor: "#fd9227", color: "white" }}>
         <p>      &copy; 2024 Happy Paws a web  made by Johana Almeida and Borja Orts</p>
       </section>
     </>

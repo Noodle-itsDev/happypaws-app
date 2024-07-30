@@ -57,7 +57,6 @@ interface PrimarySearchAppBarProps {
 
 export default function PrimarySearchAppBar({ backgroundGradient }: PrimarySearchAppBarProps) {
   const handleProtectoraAccess = () => {
-    // Aquí puedes añadir la lógica para el acceso de protectoras
     console.log('Acceso para protectoras');
   };
 
@@ -103,7 +102,7 @@ export default function PrimarySearchAppBar({ backgroundGradient }: PrimarySearc
               zIndex: 9999
             }}
           >
-            Acceso Protectoras
+            Acceso
           </Button>
         </Toolbar>
       </AppBar>

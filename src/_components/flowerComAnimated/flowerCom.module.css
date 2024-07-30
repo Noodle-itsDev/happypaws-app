@@ -1,5 +1,3 @@
-@import '../../../public/fonts/AntonSC.css';
-
 .rotatingButton {
   min-width: 150px;
   min-height: 150px;
@@ -29,9 +27,8 @@
   width: 100%;
   height: 100%;
   z-index: -1;
-  animation: rotate 10s linear infinite;
+  background-color: transparent;
 }
-
 
 @keyframes rotate {
   from {
@@ -44,4 +41,8 @@
 
 .rotatingButton:hover {
   transform: scale(1.1);
+}
+
+.rotatingButton button {
+  writing-mode: horizontal-tb;
 }
