@@ -10,17 +10,20 @@ interface BasicTextFieldsProps {
   height?: string;
   borderColor?: string;
   textColor?: string;
+  disabled?: boolean;
+  type?: 'text' | 'password'; 
 }
 
 const BasicTextFields: React.FC<BasicTextFieldsProps> = ({
   id = 'filled-basic',
   placeholder = 'Filled',
   backgroundColor = 'white',
-  width = '25ch',
+  width = '18vw',
   height = 'auto',
   borderColor = 'gray',
   textColor = 'black',
- 
+  disabled = false,
+    type = 'text'
 }) => {
   return (
     <Box
@@ -29,17 +32,21 @@ const BasicTextFields: React.FC<BasicTextFieldsProps> = ({
         '& > :not(style)': { m: 1, width, height },
       }}
       noValidate
-      autoComplete="off"
+      autoComplete="on"
     >
       <TextField
+        
+        required
         id={id}
         label={placeholder}
         variant="filled"
+        disabled={disabled}
+        type={type} 
         sx={{
           backgroundColor: backgroundColor,
-          borderTopLeftRadius: "10px", // Aplicar border-radius
+          borderTopLeftRadius: "10px",
           '& .MuiOutlinedInput-root': {
-            borderTopLeftRadius: "10px", // Aplicar border-radius en el root
+            borderTopLeftRadius: "10px",
             '& fieldset': {
               borderColor: borderColor,
             },

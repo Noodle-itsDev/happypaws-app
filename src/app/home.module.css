@@ -43,6 +43,7 @@
     align-items: center;
     position: relative;
     z-index: 300;
+
   }
   
 
@@ -51,8 +52,96 @@
     height: auto;
     transition: transform 0.3s ease, filter 0.3s ease;
     filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.226));
+    margin-top: 25%;
   }
+  .mainContainer {
+    width: 100vw;
+    min-height: 140vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9000;
+  }
+  
+  .main {
+    flex: 1;
+    margin-top: rem;
 
+  }
+  
+  .contentSection {
+    width: 100%;
+    min-height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .logoContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .logoWrapper {
+    position: relative;
+    z-index: 300;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -100px;
+  }
+  
+  .logo {
+    max-width: 100%;
+    height: auto;
+    
+  }
+  
+  .buttonContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .rotatingButtonWrapper {
+    position: sticky;
+    z-index: 500;
+    margin-bottom: 90%;
+    margin-bottom: auto;
+  }
+  
+  @media (max-width: 768px) {
+    .buttonContainer {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .rotatingButtonWrapper {
+      margin-top: 0;
+      order: -1;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .logoWrapper {
+      margin-top: -50px;
+    }
+  
+    .buttonContainer {
+      gap: 1rem;
+    }
+  }
   
 @-webkit-keyframes AnimationName {
     0%{background-position:0% 50%}

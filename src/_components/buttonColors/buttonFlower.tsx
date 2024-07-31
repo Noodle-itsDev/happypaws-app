@@ -1,6 +1,5 @@
 import React from "react";
 import styles from './buttonsSettingsFlower.module.css';
-import ButtonImage from '../../../public/img/florAzul.png';
 import Image from 'next/image';
 
 const RotatingButton: React.FC = () => {
@@ -8,7 +7,7 @@ const RotatingButton: React.FC = () => {
     <button className={styles.rotatingButton}>
       <div className={styles.buttonImage}>
         <Image
-          src={ButtonImage}
+          src="/img/florAzul.png"
           alt="Flor Azul"
           layout="fill"
           objectFit="cover"

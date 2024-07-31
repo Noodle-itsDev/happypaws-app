@@ -1,7 +1,9 @@
+"use client"
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import { gsap, Power2 } from 'gsap';
-import './bannerComponent.css';
+import './bannerComponent';
 
 interface ImageCarouselProps {
   items: { image: string; text: string }[];
@@ -80,14 +82,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ items }) => {
           {items[currentIndex].text}
         </Typography>
       </div>
-      <div className="carousel-controls">
-        <Button onClick={handlePrev} className="carousel-button-prev" aria-label="Previous slide">
-          Prev
-        </Button>
-        <Button onClick={handleNext} className="carousel-button-next" aria-label="Next slide">
-          Next
-        </Button>
-      </div>
+
       <div className="carousel-indicators">
         {items.map((_, index) => (
           <div

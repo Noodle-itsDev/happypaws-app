@@ -1,304 +1,717 @@
 "use client";
 
-import React, { Suspense, useState, useEffect } from "react";
-import "./registerLoginView.css";
-import { createTheme as createThemeDefault } from "@mui/material/styles";
-import BasicTextFields from "@/_components/inputs/usuario/inputUsuario";
-import ContainedButtons from "@/_components/buttonPlacerholder/buttonSubmit";
+import axios from "axios";
+import React, { useState } from "react";
+import Styles from "./signup.module.css";
+import SimpleBottomNavigation from "@/_components/navigation/navigationNavBar";
+import PrimarySearchAppBar from "@/_components/header/headerGradient";
 import Footer from "@/_components/footerCom/footer";
-import { relative } from "path";
-import FlowerComAnimated from "@/_components/flowerComAnimated/flowerComAnimated";
-const PrimarySearchAppBar = React.lazy(
-  () => import("../../_components/header/headerGradient")
-);
-const SimpleBottomNavigation = React.lazy(
-  () => import("../../_components/navigation/navigationNavBar")
-);
+import CustomButton from "@/_components/button/buttonCurrent";
+import BasicTextFields from "@/_components/inputs/usuario/inputUsuario";
 
+const SignupView: React.FC = () => {
+  const [view, setView] = useState<
+    | "initial"
+    | "formularioRegistro"
+    | "formularioRegistroUsuario"
+    | "formularioRegistroProtectora"
+    | "user"
+    | "protectora"
+  >("initial");
+  const [fadeOut, setFadeOut] = useState(false);
 
-const Signup: React.FC = () => {
-  const [headerVisible, setHeaderVisible] = useState(false);
-  const [navVisible, setNavVisible] = useState(false);
-  const [videoVisible, setVideoVisible] = useState(false);
-  const [sectionVisible, setSectionVisible] = useState(false);
-  const [logoVisible, setLogoVisible] = useState(false);
-  const [isRegistering, setIsRegistering] = useState(false); // Nuevo estado
-
-  useEffect(() => {
-    const timers = [
-      setTimeout(() => setHeaderVisible(true), 500),
-      setTimeout(() => setNavVisible(true), 1000),
-      setTimeout(() => setVideoVisible(true), 1500),
-      setTimeout(() => setSectionVisible(true), 2000),
-      setTimeout(() => setLogoVisible(true), 2500),
-    ];
-
-    return () => timers.forEach((timer) => clearTimeout(timer));
-  }, []);
-
-  const handleRegisterClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    setIsRegistering(true);
+  const handleButtonClick = (
+    targetView:
+      | "formularioRegistro"
+      | "user"
+      | "protectora"
+      | "formularioRegistroUsuario"
+      | "formularioRegistroProtectora"
+  ) => {
+    setFadeOut(true);
+    setTimeout(() => {
+      setView(targetView);
+      setFadeOut(false);
+    }, 500); // Tiempo de desvanecimiento
   };
 
-  const handleLoginClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    setIsRegistering(false);
+  const handleAccessProtectoraClick = () => {
+    setFadeOut(true);
+    setTimeout(() => {
+      setView("protectora");
+      setFadeOut(false);
+    }, 500); // Tiempo de desvanecimiento
   };
 
+  const handleRegisterUsuarioClick = () => {
+    setFadeOut(true);
+    setTimeout(() => {
+      setView("formularioRegistroUsuario");
+      setFadeOut(false);
+    }, 500); // Tiempo de desvanecimiento
+  };
+
+  const handleAccessUsuarioClick = () => {
+    setFadeOut(true);
+    setTimeout(() => {
+      setView("user");
+      setFadeOut(false);
+    }, 500); // Tiempo de desvanecimiento
+  };
+
+  const handleRegisterProtectoraClick = () => {
+    setFadeOut(true);
+    setTimeout(() => {
+      setView("formularioRegistroProtectora");
+      setFadeOut(false);
+    }, 500); // Tiempo de desvanecimiento
+  };
+
+  const handleBackToAccessFormClick = (p0: string) => {
+    setFadeOut(true);
+    setTimeout(() => {
+      setView("initial");
+      setFadeOut(false);
+    }, 500); // Tiempo de desvanecimiento
+  };
+
+  const handleLogin = async () => {
+    // Obtener los valores directamente de los inputs usando document.getElementById
+
+    document.getElementById('error')!.innerText = "";
+    document.getElementById('success')!.innerText = "";
+    try {
+      const response = await axios.post('http://194.164.165.239:8080/api/auth/login', {
+        username: (document.getElementById('username') as HTMLInputElement).value,
+        password: (document.getElementById('passwd') as HTMLInputElement).value,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      document.getElementById('success')!.innerText = "Autenticación realizada con éxito";
+
+      const { accesToken, user } = response.data;
+      localStorage.setItem('authToken', accesToken);
+      localStorage.setItem('user', JSON.stringify(user));
+      
+      if(user.protectoras && user.protectoras.lenght > 0){
+        window.location.href = '/usuario/profile';
+      } else {
+        window.location.href = '/protectora/profile';
+      }
+
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          document.getElementById('error')!.innerText = "Usuario o contraseña incorrectos";
+          console.error('Error response data:', error.response);
+        } else if (error.request) {
+          console.error('Error request data:', error.request);
+        } else {
+          console.error('Error message:', error.message);
+        }
+      } else {
+        console.error('Error message:', (error as Error).message);
+      }
+    }
+  }
   return (
     <>
-      <header style={{ position: "sticky", top: "0px", zIndex: "9000" }}>
-        <Suspense fallback={<div>Loading header...</div>}>
-          <div className={`fade-in ${headerVisible ? "visible" : ""}`}>
-            <PrimarySearchAppBar backgroundGradient="linear-gradient(311deg, rgba(57,200,148,1) 0%, rgba(255,214,157,1) 76%, rgba(253,141,29,1) 100%)" />
-          </div>
-        </Suspense>
-        <Suspense fallback={<div>Loading navigation...</div>}>
-          <div className={`fade-in ${navVisible ? "visible" : ""}`}>
-            <SimpleBottomNavigation
-              labels={{
-                textoUno: "Donaciones",
-                textoDos: "Protectoras",
-                textoTres: "Inicio",
-                textoCuatro: "Voluntariado",
-                textoCinco: "Sobre Nosotros",
-                textoSeis: "Contacto",
-              }}
-            />
-          </div>
-        </Suspense>
+      <header style={{ position: "fixed", top: "0", zIndex: 9000 }}>
+        <PrimarySearchAppBar backgroundGradient="linear-gradient(311deg, rgba(57,200,148,1) 0%, rgba(255,214,157,1) 76%, rgba(253,141,29,1) 100%)" accessHref={"/signup"} accessLabel={"Acceso"} />
+        <SimpleBottomNavigation
+          labels={{
+            textoUno: "",
+            textoDos: "",
+            textoTres: "",
+            textoCuatro: "",
+            textoCinco: "",
+            textoSeis: "",
+          }}
+        />
       </header>
 
-      <main style={{ maxWidth: "100vw", maxHeight: "100vh" }}>
-        <Suspense fallback={<div>Loading video...</div>}>
+      <main
+        style={{ height: "100vh", display: "flex", justifyContent: "center" }}
+      >
+        <section
+          style={{
+            height: "100vh",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div className={`${Styles.videoBackground}`}>
+            <video autoPlay muted loop className={`${Styles.backgroundVideo}`}>
+              <source
+                src="/video/4625769-hd_1920_1080_30fps.mp4"
+                type="video/mp4"
+              />
+            </video>
+          </div>
+
           <section
-            className={`relative fade-in ${videoVisible ? "visible" : ""}`}
+            className={`${Styles.overlayContent}`}
+            style={{
+              height: "100vh",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              paddingTop: "10vh",
+            }}
           >
-            <Suspense>
-              <section>
-                <video
-                  autoPlay
-                  muted
-                  loop
-                  className={`video-container fade-in ${videoVisible ? "visible" : ""
-                    }`}
-                >
-                  <source
-                    src="/video/4625769-hd_1920_1080_30fps.mp4"
-                    type="video/mp4"
+            <section
+              className={`${Styles.backgroundTransparent}`}
+              style={{
+                height: "80vh",
+                width: "70vw",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "#ffffff6b",
+                borderRadius: "20px",
+                marginLeft: "5vw",
+                marginBottom: "-40px",
+              }}
+            >
+              {/* Formulario de Acceso */}
+              <div
+                className={`${view === "initial" ? Styles.fadeIn : Styles.fadeOut
+                  } ${fadeOut ? Styles.fadeOut : ""} formularioAcceder`}
+                style={{
+                  height: "70vh",
+                  width: "40vw",
+                  display: view === "initial" ? "flex" : "none",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  borderRadius: "20px",
+                  flexDirection: "column",
+                  fontSize: "3rem",
+                }}
+              >
+                <div>
+                  <h1 className={`${Styles.titleFont}`}>Acceder como:</h1>
+                </div>
+                <div style={{ marginTop: "-90px" }}>
+                  <div>
+                    <CustomButton
+                      bgColor={"#104b4b"}
+                      opacity={1}
+                      fontColor={""}
+                      buttonId={"protectoraSignup"}
+                      label={"Protectora"}
+                      width={280}
+                      height={50}
+                      onClick={() => handleButtonClick("protectora")}
+                    />
+                  </div>
+                  <div>
+                    <CustomButton
+                      bgColor={"#104b4b"}
+                      opacity={1}
+                      fontColor={""}
+                      buttonId={"usuarioSignup"}
+                      label={"Usuario"}
+                      width={280}
+                      height={50}
+                      onClick={() => handleButtonClick("user")}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      marginTop: "6vh",
+                      fontSize: "18px",
+                      color: "#104b4b",
+                    }}
+                  >
+                    <p>
+                      <span>Aún no tiene cuenta?</span>
+                    </p>
+                    <CustomButton
+                      bgColor={"#104b4b"}
+                      opacity={1}
+                      fontColor={""}
+                      buttonId={"registrarse"}
+                      label={"Registrarse"}
+                      width={280}
+                      height={50}
+                      onClick={() => handleButtonClick("formularioRegistro")}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Formulario de Registro */}
+              <div
+                className={`${view === "formularioRegistro" ? Styles.fadeIn : Styles.fadeOut
+                  } ${fadeOut ? Styles.fadeOut : ""} formularioRegistro`}
+                style={{
+                  height: "70vh",
+                  width: "40vw",
+                  display: view === "formularioRegistro" ? "flex" : "none",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  borderRadius: "20px",
+                  flexDirection: "column",
+                  fontSize: "3rem",
+                }}
+              >
+                <div>
+                  <h1 className={`${Styles.titleFont}`}>Registrarse como:</h1>
+                </div>
+                <div style={{ marginTop: "-90px" }}>
+                  <div>
+                    <CustomButton
+                      bgColor={"#104b4b"}
+                      opacity={1}
+                      fontColor={""}
+                      buttonId={"protectoraSignup"}
+                      label={"Protectora"}
+                      width={280}
+                      height={50}
+                      onClick={() =>
+                        handleButtonClick("formularioRegistroProtectora")
+                      }
+                    />
+                  </div>
+                  <div>
+                    <CustomButton
+                      bgColor={"#104b4b"}
+                      opacity={1}
+                      fontColor={""}
+                      buttonId={"usuarioSignup"}
+                      label={"Usuario"}
+                      width={280}
+                      height={50}
+                      onClick={() =>
+                        handleButtonClick("formularioRegistroUsuario")
+                      }
+                    />
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      marginTop: "6vh",
+                      fontSize: "18px",
+                      color: "#104b4b",
+                    }}
+                  >
+                    <p>
+                      <span>Ya tiene cuenta? </span>
+                    </p>
+                    <CustomButton
+                      bgColor={"#104b4b"}
+                      opacity={1}
+                      fontColor={""}
+                      buttonId={"acceder"}
+                      label={"Acceder"}
+                      width={280}
+                      height={50}
+                      onClick={() => handleBackToAccessFormClick("initial")}
+                    />
+                  </div>
+                </div>
+                {/* Botón para volver a Formulario de Acceso */}
+                <div style={{ position: "absolute", bottom: "40px", left: "120px" }}>
+                  <CustomButton
+                    bgColor={"#104b4b"}
+                    opacity={1}
+                    fontColor={""}
+                    buttonId={"volverAcceso"}
+                    label={"Volver"}
+                    width={150}
+                    height={40}
+                    onClick={() => handleBackToAccessFormClick("initial")}
                   />
-                </video>
-                  <section style={{display: "flex", flexDirection: "column", alignContent: "center", justifyContent:"center"}}>
-                    {/* <section>
-                    <div style={{position: "relative", top: "-600px", zIndex: "400", left:"-500px", justifyContent: "center", alignContent: "center"}}>
-                    <FlowerComAnimated/>
-                      <img src="img/perritoGuiñando.png" alt="" style={{width:"382px", position: "relative",left: "1000px", top: "-130px"}}/>
-                      <span style={{width:"482px", position: "relative",top: "-200px", left: "-30px"}}>
-                        <p className="fontText">Adoptar una mascota mejora tu vida,<br/> y las mascotas veteranas brindan<br/> estabilidad y amor.</p>
-                      </span>
-                    </div>
-                    </section> */}
-                  <section
-                  className={`scale-up-hor-right login-section  fade-in ${sectionVisible ? "visible" : ""
-                    }`}
-                  style={{
-                    height: "87.3vh",
-                    width: "50vw",
-                    backgroundColor: "#ffffff75",
-                    position: "absolute",
-                    top: "0",
-                    right: "0",
-                    zIndex: "200",
-                    borderTopLeftRadius: "30px",
-                    borderBottomLeftRadius: "30px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginTop: "0.3vh"
-                  }}
-                >
+                </div>
+              </div>
 
-                  <div
-                    style={{
-                      height: "87.3vh",
-                      width: "50vw",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      columnGap: "4px",
-                      alignItems: "center",
-                    }}
-                  >
-                    <div
-                      className="shadowCss"
-                      style={{
-                        backgroundColor: "#40c8925d",
-                        height: "80%",
-                        width: "60%",
-                        borderRadius: "1.5rem",
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "space-evenly",
-                        alignItems: "center",
-                        marginTop: "-20px",
-                      }}
-                    >
-                      <div>
-                        <p className="font" style={{marginBottom: "1vh"}}>
-                          <span>{isRegistering ? "Regístrate" : "Iniciar sesión"}</span>
-                        </p>
-                      </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
-                          alignContent: "center",
-                          marginTop: "-80px",
-                        }}
-                      >
-                        {!isRegistering ? (
-                          <>
-                            <BasicTextFields
-                              id="usuario"
-                              placeholder="Usuario"
-                              backgroundColor="#f0f0f0"
-                              width="16vw"
-                              height="55px"
-                            />
-                            <BasicTextFields
-                              id="contraseña"
-                              placeholder="Contraseña"
-                              backgroundColor="#f0f0f0"
-                              width="16vw"
-                              height="55px"
-                            />
-                          </>
-                        ) : (
-                          <>
-                            <BasicTextFields
-                              id="nombre"
-                              placeholder="Nombre"
-                              backgroundColor="#f0f0f0"
-                              width="16vw"
-                              height="55px"
-                            />
-                            <BasicTextFields
-                              id="apellido"
-                              placeholder="Apellido"
-                              backgroundColor="#f0f0f0"
-                              width="16vw"
-                              height="55px"
-                            />
-                            <BasicTextFields
-                              id="email"
-                              placeholder="Email"
-                              backgroundColor="#f0f0f0"
-                              width="16vw"
-                              height="55px"
-                            />
-                            <BasicTextFields
-                              id="usuario"
-                              placeholder="Usuario"
-                              backgroundColor="#f0f0f0"
-                              width="16vw"
-                              height="55px"
-                            />
-                            <BasicTextFields
-                              id="contraseña"
-                              placeholder="Contraseña"
-                              backgroundColor="#f0f0f0"
-                              width="16vw"
-                              height="55px"
-                            />
-                          </>
-                        )}
-                        <div
+              {/* Formulario Registro Usuario */}
+              <div
+                className={`${view === "formularioRegistroUsuario"
+                  ? Styles.fadeIn
+                  : Styles.fadeOut
+                  } ${fadeOut ? Styles.fadeOut : ""} formularioRegistroUsuario`}
+                style={{
+                  height: "70vh",
+                  width: "40vw",
+                  display:
+                    view === "formularioRegistroUsuario" ? "flex" : "none",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  borderRadius: "20px",
+                  flexDirection: "column",
+                  fontSize: "3rem",
+                }}
+              >
+                <div>
+                  <h1 className={`${Styles.titleFont}`}>Registro de Usuario</h1>
+                </div>
+                <div style={{ marginTop: "-90px" }}>
+                  <div>
+                    <BasicTextFields id={""} placeholder={"Nombre"} />
+                  </div>
+                  <div>
+                    <BasicTextFields id={""} placeholder={"Correo"} />
+                  </div>
+                  <div>
+                    <BasicTextFields id={""} placeholder={"Contraseña"} />
+                  </div>
+                  <div>
+                    <BasicTextFields
+                      id={""}
+                      placeholder={"Confirmar Contraseña"}
+                    />
+                  </div>
+                  <div>
+                    <CustomButton
+                      bgColor={"#104b4b"}
+                      opacity={1}
+                      fontColor={""}
+                      buttonId={""}
+                      label={"Enviar"}
+                      width={280}
+                      height={50}
+                      onClick={() => { }}
+                    />
+                  </div>
+                  <div>
+                    <p>
+                      <span>
+                        <a
+                          href="#"
                           style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            marginTop: "15px",
+                            fontSize: "20px",
+                            textDecoration: "underline",
                           }}
+                          onClick={handleAccessProtectoraClick}
                         >
-                          <ContainedButtons
-                            id="enviar"
-                            color="white"
-                            width="15vw"
-                            height="string"
-                            borderRadius="string"
-                            label={isRegistering ? "Registrar" : "Acceder"}
-                          />
-                        </div>
-                      </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          textAlign: "center",
-                          marginTop: "-9vh",
-                        }}
-                      >
-                        {!isRegistering ? (
-                          <>
-                                                   <a
-                              style={{ color: "blue" }}
-                              href=""
-                            >
-                              Iniciar sesión como protectora
-                            </a>
-                            <a
-                              style={{ color: "blue", marginTop: "1vh" }}
-                              href=""
-                              onClick={handleRegisterClick}
-                            >
-                              ¿Aún no tiene cuenta? <br/> Regístrese
-                            </a>
-   
-                          </>
-                        ) : (
-                          <a
-                            style={{ color: "blue", marginTop: "3vh" }}
-                            href=""
-                            onClick={handleLoginClick}
-                          >
-                            ¿Ya tiene cuenta? Acceda
-                          </a>
-                        )}
-                      </div>
-                    </div>
+                          Acceder como protectora
+                        </a>
+                      </span>
+                    </p>
+                    <p>
+                      <span>
+                        <a
+                          href="#"
+                          style={{
+                            fontSize: "20px",
+                            textDecoration: "underline",
+                          }}
+                          onClick={handleAccessUsuarioClick}
+                        >
+                          ¿Ya tiene cuenta? Acceda
+                        </a>
+                      </span>
+                    </p>
                   </div>
-                </section>
-                  </section>
+                </div>
+                {/* Botón para volver a Formulario de Acceso */}
+                <div style={{ position: "absolute", bottom: "40px", left: "120px" }}>
+                  <CustomButton
+                    bgColor={"#104b4b"}
+                    opacity={1}
+                    fontColor={""}
+                    buttonId={"volverAcceso"}
+                    label={"Volver"}
+                    width={150}
+                    height={40}
+                    onClick={() => handleBackToAccessFormClick("initial")}
+                  />
+                </div>
+              </div>
 
-
-                <section>
-                  <div
-                    style={{
-                      backgroundColor: "#40c8925d",
-                      height: "70%",
-                      width: "60%",
-                      borderRadius: "1.5rem",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-evenly",
-                      alignItems: "center",
-                      marginTop: "-20px",
-                    }}
-                  >
-
+              {/* Formulario Registro Protectora */}
+              <div
+                className={`${view === "formularioRegistroProtectora"
+                  ? Styles.fadeIn
+                  : Styles.fadeOut
+                  } ${fadeOut ? Styles.fadeOut : ""
+                  } formularioRegistroProtectora`}
+                style={{
+                  height: "70vh",
+                  width: "40vw",
+                  display:
+                    view === "formularioRegistroProtectora" ? "flex" : "none",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  borderRadius: "20px",
+                  flexDirection: "column",
+                  fontSize: "3rem",
+                }}
+              >
+                <div>
+                  <h1 className={`${Styles.titleFont}`}>
+                    Petición de registro
+                  </h1>
+                </div>
+                <div style={{ marginTop: "" }}>
+                  <div>
+                    <BasicTextFields
+                      id={""}
+                      placeholder={"CIF"}
+                    />
                   </div>
-                </section>
-              </section>
-            </Suspense>
+                  <div>
+                    <BasicTextFields id={""} placeholder={"Nombre de la protectora"} />
+                  </div>
+                  <div>
+                    <BasicTextFields id={""} placeholder={"Correo"} />
+                  </div>
+                  <div>
+                    <BasicTextFields
+                      id={""}
+                      placeholder={"Localidad"}
+                    />
+                  </div>
+                  <div>
+                    <CustomButton
+                      bgColor={"#104b4b"}
+                      opacity={1}
+                      fontColor={""}
+                      buttonId={""}
+                      label={"Enviar"}
+                      width={280}
+                      height={50}
+                      onClick={() => { }}
+                    />
+                  </div>
+                  <div>
+                    <p>
+                      <span>
+                        <a
+                          href="#"
+                          style={{
+                            fontSize: "20px",
+                            textDecoration: "underline",
+
+                          }}
+                          onClick={handleAccessUsuarioClick}
+                        >
+                          Acceder como usuario
+                        </a>
+                      </span>
+                    </p>
+                    <p style={{ marginTop: "-3vh" }}>
+                      <span>
+                        <a
+                          href="#"
+                          style={{
+                            fontSize: "20px",
+                            textDecoration: "underline",
+
+                          }}
+                          onClick={handleAccessProtectoraClick}
+                        >
+                          ¿Ya tiene cuenta? Acceda
+                        </a>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                {/* Botón para volver a Formulario de Acceso */}
+                <div style={{ position: "absolute", bottom: "40px", left: "120px" }}>
+                  <CustomButton
+                    bgColor={"#104b4b"}
+                    opacity={1}
+                    fontColor={""}
+                    buttonId={"volverAcceso"}
+                    label={"Volver"}
+                    width={150}
+                    height={40}
+                    onClick={() => handleBackToAccessFormClick("initial")}
+                  />
+                </div>
+              </div>
+
+              {/* Formulario de Acceso Usuario */}
+              <div
+                className={`${view === "user" ? Styles.fadeIn : Styles.fadeOut
+                  } ${fadeOut ? Styles.fadeOut : ""} formularioLoginUsuario`}
+                style={{
+                  height: "70vh",
+                  width: "40vw",
+                  display: view === "user" ? "flex" : "none",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  borderRadius: "20px",
+                  flexDirection: "column",
+                  fontSize: "3rem",
+                }}
+              >
+                <div>
+                  <h1 className={`${Styles.titleFont}`}>¡Bienvenido de nuevo!</h1>
+                </div>
+                <div style={{ marginTop: "-90px" }}>
+                  <div>
+                    <span style={{ color: "red", fontSize: "18px", fontWeight: "600"}} id="error"></span>
+                    <span style={{ color: "green", fontSize: "18px", fontWeight: "600"}} id="success"></span>
+                    <BasicTextFields id={"username"} placeholder={"Correo"} />
+                  </div>
+                  <div>
+                    <BasicTextFields id={"passwd"} placeholder={"Contraseña"} type={"password"} />
+                  </div>
+                  <div>
+                    <CustomButton
+                      bgColor={"#104b4b"}
+                      opacity={1}
+                      fontColor={""}
+                      buttonId={""}
+                      label={"Acceder"}
+                      width={280}
+                      height={50}
+                      onClick={() => { handleLogin() }}
+                    />
+                  </div>
+                  <div>
+                    <p>
+                      <span>
+                        <a
+                          href="#"
+                          style={{
+                            fontSize: "20px",
+                            textDecoration: "underline",
+                          }}
+                          onClick={handleAccessProtectoraClick}
+                        >
+                          Acceder como protectora
+                        </a>
+                      </span>
+                    </p>
+                    <p >
+                      <span>
+                        <a
+                          href="#"
+                          style={{
+                            fontSize: "20px",
+                            textDecoration: "underline",
+                          }}
+                          onClick={handleRegisterUsuarioClick}
+                        >
+                          ¿Aún no tiene cuenta? Regístrese
+                        </a>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                {/* Botón para volver a Formulario de Acceso */}
+                <div style={{ position: "absolute", bottom: "40px", left: "120px" }}>
+                  <CustomButton
+                    bgColor={"#104b4b"}
+                    opacity={1}
+                    fontColor={""}
+                    buttonId={"volverAcceso"}
+                    label={"Volver"}
+                    width={150}
+                    height={40}
+                    onClick={() => handleBackToAccessFormClick("initial")}
+                  />
+                </div>
+              </div>
+
+              {/* Formulario de Acceso Protectora */}
+              <div
+                className={`${view === "protectora" ? Styles.fadeIn : Styles.fadeOut
+                  } ${fadeOut ? Styles.fadeOut : ""} formularioLoginProtectora`}
+                style={{
+                  height: "70vh",
+                  width: "40vw",
+                  display: view === "protectora" ? "flex" : "none",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  borderRadius: "20px",
+                  flexDirection: "column",
+                  fontSize: "3rem",
+                }}
+              >
+                <div>
+                  <h1 className={`${Styles.titleFont}`}>Acceso Protectora</h1>
+                </div>
+                <div style={{ marginTop: "-90px" }}>
+                  <div>
+                    <BasicTextFields id={""} placeholder={"CIF"} />
+                  </div>
+                  <div>
+                    <BasicTextFields id={""} placeholder={"Contraseña"} />
+                  </div>
+                  <div>
+                    <CustomButton
+                      bgColor={"#104b4b"}
+                      opacity={1}
+                      fontColor={""}
+                      buttonId={""}
+                      label={"Acceder"}
+                      width={280}
+                      height={50}
+                      onClick={() => { }}
+                    />
+                  </div>
+                  <div>
+                    <p>
+                      <span>
+                        <a
+                          href="#"
+                          style={{
+                            fontSize: "20px",
+                            textDecoration: "underline",
+                          }}
+                          onClick={handleAccessUsuarioClick}
+                        >
+                          Acceder como usuario
+                        </a>
+                      </span>
+                    </p>
+                    <p>
+                      <span>
+                        <a
+                          href="#"
+                          style={{
+                            fontSize: "20px",
+                            textDecoration: "underline",
+                          }}
+                          onClick={handleRegisterProtectoraClick}
+                        >
+                          ¿Aún no tiene cuenta? Regístrese
+                        </a>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                {/* Botón para volver a Formulario de Acceso */}
+                <div style={{ position: "absolute", bottom: "40px", left: "120px" }}>
+                  <CustomButton
+                    bgColor={"#104b4b"}
+                    opacity={1}
+                    fontColor={""}
+                    buttonId={"volverAcceso"}
+                    label={"Volver"}
+                    width={150}
+                    height={40}
+                    onClick={() => handleBackToAccessFormClick("initial")}
+                  />
+                </div>
+              </div>
+            </section>
           </section>
-        </Suspense>
+        </section>
       </main>
-      <footer style={{ marginTop: "3vh" }}>
-        <Footer />
+
+      <footer>
+        <Footer color={"orange"} />
       </footer>
     </>
   );
 };
 
-export default Signup;
+export default SignupView;
+function setToken(token: any) {
+  throw new Error("Function not implemented.");
+}
+
