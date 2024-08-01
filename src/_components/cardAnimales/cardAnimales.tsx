@@ -1,10 +1,13 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import CreateMascota from '../formPet/formPet';
 
 interface ImgMediaCardProps {
   title: string;
@@ -31,10 +34,15 @@ const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
   shareButtonColor = 'blue',
   learnMoreButtonColor = 'green',
 }) => {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <Card
       sx={{
-        maxWidth: 345,
+        maxWidth: 300, // Hacer la tarjeta más estrecha
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
@@ -47,10 +55,12 @@ const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
         alt={title}
         image={imageSrc}
         sx={{
-          height: 140,
+          height: 200, // Aumentar la altura de la imagen
           objectFit: 'cover',
           width: '100%',
+          cursor: 'pointer', // Indicar que la imagen es interactiva
         }}
+        onClick={handleOpen} // Abrir modal al hacer clic en la imagen
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
@@ -100,6 +110,10 @@ const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
           {learnMoreButtonLabel}
         </Button>
       </CardActions>
+      <Modal open={open} onClose={handleClose}>
+        <div style={{ padding: '20px', backgroundColor: 'white', margin: '5% auto', width: '80%', maxHeight: '90vh', overflowY: 'auto' }}>
+        </div>
+      </Modal>
     </Card>
   );
 };
