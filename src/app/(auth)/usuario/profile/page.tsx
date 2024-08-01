@@ -65,7 +65,6 @@ const UserProfile: React.FC = () => {
     useEffect(() => {
         const cardElement = cardRef.current;
         if (cardElement) {
-            // Create and configure the GSAP animation
             const animation = gsap.fromTo(
                 cardElement,
                 { y: 0 },
@@ -75,11 +74,10 @@ const UserProfile: React.FC = () => {
                     yoyo: true,
                     ease: "power1.inOut",
                     duration: 2,
-                    paused: true, // Start paused
+                    paused: true, 
                 }
             );
 
-            // Event handlers for mouse enter and leave
             const handleMouseEnter = () => {
                 animation.pause();
             };
@@ -87,11 +85,10 @@ const UserProfile: React.FC = () => {
                 animation.play();
             };
 
-            // Add event listeners
+
             cardElement.addEventListener("mouseenter", handleMouseEnter);
             cardElement.addEventListener("mouseleave", handleMouseLeave);
 
-            // Clean up event listeners on component unmount
             return () => {
                 cardElement.removeEventListener("mouseenter", handleMouseEnter);
                 cardElement.removeEventListener("mouseleave", handleMouseLeave);
@@ -132,7 +129,7 @@ const UserProfile: React.FC = () => {
                     sx={{
                         boxShadow: "0px 10px 20px #000000ba",
                         maxWidth: 800,
-                        width: '100%', // Ensure the card takes up full width within the container
+                        width: '100%',
                         margin: "auto",
                         bgcolor: "#36b38ab5",
                         borderRadius: 4,
@@ -149,7 +146,7 @@ const UserProfile: React.FC = () => {
                             gutterBottom
                             sx={{ color: "white", textAlign: "center" }}
                         >
-                            Perfil de Usuario
+                            Nombre de usuario
                         </Typography>
 
                         <Grid container spacing={3}>
@@ -202,7 +199,7 @@ const UserProfile: React.FC = () => {
                             </Grid>
 
                             <Grid item xs={12} md={6}>
-                                <Typography variant="h6" sx={{ color: "white", mb: 2 }}>
+                                <Typography variant="h5" sx={{ color: "white", mb: 2 }}>
                                     Últimos Voluntariados
                                 </Typography>
                                 <Box
@@ -235,7 +232,7 @@ const UserProfile: React.FC = () => {
                                     )}
                                 </Box>
 
-                                <Typography variant="h6" sx={{ color: "white", mt: 3, mb: 2 }}>
+                                <Typography variant="h5" sx={{ color: "white", mt: 3, mb: 2 }}>
                                     Mascotas Adoptadas
                                 </Typography>
                                 <Box
@@ -268,7 +265,7 @@ const UserProfile: React.FC = () => {
                                     )}
                                 </Box>
 
-                                <Typography variant="h6" sx={{ color: "white", mt: 3, mb: 2 }}>
+                                <Typography variant="h5" sx={{ color: "white", mt: 3, mb: 2 }}>
                                     Donaciones Realizadas
                                 </Typography>
                                 <Box
@@ -295,7 +292,7 @@ const UserProfile: React.FC = () => {
                                                 key={index}
                                                 label={`$${donation.amount} - ${donation.date}`}
                                                 color="success"
-                                                sx={{ margin: '2px' }} // Ensure chips have some spacing
+                                                sx={{ margin: '2px' }}
                                             />
                                         ))
                                     )}
@@ -306,7 +303,7 @@ const UserProfile: React.FC = () => {
                         <Box mt={4} display="flex" justifyContent="center">
                             <Button
                                 variant="contained"
-                                sx={{ bgcolor: "rgba(126,217,87,1)", color: "white" }}
+                                sx={{color: "white" }}
                                 onClick={toggleEdit}
                             >
                                 {isEditable ? "Guardar Cambios" : "Editar Perfil"}
@@ -315,6 +312,9 @@ const UserProfile: React.FC = () => {
 
                         <EventChipList events={events} />
                     </CardContent>
+                    <Grid>
+
+                    </Grid>
                 </Card>
             </main>
             <footer>

@@ -52,14 +52,13 @@ const UploadImg: React.FC<EditableImageProps> = ({
     <Box
       ref={containerRef}
       sx={{
-        width: '100%',
-        paddingTop: '100%',
+        width: '80%',
+        paddingTop: '80%',
         position: 'relative',
         maxWidth: '2400px',
         margin: 'auto',
         borderRadius: '50%',
         overflow: 'hidden',
-        boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.2)', 
         transition: 'transform 0.3s ease', 
         '&:hover': {
           transform: 'scale(1.05)', 
@@ -79,7 +78,7 @@ const UploadImg: React.FC<EditableImageProps> = ({
           justifyContent: 'center',
           borderRadius: '50%',
           overflow: 'hidden',
-          backgroundColor: 'white', // Background color for better contrast
+          backgroundColor: 'white',
         }}
       >
         <input
@@ -93,15 +92,15 @@ const UploadImg: React.FC<EditableImageProps> = ({
         <Box
           component="div"
           sx={{
-            width: '70%',
-            height: '70%',
+            width: '80%',
+            height: '80%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             background: 'lightgray',
             borderRadius: '50%',
             overflow: 'hidden',
-            position: 'relative', // For positioning image correctly
+            position: 'relative',
           }}
         >
           {imageSrc ? (
@@ -148,7 +147,7 @@ const UploadImg: React.FC<EditableImageProps> = ({
             transition: 'transform 0.3s ease',
             '&:hover': {
               backgroundColor: 'rgba(0, 0, 0, 0.7)',
-              transform: 'scale(1.1)', // Slightly enlarge button on hover
+              transform: 'scale(1.1)',
             },
           }}
         >

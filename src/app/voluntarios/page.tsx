@@ -2,8 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import gsap from "gsap";
-import ScrollTrigger from "gsap/src/ScrollTrigger";
-import SplitText from "gsap-trial/SplitText";
+import ScrollTrigger from "gsap/ScrollTrigger";
 import PrimarySearchAppBar from "@/_components/header/headerGradient";
 import SimpleBottomNavigation from "@/_components/navigation/navigationNavBar";
 import Carousel from "@/_components/newBannerCom/newBannerCom";
@@ -11,7 +10,7 @@ import Footer from "@/_components/footerCom/footer";
 import RotatingImage from "@/_components/flowerComAnimated/flowerComAnimated";
 
 // Registrar los plugins de GSAP
-gsap.registerPlugin(ScrollTrigger, SplitText);
+gsap.registerPlugin(ScrollTrigger);
 
 const VolunteersView: React.FC = () => {
     const [elements, setElements] = useState<HTMLElement[]>([]);
@@ -33,7 +32,7 @@ const VolunteersView: React.FC = () => {
                         opacity: 1,
                         y: 0,
                         duration: 1,
-                        delay: index * 0.2, // Aplazar cada animación por su índice
+                        delay: index * 0.2, 
                         ease: "power3.out",
                         scrollTrigger: {
                             trigger: element,

@@ -99,7 +99,7 @@ const SignupView: React.FC = () => {
       if(user.protectoras && user.protectoras.lenght > 0){
         window.location.href = '/usuario/profile';
       } else {
-        window.location.href = '/protectora/profile';
+        window.location.href = '/mascotas';
       }
 
     } catch (error: unknown) {
