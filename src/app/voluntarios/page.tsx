@@ -6,7 +6,7 @@ import ScrollTrigger from "gsap/src/ScrollTrigger";
 import SplitText from "gsap-trial/SplitText";
 import PrimarySearchAppBar from "@/_components/header/headerGradient";
 import SimpleBottomNavigation from "@/_components/navigation/navigationNavBar";
-import ImageCarousel from "@/_components/bannerComponent/bannerComponent";
+import Carousel from "@/_components/newBannerCom/newBannerCom";
 import Footer from "@/_components/footerCom/footer";
 import RotatingImage from "@/_components/flowerComAnimated/flowerComAnimated";
 
@@ -48,9 +48,9 @@ const VolunteersView: React.FC = () => {
     }, [elements]);
 
     const images = [
-        { src: '/img/pexels-cong-h-613161-1404819.jpg', alt: 'Gatito' },
-        { src: '/img/pexels-mikhail-nilov-7474346.jpg', alt: "imagen voluntarios" },
-        { src: '/img/shelter.png', alt: 'perritos' }
+        { src: 'img/pexels-cong-h-613161-1404819.jpg', alt: 'Gatito' },
+        { src: 'img/pexels-mikhail-nilov-7474346.jpg', alt: "imagen voluntarios" },
+        { src: 'img/shelter.png', alt: 'perritos' }
     ];
 
     const title = [
@@ -86,7 +86,12 @@ const VolunteersView: React.FC = () => {
                 <main>
                     <section className="intro section" style={{ marginTop: "12.5vh", width: "100vw", display: "flex", justifyContent: "center", alignItems: "center" }}>
                         <div style={{ width: "100vw", position: "relative", zIndex: "1" }}>
-                            <ImageCarousel items={[]}
+                            <Carousel
+                                images={images}
+                                paragraphs={paragraphs}
+                                fontSize="18px"
+                                fontColor="#fff"
+                                titles={title}
                             />
                         </div>
                     </section>
