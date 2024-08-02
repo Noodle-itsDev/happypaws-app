@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, ChangeEvent, FormEvent } from 'react';
-import { Container, TextField, Button, Typography, Grid, Checkbox, FormControlLabel, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import React, { useState, ChangeEvent, FormEvent, ReactNode } from 'react';
+import { Container, TextField, Button, Typography, Grid, Checkbox, FormControlLabel, Select, MenuItem, FormControl, InputLabel, InputAdornment, SelectChangeEvent } from '@mui/material';
 import axios from 'axios';
 
 const CreateMascota: React.FC = () => {
@@ -45,6 +45,13 @@ const CreateMascota: React.FC = () => {
         }
     };
 
+    const handleEstadoChange = (event: SelectChangeEvent<string>) => {
+        setEstado(event.target.value as string);
+        if (event.target.value !== 'Fallecido') {
+            setFechaDefuncion('');
+        }
+    };
+
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
         setLoading(true);
@@ -79,7 +86,7 @@ const CreateMascota: React.FC = () => {
         formData.append('socializacion', socializacion);
         formData.append('informacionComportamiento', informacionComportamiento);
         formData.append('incidentes', incidentes);
-        if (fechaDefuncion) {
+        if (estado === 'Fallecido') {
             formData.append('fechaDefuncion', fechaDefuncion);
         }
         if (selectedImage) {
@@ -107,14 +114,28 @@ const CreateMascota: React.FC = () => {
     };
 
     return (
-        <Container>
+        <Container
+            sx={{
+                width: '100%',
+                maxWidth: '600px',
+                height: '80vh',
+                overflowY: 'auto',
+                bgcolor: 'background.paper',
+                p: 4,
+                borderRadius: 2,
+                display: 'flex',
+                flexDirection: 'column',
+                margin: '0 auto',
+                boxShadow: 3,
+            }}
+        >
             <Typography variant="h4" gutterBottom>
                 Añadir Nueva Mascota
             </Typography>
-            {error && <Typography color="error">{error}</Typography>}
-            <form onSubmit={handleSubmit}>
+            {error && <Typography color="error" sx={{ mb: 2 }}>{error}</Typography>}
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
                 <Grid container spacing={2}>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12}>
                         <TextField
                             required
                             label="Nombre"
@@ -122,21 +143,26 @@ const CreateMascota: React.FC = () => {
                             margin="normal"
                             value={nombre}
                             onChange={(e) => setNombre(e.target.value)}
+                            variant="outlined"
+                            size="medium"
+                            sx={{ mb: 2 }}
                         />
                     </Grid>
-                    <Grid item xs={12} md={6}>
-                        <FormControl fullWidth margin="normal" required>
+                    <Grid item xs={12}>
+                        <FormControl fullWidth margin="normal" required variant="outlined">
                             <InputLabel>Especie</InputLabel>
                             <Select
                                 value={especie}
-                                onChange={(e) => setEspecie(e.target.value)}
+                                onChange={(e: SelectChangeEvent<string>) => setEspecie(e.target.value)}
+                                label="Especie"
+                                size="medium"
                             >
                                 <MenuItem value="Felinos">Felinos</MenuItem>
                                 <MenuItem value="Caninos">Caninos</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12}>
                         <TextField
                             required
                             label="Raza"
@@ -144,26 +170,33 @@ const CreateMascota: React.FC = () => {
                             margin="normal"
                             value={raza}
                             onChange={(e) => setRaza(e.target.value)}
+                            variant="outlined"
+                            size="medium"
+                            sx={{ mb: 2 }}
                         />
                     </Grid>
-                    <Grid item xs={12} md={6}>
-                        <FormControl fullWidth margin="normal" required>
+                    <Grid item xs={12}>
+                        <FormControl fullWidth margin="normal" required variant="outlined">
                             <InputLabel>Género</InputLabel>
                             <Select
                                 value={genero}
-                                onChange={(e) => setGenero(e.target.value)}
+                                onChange={(e: SelectChangeEvent<string>) => setGenero(e.target.value)}
+                                label="Género"
+                                size="medium"
                             >
                                 <MenuItem value="macho">Macho</MenuItem>
                                 <MenuItem value="hembra">Hembra</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={12} md={6}>
-                        <FormControl fullWidth margin="normal" required>
+                    <Grid item xs={12}>
+                        <FormControl fullWidth margin="normal" required variant="outlined">
                             <InputLabel>Edad</InputLabel>
                             <Select
                                 value={edad}
-                                onChange={(e) => setEdad(Number(e.target.value))}
+                                onChange={(e: SelectChangeEvent<number>) => setEdad(Number(e.target.value))}
+                                label="Edad"
+                                size="medium"
                             >
                                 {Array.from({ length: 21 }, (_, i) => (
                                     <MenuItem key={i} value={i}>{i}</MenuItem>
@@ -171,7 +204,7 @@ const CreateMascota: React.FC = () => {
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12}>
                         <TextField
                             required
                             label="Descripción"
@@ -179,24 +212,51 @@ const CreateMascota: React.FC = () => {
                             margin="normal"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
+                            variant="outlined"
+                            size="medium"
+                            multiline
+                            rows={4}
+                            sx={{ mb: 2 }}
                         />
                     </Grid>
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            label="Número de Chip"
-                            fullWidth
-                            margin="normal"
-                            value={chipNumber}
-                            onChange={(e) => setChipNumber(e.target.value)}
-                            inputProps={{ maxLength: 15 }}
+                    <Grid item xs={12}>
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={chip}
+                                    onChange={handleChipChange}
+                                    color="primary"
+                                />
+                            }
+                            label="Chip"
+                            sx={{ mb: 2 }}
                         />
                     </Grid>
-                    <Grid item xs={12} md={6}>
-                        <FormControl fullWidth margin="normal" required>
+                    {chip && (
+                        <Grid item xs={12}>
+                            <TextField
+                                label="Número de Chip"
+                                fullWidth
+                                margin="normal"
+                                value={chipNumber}
+                                onChange={(e) => setChipNumber(e.target.value)}
+                                variant="outlined"
+                                size="medium"
+                                sx={{ mb: 2 }}
+                                InputProps={{
+                                    startAdornment: <InputAdornment position="start">#</InputAdornment>,
+                                }}
+                            />
+                        </Grid>
+                    )}
+                    <Grid item xs={12}>
+                        <FormControl fullWidth margin="normal" required variant="outlined">
                             <InputLabel>Estado</InputLabel>
                             <Select
                                 value={estado}
-                                onChange={(e) => setEstado(e.target.value)}
+                                onChange={handleEstadoChange}
+                                label="Estado"
+                                size="medium"
                             >
                                 <MenuItem value="Enfermo">Enfermo</MenuItem>
                                 <MenuItem value="Fallecido">Fallecido</MenuItem>
@@ -205,32 +265,63 @@ const CreateMascota: React.FC = () => {
                             </Select>
                         </FormControl>
                     </Grid>
+                    {estado === 'Fallecido' && (
+                        <Grid item xs={12}>
+                            <TextField
+                                label="Fecha de Defunción"
+                                fullWidth
+                                margin="normal"
+                                type="date"
+                                InputLabelProps={{ shrink: true }}
+                                value={fechaDefuncion}
+                                onChange={(e) => setFechaDefuncion(e.target.value)}
+                                variant="outlined"
+                                size="medium"
+                                sx={{ mb: 2 }}
+                            />
+                        </Grid>
+                    )}
+                    <Grid item xs={12}>
+                        <Typography variant="body2" color="textSecondary" sx={{ mb: 1 }}>
+                            Imagen de la mascota
+                        </Typography>
+                        <input
+                            required
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            style={{ width: '100%', marginBottom: 16 }}
+                        />
+                    </Grid>
                     <Grid item xs={12}>
                         <FormControlLabel
                             control={
                                 <Checkbox
                                     checked={vacunado}
                                     onChange={handleVacunadoChange}
+                                    color="primary"
                                 />
                             }
                             label="Vacunado"
+                            sx={{ mb: 2 }}
                         />
                     </Grid>
                     {vacunado && (
                         <Grid item xs={12}>
-                            <FormControl fullWidth margin="normal">
+                            <FormControl fullWidth margin="normal" variant="outlined">
                                 <InputLabel>Vacunas</InputLabel>
                                 <Select
                                     multiple
                                     value={vacunas}
-                                    onChange={(e) => setVacunas(e.target.value as string[])}
+                                    onChange={(e: SelectChangeEvent<string[]>) => setVacunas(e.target.value as string[])}
                                     renderValue={(selected) => selected.join(', ')}
+                                    label="Vacunas"
+                                    size="medium"
                                 >
                                     <MenuItem value="Rabia">Rabia</MenuItem>
                                     <MenuItem value="Parvovirus">Parvovirus</MenuItem>
                                     <MenuItem value="Moquillo">Moquillo</MenuItem>
                                     <MenuItem value="Hepatitis">Hepatitis</MenuItem>
-                                    {/* Agregar más vacunas según sea necesario */}
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -241,9 +332,11 @@ const CreateMascota: React.FC = () => {
                                 <Checkbox
                                     checked={esterilizacion}
                                     onChange={(e) => setEsterilizacion(e.target.checked)}
+                                    color="primary"
                                 />
                             }
                             label="Esterilización"
+                            sx={{ mb: 2 }}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -252,9 +345,11 @@ const CreateMascota: React.FC = () => {
                                 <Checkbox
                                     checked={desparasitacionInterna}
                                     onChange={(e) => setDesparasitacionInterna(e.target.checked)}
+                                    color="primary"
                                 />
                             }
                             label="Desparasitación Interna"
+                            sx={{ mb: 2 }}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -263,12 +358,14 @@ const CreateMascota: React.FC = () => {
                                 <Checkbox
                                     checked={desparasitacionExterna}
                                     onChange={(e) => setDesparasitacionExterna(e.target.checked)}
+                                    color="primary"
                                 />
                             }
                             label="Desparasitación Externa"
+                            sx={{ mb: 2 }}
                         />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12}>
                         <TextField
                             required
                             label="Tratamientos"
@@ -276,9 +373,14 @@ const CreateMascota: React.FC = () => {
                             margin="normal"
                             value={tratamientos}
                             onChange={(e) => setTratamientos(e.target.value)}
+                            variant="outlined"
+                            size="medium"
+                            multiline
+                            rows={2}
+                            sx={{ mb: 2 }}
                         />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12}>
                         <TextField
                             required
                             label="Alergias"
@@ -286,9 +388,14 @@ const CreateMascota: React.FC = () => {
                             margin="normal"
                             value={alergias}
                             onChange={(e) => setAlergias(e.target.value)}
+                            variant="outlined"
+                            size="medium"
+                            multiline
+                            rows={2}
+                            sx={{ mb: 2 }}
                         />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12}>
                         <TextField
                             required
                             label="Socialización"
@@ -296,9 +403,14 @@ const CreateMascota: React.FC = () => {
                             margin="normal"
                             value={socializacion}
                             onChange={(e) => setSocializacion(e.target.value)}
+                            variant="outlined"
+                            size="medium"
+                            multiline
+                            rows={2}
+                            sx={{ mb: 2 }}
                         />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12}>
                         <TextField
                             required
                             label="Información Comportamiento"
@@ -306,9 +418,14 @@ const CreateMascota: React.FC = () => {
                             margin="normal"
                             value={informacionComportamiento}
                             onChange={(e) => setInformacionComportamiento(e.target.value)}
+                            variant="outlined"
+                            size="medium"
+                            multiline
+                            rows={2}
+                            sx={{ mb: 2 }}
                         />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12}>
                         <TextField
                             required
                             label="Incidentes"
@@ -316,41 +433,22 @@ const CreateMascota: React.FC = () => {
                             margin="normal"
                             value={incidentes}
                             onChange={(e) => setIncidentes(e.target.value)}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            label="Fecha de Defunción"
-                            fullWidth
-                            margin="normal"
-                            type="date"
-                            InputLabelProps={{ shrink: true }}
-                            value={fechaDefuncion}
-                            onChange={(e) => setFechaDefuncion(e.target.value)}
+                            variant="outlined"
+                            size="medium"
+                            multiline
+                            rows={2}
+                            sx={{ mb: 2 }}
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <input
-                            required
-                            type="file"
-                            accept="image/*"
-                            onChange={handleImageChange}
-                            style={{ marginBottom: 16 }}
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={chip}
-                                    onChange={handleChipChange}
-                                />
-                            }
-                            label="Chip"
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Button type="submit" variant="contained" color="primary" disabled={loading}>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            size="large"
+                            sx={{ mt: 2 }}
+                            disabled={loading}
+                        >
                             {loading ? 'Cargando...' : 'Añadir Mascota'}
                         </Button>
                     </Grid>

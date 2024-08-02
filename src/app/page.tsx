@@ -112,7 +112,7 @@ const HomeView: React.FC = () => {
       </main>
       <footer>
         <Suspense fallback={<div>Loading...</div>}>
-          <Footer color={"orange"} />
+          <Footer color={"#ffc200"} />
         </Suspense>
       </footer>
     </section>

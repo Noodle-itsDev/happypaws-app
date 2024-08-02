@@ -96,7 +96,7 @@ const VolunteersView: React.FC = () => {
                     </section>
                 </main>
                 <footer>
-                    <Footer color={"orange"} />
+                    <Footer color={"#ffc200"} />
                 </footer>
             </section>
         </>

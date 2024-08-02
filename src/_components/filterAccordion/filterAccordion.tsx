@@ -44,8 +44,8 @@ const FilterAccordion: React.FC<FilterAccordionProps> = ({ filters, setFilters }
                             onChange={handleFilterChange}
                         >
                             <FormControlLabel value="" control={<Radio />} label="Todos" />
-                            <FormControlLabel value="Perro" control={<Radio />} label="Perro" />
-                            <FormControlLabel value="Gato" control={<Radio />} label="Gato" />
+                            <FormControlLabel value="Felino" control={<Radio />} label="Felino" />
+                            <FormControlLabel value="Canino" control={<Radio />} label="Canino" />
                         </RadioGroup>
                     </FormControl>
                 </AccordionDetails>
