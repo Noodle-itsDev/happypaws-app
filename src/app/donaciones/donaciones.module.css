@@ -14,6 +14,59 @@
     font-family: 'Raleway', sans-serif;
 }
 
+.buttonDonate, .buttonContribute {
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat;
+    color: #fff;
+    border: none;
+    box-shadow: none;
+    transition: transform 0.3s ease-in-out;
+    animation: pulse 1.5s infinite;
+    width: 200px; 
+    height: 200px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.5rem;
+    line-height: 1.5;
+}
+
+.buttonDonate {
+    background-image: url('/img/NecesitasAyuda.png');
+}
+
+.buttonContribute {
+    background-image: url('/img/greenHeart.png');
+}
+
+.buttonDonate:hover,
+.buttonContribute:hover {
+    transform: scale(1.1);
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.rotate{
+    transform: rotate(10deg);
+}
+.rotateLeft{
+    transform: rotate(-10deg);
+}
 .backgroundContainer::before {
     content: "";
     position: absolute;
@@ -30,7 +83,7 @@
     border-radius: 16px;
     padding: 40px;
     max-width: 70%;
-    width: 90%;
+    width: 60%;
     height: auto;
     min-height: 500px;
     display: flex;
@@ -44,23 +97,26 @@
     margin: 20px;
     position: relative;
     overflow: hidden;
-    transform: rotate(0deg); /* Inicialmente sin rotación */
+    transform: rotate(0deg);
     transition: transform 0.3s ease-in-out;
 }
 
 .contentContainer:hover {
     transform: rotate(-2deg);
+    
 }
 
 .descriptionContainer {
+    text-align: center;
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-bottom: 20px;
+    padding: 40px;
     width: 100%;
     
 }
+
 
 .descriptionContainer p {
     font-size: 1.2rem;
@@ -73,7 +129,6 @@
 }
 
 .buttonContainer {
-    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -101,26 +156,30 @@
 }
 
 .buttonDonate {
-    background-color: #28a745;
+    background-color: transparent;
+    width: 200px;
+    height: 200px;
 }
-
-.buttonDonate:hover {
-    background-color: #218838;
+.buttonDonate:hover{
+    background-color: transparent;  
+    box-shadow: none;
 }
 
 .buttonContribute {
-    background-color: #007bff;
+    background-color: transparent;
+    width: 200px;
+    height: 200px;
+}
+.buttonContribute:hover {
+    background-color: transparent;
+    width: 200px;
+    height: 200px;
+    box-shadow: none;
 }
 
-.buttonContribute:hover {
-    background-color: #0056b3;
-}
 
 .divider {
     border: none;
-    border-top: 4px solid black;
-    width: 100%;
-    margin: 20px 0;
     animation: bounce 1.5s infinite;
 }
 
@@ -135,7 +194,8 @@
     font-weight: bold;
     position: relative;
     font-family: Anton SC, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    border-bottom: 2px white solid;
+    border-bottom: 1px white solid;
+    
 }
 
 
@@ -143,6 +203,7 @@
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: 500;
     color: #104b4b;
+    animation: float 3s ease-in-out infinite;
 }
 
 @media (max-width: 1200px) {
@@ -184,3 +245,47 @@
         margin: 10px 0;
     }
 }
+
+
+.buttonDonate{
+    background-image: url('/img/NecesitasAyuda.png'); 
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    border: none;
+    box-shadow: none;
+    transition: transform 0.3s ease-in-out;
+    animation: pulse 1.5s infinite; 
+}
+.buttonContribute{
+    background-image: url('/img/greenHeart.png'); 
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    border: none;
+    box-shadow: none;
+    transition: transform 0.3s ease-in-out;
+    animation: pulse 1.5s infinite; 
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.buttonDonate:hover,
+.buttonContribute:hover {
+    transform: scale(1.1);
+}
+
+
