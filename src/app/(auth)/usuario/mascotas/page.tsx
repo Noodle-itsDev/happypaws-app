@@ -105,15 +105,8 @@ const PetsView: React.FC = () => {
     return (
         <>
             <header>
-                <PrimarySearchAppBar accessHref={""} accessLabel={""} />
-                <SimpleBottomNavigation labels={{
-                    textoUno: "",
-                    textoDos: "",
-                    textoTres: "",
-                    textoCuatro: "",
-                    textoCinco: "",
-                    textoSeis: ""
-                }} />
+                <PrimarySearchAppBar accessHref={''} accessLabel={''}/>
+                <SimpleBottomNavigation labels={[]} icons={[]} />
             </header>
             <main>
                 <Grid container spacing={6}>

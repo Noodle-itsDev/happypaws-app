@@ -31,7 +31,7 @@ interface DataForModal {
     data2: Mascota[];
 }
 
-const Calendar: React.FC = () => {
+const CalendarUser: React.FC = () => {
     const [events, setEvents] = useState<EventInput[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
@@ -67,7 +67,7 @@ const Calendar: React.FC = () => {
 
         const usuario = JSON.parse(userJson);
 
-        if (usuario.protectoras.length == 0) {
+        if (usuario.protectoras.length != 0) {
             localStorage.removeItem('user');
             localStorage.removeItem('authToken');
             location.href = "/signup";
@@ -79,6 +79,7 @@ const Calendar: React.FC = () => {
         try {
             setError(null);
             setSuccess(null);
+
             const userJson = localStorage.getItem('user');
             const token = localStorage.getItem('authToken');
 
@@ -90,8 +91,16 @@ const Calendar: React.FC = () => {
 
             const usuario = JSON.parse(userJson);
             const usuarioId = usuario.idUsuario;
-            // const response = await axios.get(`http://194.164.165.239:8080/api/eventos/usuario/${usuarioId}`, {
-            const response = await axios.get(`http://194.164.165.239:8080/api/eventos/all`, {
+
+            if (usuario.protectoras.length != 0) {
+                localStorage.removeItem('user');
+                localStorage.removeItem('authToken');
+                location.href = "/signup";
+            }
+
+            console.log(usuarioId);
+            const response = await axios.get(`http://194.164.165.239:8080/api/eventos/usuario/${usuarioId}`, {
+                //const response = await axios.get(`http://194.164.165.239:8080/api/eventos/all`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
@@ -285,15 +294,22 @@ const Calendar: React.FC = () => {
     const handleSubmitCrear = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        const title = (document.getElementById('tipoEvento') as HTMLSelectElement).value;
         const startDateInput = (document.getElementById('fechaEvento') as HTMLInputElement).value;
-        const usuarioId = (document.getElementById('usuarioEvento') as HTMLSelectElement).value;
         const mascotaId = selectedMascota?.id;
         const start = formatDate(startDateInput);
+        const userJson = localStorage.getItem('user');
+
+        if (!userJson) {
+            setError('User or token not found in localStorage');
+            location.href = "/signup";
+            return;
+        }
+        const usuario = JSON.parse(userJson);
+        const usuarioId = usuario.idUsuario;
 
         const newEvent = {
-            nombreEvento: title,
-            descripcion: (title == "Adopción de mascotas" ? "Evento para promover la adopción de mascotas en nuestra protectora." : "Evento para promover el bienestar animal."),
+            nombreEvento: "Voluntariado",
+            descripcion: "Evento para promover el bienestar animal.)",
             fechaInicio: start,
             fechaFin: start,
             finalizado: false,
@@ -301,7 +317,7 @@ const Calendar: React.FC = () => {
             mascota: { id: Number(mascotaId) },
             protectora: { idProtectora: 16 },
             estado: "Pendiente",
-            tipoEvento: title,
+            tipoEvento: "Voluntariado",
         };
 
         try {
@@ -388,7 +404,7 @@ const Calendar: React.FC = () => {
                     {success && <div style={{ color: 'green' }}>{success}</div>}
                     <FullCalendar
                         plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
-                        initialView="dayGridWeek"
+                        initialView="listMonth"
                         locale={esLocale}
                         editable={true}
                         droppable={true}
@@ -402,10 +418,10 @@ const Calendar: React.FC = () => {
                         }}
                         headerToolbar={{
                             left: 'prev,today,next',
-                            center: 'title,addButton',
-                            right: 'dayGridMonth,dayGridWeek',
+                            center: 'title',
+                            right: 'addButton'
                         }}
-                        eventClick={handleEventClick}
+                        //eventClick={handleEventClick}
                         eventContent={renderEventContent}
                         events={events} />
 
@@ -512,27 +528,8 @@ const Calendar: React.FC = () => {
                                 await handleAddEvent(newEvent as EventInput);
                             }}>
                                 <div>
-                                    <div><label>Nombre del Evento:</label></div>
-                                    <div>
-                                        <select name="tipoEvento" id="tipoEvento">
-                                            <option value="Adopción de mascotas">Adopción de mascotas</option>
-                                            <option value="Voluntariado">Voluntariado</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div>
                                     <div><label>Fecha de Inicio:</label></div>
                                     <div><input style={{ width: '100%' }} type="date" name="fechaEvento" id="fechaEvento" required /></div>
-                                </div>
-                                <div>
-                                    <div><label>Usuario</label></div>
-                                    <div>
-                                        <select style={{ width: '100%' }} name="usuarioEvento" id="usuarioEvento" required>
-                                            {usuarios.map((usuario) => (
-                                                <option key={usuario.idUsuario} value={usuario.idUsuario}>{usuario.nombre}</option>
-                                            ))}
-                                        </select>
-                                    </div>
                                 </div>
                                 <div>
                                     <div><label>Mascota:</label></div>
@@ -546,8 +543,8 @@ const Calendar: React.FC = () => {
                     </Modal>
                 </div>
                 <div>
-                    <div style={{ textAlign: 'center', fontWeight: '600', fontSize: '20px', margin: '2rem 0 0.4rem 0'}}>Leyenda</div>
-                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', columnGap: '0.5rem'}}>
+                    <div style={{ textAlign: 'center', fontWeight: '600', fontSize: '20px', margin: '2rem 0 0.4rem 0' }}>Leyenda</div>
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', columnGap: '0.5rem' }}>
                         <div style={{ display: 'flex', flexDirection: 'row', columnGap: '0.5rem', justifyContent: 'center', alignItems: 'center' }}>
                             <div style={{ height: '20px', width: '20px', borderRadius: '100%', backgroundColor: '#757575' }}></div>
                             <div><span>Pendiente</span></div>
@@ -575,4 +572,4 @@ const Calendar: React.FC = () => {
     );
 };
 
-export default Calendar;
+export default CalendarUser;

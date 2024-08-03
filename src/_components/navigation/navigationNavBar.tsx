@@ -4,26 +4,18 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { SvgIconComponent } from '@mui/icons-material';
 
 interface SimpleBottomNavigationProps {
-  labels: {
-    textoUno: string;
-    textoDos: string;
-    textoTres: string;
-    textoCuatro: string;
-    textoCinco: string;
-    textoSeis: string;
-  };
+  labels: string[];
+  icons: SvgIconComponent[];
 }
 
-export default function SimpleBottomNavigation({ labels }: SimpleBottomNavigationProps) {
+export default function SimpleBottomNavigation({ labels, icons }: SimpleBottomNavigationProps) {
   const [value, setValue] = React.useState(0);
 
   return (
-    <Box sx={{ width: '100dvw', boxShadow: '0px 4px 5px gray'}}>
+    <Box sx={{ width: '100dvw', boxShadow: '0px 4px 5px gray' }}>
       <BottomNavigation
         showLabels
         value={value}
@@ -32,21 +24,10 @@ export default function SimpleBottomNavigation({ labels }: SimpleBottomNavigatio
         }}
         sx={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', justifyContent: 'center' }} // Blanco con 80% de transparencia
       >
-        <BottomNavigationAction label={labels.textoUno} icon={<RestoreIcon />} />
-        <BottomNavigationAction label={labels.textoDos} icon={<FavoriteIcon />} />
-        <BottomNavigationAction label={labels.textoTres} icon={<LocationOnIcon />} />
-        <BottomNavigationAction label={labels.textoCuatro} icon={<RestoreIcon />} />
-        <BottomNavigationAction label={labels.textoCinco} icon={<FavoriteIcon />} />
-        <BottomNavigationAction label={labels.textoSeis} icon={<LocationOnIcon />} />
+        {labels.map((label, index) => (
+          <BottomNavigationAction key={index} label={label} icon={React.createElement(icons[index])} />
+        ))}
       </BottomNavigation>
     </Box>
   );
 }
-/*    
-    textoUno: string,
-    textoDos: string,
-    textoTres: string,
-    textoCuatro: string,
-    textoCinco: string,
-    textoSeis: string,
-    */

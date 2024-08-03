@@ -1,11 +1,12 @@
 "use client";
 
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Styles from "./signup.module.css";
 import SimpleBottomNavigation from "@/_components/navigation/navigationNavBar";
 import PrimarySearchAppBar from "@/_components/header/headerGradient";
 import Footer from "@/_components/footerCom/footer";
+//import RotatingFlower from "@/_components/flowerRotatingIcon/flowerRotationg.module";
 import CustomButton from "@/_components/button/buttonCurrent";
 import BasicTextFields from "@/_components/inputs/usuario/inputUsuario";
 
@@ -19,6 +20,20 @@ const SignupView: React.FC = () => {
     | "protectora"
   >("initial");
   const [fadeOut, setFadeOut] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem('authToken')) {
+      let usuario = localStorage.getItem('user');
+      if (usuario) {
+        const userParsed = JSON.parse(usuario);
+        if (userParsed.protectoras.length != 0) {
+          location.href = "/protectora/profile";
+        } else {
+          location.href = "/usuario/profile";
+        }
+      }
+    }
+  }, []);
 
   const handleButtonClick = (
     targetView:
@@ -67,6 +82,68 @@ const SignupView: React.FC = () => {
     }, 500); // Tiempo de desvanecimiento
   };
 
+  const handleRegisterUser = async () => {
+
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const regexPasswd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&^])[A-Za-z\d@.#$!%*?&]{8,15}$/;
+
+    document.getElementById('successRegistrarUsuario')!.innerText = "";
+    document.getElementById('errorRegistrarUsuario')!.innerText = "";
+
+    const nombre = (document.getElementById('registerNombreUsuario') as HTMLInputElement).value;
+    const correo = (document.getElementById('registerCorreoUsuario') as HTMLInputElement).value;
+    const passwd1 = (document.getElementById('registerPasswdUsuario') as HTMLInputElement).value;
+    const passwd2 = (document.getElementById('registerPasswdUsuarioConfirm') as HTMLInputElement).value;
+
+    if (nombre.trim().length == 0 || correo.trim().length == 0 || passwd1.trim().length == 0 || passwd2.trim().length == 0) {
+      document.getElementById('errorRegistrarUsuario')!.innerText = "No pueden haber campos vacíos.";
+      return false;
+    }
+
+    if (passwd1 !== passwd2) {
+      document.getElementById('errorRegistrarUsuario')!.innerText = "Las contraseñas tienen que ser identicas.";
+      return false;
+    }
+
+    if (!correo.match(regexEmail)) {
+      document.getElementById('errorRegistrarUsuario')!.innerText = "El correo no es valido.";
+      return false;
+    }
+
+    if (!passwd1.match(regexPasswd)) {
+      document.getElementById('errorRegistrarUsuario')!.innerText = "La contraseña debe contener de 8 a 15 carácteres, al menos una letra miníscula, una letra mayúscula,un número y un carácter especial.";
+      return false;
+    }
+
+    try {
+      const response = await axios.post('http://194.164.165.239:8080/api/auth/register', {
+        username: correo,
+        nombre: nombre,
+        email: correo,
+        password: passwd1,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      document.getElementById('successRegistrarUsuario')!.innerText = "Usuario registrado con éxito.";
+      window.location.href = "/signup";
+
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          document.getElementById('errorRegistrarUsuario')!.innerText = "Error al registrarse";
+          console.error('Error response data:', error);
+        } else if (error.request) {
+          console.error('Error request data:', error.request);
+        } else {
+          console.error('Error message:', error.message);
+        }
+      }
+    }
+  };
+
   const handleBackToAccessFormClick = (p0: string) => {
     setFadeOut(true);
     setTimeout(() => {
@@ -76,10 +153,10 @@ const SignupView: React.FC = () => {
   };
 
   const handleLogin = async () => {
-    // Obtener los valores directamente de los inputs usando document.getElementById
 
     document.getElementById('error')!.innerText = "";
     document.getElementById('success')!.innerText = "";
+    
     try {
       const response = await axios.post('http://194.164.165.239:8080/api/auth/login', {
         username: (document.getElementById('username') as HTMLInputElement).value,
@@ -89,48 +166,86 @@ const SignupView: React.FC = () => {
           'Content-Type': 'application/json',
         }
       });
-
-      document.getElementById('success')!.innerText = "Autenticación realizada con éxito";
-
-      const { accesToken, user } = response.data;
-      localStorage.setItem('authToken', accesToken);
-      localStorage.setItem('user', JSON.stringify(user));
       
-      if(user.protectoras && user.protectoras.lenght > 0){
-        window.location.href = '/usuario/profile';
-      } else {
-        window.location.href = '/protectora/profile';
+      const { accesToken, user } = response.data;
+      console.log(user.protectoras.length);
+      if(response){
+        if (user.protectoras.length == 0) {
+          localStorage.setItem('authToken', accesToken);
+          localStorage.setItem('user', JSON.stringify(user));
+          document.getElementById('success')!.innerText = "Autenticación realizada con éxito";
+          window.location.href = '/usuario/profile';
+        } else {
+          document.getElementById('error')!.innerText = "No puede acceder mediante esta vía siendo una protectora.";
+          return false;
+        }   
       }
 
-    } catch (error: unknown) {
+    } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response) {
           document.getElementById('error')!.innerText = "Usuario o contraseña incorrectos";
-          console.error('Error response data:', error.response);
+          console.error('Error response data:', error);
         } else if (error.request) {
           console.error('Error request data:', error.request);
         } else {
           console.error('Error message:', error.message);
         }
-      } else {
-        console.error('Error message:', (error as Error).message);
       }
+
     }
-  }
+  };
+
+  const handleLoginProtectora = async () => {
+
+    document.getElementById('errorProtectLogin')!.innerText = "";
+    document.getElementById('successProtectLogin')!.innerText = "";
+
+    try {
+      const response = await axios.post('http://194.164.165.239:8080/api/auth/login', {
+        username: (document.getElementById('loginProtectora') as HTMLInputElement).value,
+        password: (document.getElementById('PasswdProtectora') as HTMLInputElement).value,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+   
+      const { accesToken, user } = response.data;
+      console.log(user.protectoras.length);
+
+      if(response){
+        if (user.protectoras.length == 0) {
+          document.getElementById('errorProtectLogin')!.innerText = "No puede acceder mediante esta vía siendo un usuario.";
+          return false;
+        } else {
+          localStorage.setItem('authToken', accesToken);
+          localStorage.setItem('user', JSON.stringify(user));
+          document.getElementById('successProtectLogin')!.innerText = "Autenticación realizada con éxito";
+          window.location.href = '/protectora/profile';
+        }   
+      }
+
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          document.getElementById('error')!.innerText = "Usuario o contraseña incorrectos";
+          console.error('Error response data:', error);
+        } else if (error.request) {
+          console.error('Error request data:', error.request);
+        } else {
+          console.error('Error message:', error.message);
+        }
+      }
+
+    }
+  };
+
   return (
     <>
       <header style={{ position: "fixed", top: "0", zIndex: 9000 }}>
-        <PrimarySearchAppBar backgroundGradient="linear-gradient(311deg, rgba(57,200,148,1) 0%, rgba(255,214,157,1) 76%, rgba(253,141,29,1) 100%)" accessHref={"/signup"} accessLabel={"Acceso"} />
-        <SimpleBottomNavigation
-          labels={{
-            textoUno: "",
-            textoDos: "",
-            textoTres: "",
-            textoCuatro: "",
-            textoCinco: "",
-            textoSeis: "",
-          }}
-        />
+        <PrimarySearchAppBar accessHref={""} accessLabel={""}  />
+        <SimpleBottomNavigation labels={[]} icons={[]}        />
       </header>
 
       <main
@@ -354,19 +469,21 @@ const SignupView: React.FC = () => {
                 <div>
                   <h1 className={`${Styles.titleFont}`}>Registro de Usuario</h1>
                 </div>
+                <span style={{ color: "red", fontSize: "18px", fontWeight: "600" }} id="errorRegistrarUsuario"></span>
+                <span style={{ color: "green", fontSize: "18px", fontWeight: "600" }} id="successRegistrarUsuario"></span>
                 <div style={{ marginTop: "-90px" }}>
                   <div>
-                    <BasicTextFields id={""} placeholder={"Nombre"} />
+                    <BasicTextFields id={"registerNombreUsuario"} placeholder={"Nombre"} />
                   </div>
                   <div>
-                    <BasicTextFields id={""} placeholder={"Correo"} />
+                    <BasicTextFields id={"registerCorreoUsuario"} placeholder={"Correo"} />
                   </div>
                   <div>
-                    <BasicTextFields id={""} placeholder={"Contraseña"} />
+                    <BasicTextFields id={"registerPasswdUsuario"} placeholder={"Contraseña"} />
                   </div>
                   <div>
                     <BasicTextFields
-                      id={""}
+                      id={"registerPasswdUsuarioConfirm"}
                       placeholder={"Confirmar Contraseña"}
                     />
                   </div>
@@ -379,7 +496,7 @@ const SignupView: React.FC = () => {
                       label={"Enviar"}
                       width={280}
                       height={50}
-                      onClick={() => { }}
+                      onClick={() => { handleRegisterUser() }}
                     />
                   </div>
                   <div>
@@ -551,8 +668,8 @@ const SignupView: React.FC = () => {
                 </div>
                 <div style={{ marginTop: "-90px" }}>
                   <div>
-                    <span style={{ color: "red", fontSize: "18px", fontWeight: "600"}} id="error"></span>
-                    <span style={{ color: "green", fontSize: "18px", fontWeight: "600"}} id="success"></span>
+                    <span style={{ color: "red", fontSize: "18px", fontWeight: "600" }} id="error"></span>
+                    <span style={{ color: "green", fontSize: "18px", fontWeight: "600" }} id="success"></span>
                     <BasicTextFields id={"username"} placeholder={"Correo"} />
                   </div>
                   <div>
@@ -636,10 +753,12 @@ const SignupView: React.FC = () => {
                 </div>
                 <div style={{ marginTop: "-90px" }}>
                   <div>
-                    <BasicTextFields id={""} placeholder={"CIF"} />
+                    <span style={{ color: "red", fontSize: "18px", fontWeight: "600" }} id="errorProtectLogin"></span>
+                    <span style={{ color: "green", fontSize: "18px", fontWeight: "600" }} id="successProtectLogin"></span>
+                    <BasicTextFields id={"loginProtectora"} placeholder={"Correo"} />
                   </div>
                   <div>
-                    <BasicTextFields id={""} placeholder={"Contraseña"} />
+                    <BasicTextFields id={"PasswdProtectora"} placeholder={"Contraseña"} type="password"/>
                   </div>
                   <div>
                     <CustomButton
@@ -650,7 +769,7 @@ const SignupView: React.FC = () => {
                       label={"Acceder"}
                       width={280}
                       height={50}
-                      onClick={() => { }}
+                      onClick={handleLoginProtectora}
                     />
                   </div>
                   <div>

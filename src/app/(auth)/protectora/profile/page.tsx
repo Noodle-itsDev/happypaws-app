@@ -11,17 +11,10 @@ const ShelterProfileView: React.FC = () => {
   return (
     <>
       <header>
-        <PrimarySearchAppBar accessHref={""} accessLabel={""} />
-        <SimpleBottomNavigation labels={{
-          textoUno: "",
-          textoDos: "",
-          textoTres: "",
-          textoCuatro: "",
-          textoCinco: "",
-          textoSeis: ""
-        }} />
+        <PrimarySearchAppBar accessHref={''} accessLabel={''} />
+        <SimpleBottomNavigation labels={[]} icons={[]} />F
       </header>
-      <main style={{ width: "100vw", height: "100vh"}}>
+      <main style={{ width: "100vw", height: "100vh" }}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={4} style={{ width: '30vw', height: "100vw" }}>
             <Paper style={{ height: '100%', padding: '16px' }}>

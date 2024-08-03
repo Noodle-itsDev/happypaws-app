@@ -113,22 +113,11 @@ const ContactPage: React.FC = () => {
                 />
             </Head>
             <header style={{ position: "fixed", top: 0, width: '100%', height: '11vh', zIndex: 1200 }}>
-                <PrimarySearchAppBar
-                    accessHref={""}
-                    accessLabel={""}
-                    backgroundGradient="linear-gradient(311deg, rgba(57,200,148,1) 0%, rgba(255,214,157,1) 76%, rgba(253,141,29,1) 100%)"
-                />
-                <SimpleBottomNavigation labels={{
-                    textoUno: "",
-                    textoDos: "",
-                    textoTres: "",
-                    textoCuatro: "",
-                    textoCinco: "",
-                    textoSeis: ""
-                }} />
+                <PrimarySearchAppBar accessHref={''} accessLabel={''}/>
+                <SimpleBottomNavigation labels={[]} icons={[]}                 />
             </header>
             <main style={{ marginTop: '11vh', padding: '40px', height: 'calc(140vh - 11vh)', overflow: 'hidden'}}>
-                <Container maxWidth="md" sx={{ py: 4, borderRadius: "30px"}}>
+                <Container maxWidth="md" sx={{ py: 4, borderLeft: "1px solid black", borderRadius: "30px"}}>
                     <Typography
                         variant="h3"
                         gutterBottom

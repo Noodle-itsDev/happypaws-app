@@ -69,17 +69,9 @@ const VolunteersView: React.FC = () => {
             <section style={{ display: "flex", flexDirection: "column", justifyContent: "center", position: "sticky", overflow: "hidden" }}>
                 <header>
                     <section style={{ position: "fixed", top: 0, zIndex: 9000 }}>
-                        <PrimarySearchAppBar backgroundGradient="linear-gradient(311deg, rgba(57,200,148,1) 0%, rgba(255,214,157,1) 76%, rgba(253,141,29,1) 100%)" accessHref={"/signup"} accessLabel={"Acceso"} />
-                        <SimpleBottomNavigation
-                            labels={{
-                                textoUno: "Home",
-                                textoDos: "Voluntariado",
-                                textoTres: "Adoptar",
-                                textoCuatro: "Donar",
-                                textoCinco: "About Us",
-                                textoSeis: "Contacto",
-                            }}
-                        />
+                    <PrimarySearchAppBar accessHref={''} accessLabel={''} />
+                    <SimpleBottomNavigation labels={[]} icons={[]}/>
+                        
                     </section>
                 </header>
                 <main>

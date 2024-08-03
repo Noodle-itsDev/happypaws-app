@@ -57,7 +57,6 @@ const UploadImg: React.FC<EditableImageProps> = ({
         position: 'relative',
         maxWidth: '2400px',
         margin: 'auto',
-        borderRadius: '50%',
         overflow: 'hidden',
         transition: 'transform 0.3s ease', 
         '&:hover': {
@@ -78,7 +77,7 @@ const UploadImg: React.FC<EditableImageProps> = ({
           justifyContent: 'center',
           borderRadius: '50%',
           overflow: 'hidden',
-          backgroundColor: 'white',
+          
         }}
       >
         <input
@@ -98,8 +97,6 @@ const UploadImg: React.FC<EditableImageProps> = ({
             alignItems: 'center',
             justifyContent: 'center',
             background: 'lightgray',
-            borderRadius: '50%',
-            overflow: 'hidden',
             position: 'relative',
           }}
         >
@@ -113,7 +110,6 @@ const UploadImg: React.FC<EditableImageProps> = ({
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
-                borderRadius: '50%',
               }}
             />
           ) : (
