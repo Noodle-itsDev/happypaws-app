@@ -11,7 +11,8 @@ import PrimarySearchAppBarUser from "@/_components/headerUser/headerGradient";
 import EventChipList from "@/_components/eventChipCom/eventChipCom";
 import Footer from "@/_components/footerCom/footer";
 import { gsap } from "gsap";
-import EventoCard from "@/_components/notificationCard/notificationCard";
+import NotificationCard from "@/_components/notificationCard/notificationCard";
+import EventChips from "@/_components/chipsComponent/chipsComponent";
 
 interface UserData {
     nombre: string;
@@ -51,19 +52,71 @@ interface Event {
 }
 
 interface Evento {
-    idUsuario: number;
     nombreUsuario: string;
-    idMascota: number;
     nombreMascota: string;
     tipoEvento: string;
     nombreEvento: string;
     fechaInicio: string;
-    fechaFin: string;
     estado: string;
 }
-
+interface NotificationCardProps {
+    events: Evento;
+}
 const UserProfile: React.FC = () => {
+
     const [eventos, setEventos] = useState<Evento[]>([]);
+
+    useEffect(() => {
+        const fetchEventos = async () => {
+            try {
+                const token = localStorage.getItem("authToken");
+                const usuarioJSON = localStorage.getItem("user");
+
+                if (!token || !usuarioJSON) {
+                    console.error('Token or user not found in localStorage');
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    location.href = "/signup";
+                    return;
+                }
+
+                const usuario = JSON.parse(usuarioJSON);
+                const protectoras = usuario.protectoras;
+                const usuarioId = usuario.idUsuario;
+
+                if (protectoras.length != 0) {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    location.href = "/signup"
+                    return;
+                }
+
+                const response = await axios.get(`http://194.164.165.239:8080/api/eventos/usuario/${usuarioId}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    }
+                });
+
+                const eventosData = response.data.map((evento: any) => ({
+                    tipoEvento: evento.tipoEvento,
+                    nombreUsuario: evento.usuario.nombre,
+                    nombreMascota: evento.mascota.nombre,
+                    nombreEvento: evento.nombreEvento,
+                    fecha: evento.fechaInicio,
+                    estado: evento.estado
+                }));
+
+                setEventos(eventosData);
+            } catch (error) {
+                console.error("Error fetching eventos", error);
+            }
+        };
+
+        fetchEventos();
+    }, []);
+
+
     const [userData, setUserData] = useState<UserData>({
         nombre: "",
         apellidos: "",
@@ -91,6 +144,22 @@ const UserProfile: React.FC = () => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserData({ ...userData, [e.target.name]: e.target.value });
     };
+    useEffect(() => {
+        // Función para obtener datos de la API
+        const fetchData = async () => {
+            try {
+                // Reemplaza con la URL de tu API
+                const response = await axios.post('https://api.example.com/events', {
+                    token: 'YOUR_TOKEN_HERE', // Aquí puedes incluir el token si es necesario
+                });
+                setEvents(response.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const toggleEdit = async () => {
         if (isEditable) {
@@ -166,7 +235,7 @@ const UserProfile: React.FC = () => {
                     }
                 });
 
-                console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC" + response.data.evento);
+
                 const eventosData = response.data.map((evento: any) => ({
                     idUsuario: evento.usuario.idUsuario,
                     nombreUsuario: evento.usuario.nombre,
@@ -189,7 +258,7 @@ const UserProfile: React.FC = () => {
         fetchUserData();
     }, []);
 
-    // GSAP animations
+
     useEffect(() => {
         gsap.utils.toArray('.animate-scroll').forEach((section: unknown) => {
             const element = section as HTMLElement;
@@ -229,6 +298,9 @@ const UserProfile: React.FC = () => {
             ease: 'sine.inOut'
         });
     }, []);
+
+    const hasCancelledEvents = eventos.some(event => event.estado === "Cancelado");
+
 
     return (
         <>
@@ -475,36 +547,8 @@ const UserProfile: React.FC = () => {
                                         <Typography variant="h5" sx={{ color: "#104b4b", mb: 2, fontFamily: 'system-ui' }}>
                                             Últimos Voluntariados
                                         </Typography>
-                                        <Box
-                                            sx={{
-                                                display: 'flex',
-                                                flexWrap: 'wrap',
-                                                gap: 1,
-                                                border: '1px solid rgba(255,255,255,0.5)',
-                                                backgroundColor: 'rgba(255,255,255,0.1)',
-                                                p: 1,
-                                                borderRadius: 1,
-                                                minHeight: '120px',
-                                                maxHeight: '120px',
-                                                overflowY: 'auto',
-                                            }}
-                                        >
-                                            {volunteers.length === 0 ? (
-                                                <Typography variant="body2" sx={{ color: '#104b4b', fontFamily: 'system-ui' }}>
-                                                    No hay voluntariados registrados.
-                                                </Typography>
-                                            ) : (
-                                                volunteers.map((volunteer, index) => (
-                                                    <Chip
-                                                        key={index}
-                                                        label={`${volunteer.activity} (${volunteer.date})`}
-                                                        color="primary"
-                                                        sx={{ margin: '2px' }}
-                                                    />
-                                                ))
-                                            )}
-                                        </Box>
-                                        <Typography variant="h5" sx={{ color: "#104b4b", mt: 3, mb: 2, fontFamily: 'system-ui' }}>
+                                        <EventChips />
+                                        {/* <Typography variant="h5" sx={{ color: "#104b4b", mt: 3, mb: 2, fontFamily: 'system-ui' }}>
                                             Mascotas Adoptadas
                                         </Typography>
                                         <Box
@@ -535,7 +579,7 @@ const UserProfile: React.FC = () => {
                                                     />
                                                 ))
                                             )}
-                                        </Box>
+                                        </Box> */}
                                         <Typography variant="h5" sx={{ color: "#104b4b", mt: 3, mb: 2, fontFamily: 'system-ui' }}>
                                             Donaciones Realizadas
                                         </Typography>
@@ -574,33 +618,20 @@ const UserProfile: React.FC = () => {
                             </CardContent>
                         </Card>
                     </Grid>
-                    <Grid item xs={12} sm={6} md={8} lg={9} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Grid item xs={12} sm={6} md={8} lg={9} sx={{ display: 'flex', justifyContent: 'center' }}>
                         <Box
                             sx={{
                                 width: '100%',
-                                height: '100%',
-                                backgroundColor: '#eeeeee', // Ejemplo de fondo
+                                maxHeight: '171vh',
+                                backgroundColor: '#eeeeee',
                                 display: 'flex',
-                                alignItems: 'center',
                                 justifyContent: 'center',
+                                padding: '20px',
+                                overflowY: 'auto',
                             }}
                         >
-                            <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                <Typography style={{}}>Notificaciones</Typography>
-                                <div style={{ display: 'flex', flexDirection: 'column', width: '50vh' }}>
-                                    {eventos.map((evento, index) => (
-                                        <EventoCard
-                                            key={index}
-                                            tipo={evento.tipoEvento}
-                                            persona={evento.nombreUsuario}
-                                            mascota={evento.nombreMascota}
-                                            onClick={() => {
-                                                console.log(`Evento ${evento.tipoEvento} clicked`);
-                                            }}
-                                            isClicked={false}
-                                        />
-                                    ))}
-                                </div>
+                            <div style={{ width: '100%', height: '100%' }}>
+                                <NotificationCard events={eventos} />
                             </div>
                         </Box>
                     </Grid>
@@ -678,8 +709,8 @@ const UserProfile: React.FC = () => {
                     }}
                 ></Box>
             </main>
-            <footer>
-                <Footer color={"#2fb090"} />
+            <footer style={{}}>
+                
             </footer>
         </>
     );

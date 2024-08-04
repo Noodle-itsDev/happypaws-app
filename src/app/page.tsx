@@ -53,17 +53,7 @@ const HomeView: React.FC = () => {
     <section className={styles.mainContainer}>
       <header className={styles.header}>
         <Suspense fallback={<div>Loading...</div>}>
-          <PrimarySearchAppBar backgroundGradient="linear-gradient(311deg, rgba(57,200,148,1) 0%, rgba(255,214,157,1) 76%, rgba(253,141,29,1) 100%)" accessHref={"/signup"} accessLabel={"Acceso"} />
-          <SimpleBottomNavigation
-            labels={{
-              textoUno: "Home",
-              textoDos: "Voluntariado",
-              textoTres: "Adoptar",
-              textoCuatro: "Donar",
-              textoCinco: "About Us",
-              textoSeis: "Contacto",
-            }}
-          />
+
         </Suspense>
       </header>
       <main className={styles.main}>

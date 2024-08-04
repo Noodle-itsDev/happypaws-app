@@ -1,6 +1,7 @@
 import * as React from 'react';
-import BasicModal from '../popupNotificationCard/popupNotificationCard'; 
-import '../notificationCard/styles.module.css';
+import BasicModal from '../popupNotificationCard/popupNotificationCard';
+
+
 
 interface EventoCardProps {
   tipo: string;
@@ -15,6 +16,7 @@ interface EventoCardProps {
   isClicked: boolean;
 }
 
+// Componente EventoCard
 const EventoCard: React.FC<EventoCardProps> = ({
   tipo,
   persona,
@@ -25,14 +27,17 @@ const EventoCard: React.FC<EventoCardProps> = ({
   correo,
   descripcion,
   onClick,
-  isClicked
+  isClicked,
 }) => {
-  const [open, setOpen] = React.useState(false);
+
+  const [open, setOpen] = React.useState<boolean>(false);
+
 
   const handleOpen = () => {
     setOpen(true);
     onClick();
   };
+
 
   const handleClose = () => setOpen(false);
 

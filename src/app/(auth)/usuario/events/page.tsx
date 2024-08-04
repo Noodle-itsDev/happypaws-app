@@ -1,6 +1,8 @@
 "use client";
 
 import axios from "axios";
+import  Styles from './eventsUsers.module.css';
+import gsap from "gsap";
 import React, { useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -8,12 +10,13 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import esLocale from '@fullcalendar/core/locales/es';
-import { EventClickArg, EventInput, EventChangeArg } from '@fullcalendar/core';
+import { EventClickArg, EventInput } from '@fullcalendar/core';
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import PrimarySearchAppBar from "@/_components/header/headerGradient";
 import SimpleBottomNavigation from "@/_components/navigation/navigationNavBar";
+import { Grid } from "@mui/material";
 
 interface Usuario {
     idUsuario: string;
@@ -391,6 +394,46 @@ const CalendarUser: React.FC = () => {
         handleClose();
         fetchEvents();
     }
+    useEffect(() => {
+        gsap.utils.toArray('.animate-scroll').forEach((section: unknown) => {
+            const element = section as HTMLElement;
+
+            gsap.fromTo(element,
+                { opacity: 0, y: 100 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: element,
+                        start: 'top 80%',
+                        end: 'bottom 60%',
+                        scrub: true,
+                        toggleActions: 'play none none reverse'
+                    }
+                }
+            );
+        });
+
+        gsap.to('.floating-circle', {
+            y: 20,
+            rotation: 360,
+            duration: 5,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut'
+        });
+
+        gsap.to('.floating-flower', {
+            y: 10,
+            duration: 2,
+            yoyo: true,
+            repeat: -1,
+            ease: 'sine.inOut'
+        });
+    }, []);
+
 
     return (
         <>
@@ -398,8 +441,9 @@ const CalendarUser: React.FC = () => {
                 <PrimarySearchAppBar accessHref={""} accessLabel={""} />
                 <SimpleBottomNavigation labels={[]} icons={[]}/>
             </header>
-            <main>
-                <div style={{ maxWidth: '100vh', margin: '0 auto', marginTop: '15vh' }}>
+            <main style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", width: "100vw"}}>
+            <Grid >
+                <div style={{ maxWidth: '100vh', margin: '0 auto', marginTop: '15vh', width: '65vw'}}>
                     {error && <div style={{ color: 'red' }}>{error}</div>}
                     {success && <div style={{ color: 'green' }}>{success}</div>}
                     <FullCalendar
@@ -409,7 +453,7 @@ const CalendarUser: React.FC = () => {
                         editable={true}
                         droppable={true}
                         selectable={true}
-                        height={"50vh"}
+                        height={"70vh"}
                         customButtons={{
                             addButton: {
                                 text: 'Añadir Evento',
@@ -567,6 +611,79 @@ const CalendarUser: React.FC = () => {
                         </div>
                     </div>
                 </div>
+            </Grid>
+            <Box
+            className="floating-circle"
+                    sx={{
+                        position: 'absolute',
+                        bottom: '10%',
+                        right: '10%',
+                        width: '100px',
+                        height: '100px',
+                        borderRadius: '50%',
+                        backgroundColor: '#104b4b',
+                        opacity: 1,
+                        zIndex: -200
+                    }}
+                ></Box>
+                <Box
+                    className="floating-circle"
+                    sx={{
+                        position: 'absolute',
+                        top: '-5%',
+                        left: '-10%',
+                        width: '600px',
+                        height: '600px',
+                        borderRadius: '50%',
+                        backgroundColor: '#fda547',
+                        opacity: 0.6,
+                        zIndex: -200
+                    }}
+                ></Box>
+                <Box
+                    className="floating-circle"
+                    sx={{
+                        position: 'absolute',
+                        top: '90%',
+                        right: '-15%',
+                        width: '520px',
+                        height: '520px',
+                        borderRadius: '50%',
+                        backgroundColor: '#94cf98',
+                        opacity: 0.6,
+                        zIndex: -200
+                    }}
+                ></Box>
+                <Box
+                    className={`${Styles.floatingFlower}`}
+                    sx={{
+                        position: 'absolute',
+                        bottom: '20%',
+                        left: '10%',
+                        width: '80px',
+                        height: '80px',
+                        backgroundImage: 'url(/img/florAzul.png)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        opacity: 0.7,
+                        zIndex: -200
+                    }}
+                ></Box>
+                <Box
+                    className="floating-flower"
+                    sx={{
+                        position: 'absolute',
+                        top: '30%',
+                        right: '-6%',
+                        width: '500px',
+                        height: '500px',
+                        backgroundImage: 'url(/img/florAzul.png)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        opacity: 0.7,
+                        zIndex: -200
+                    }}
+                ></Box>
             </main>
         </>
     );
