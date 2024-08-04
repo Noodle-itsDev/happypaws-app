@@ -8,6 +8,8 @@ import SimpleBottomNavigation from "@/_components/navigation/navigationNavBar";
 import Carousel from "@/_components/newBannerCom/newBannerCom";
 import Footer from "@/_components/footerCom/footer";
 import RotatingImage from "@/_components/flowerComAnimated/flowerComAnimated";
+import HeaderBar from "@/_components/headerBarPublic/headerBarPublic/headerBar";
+import FooterPublic from "@/_components/FooterPublic/footerPublic";
 
 // Registrar los plugins de GSAP
 gsap.registerPlugin(ScrollTrigger);
@@ -69,8 +71,7 @@ const VolunteersView: React.FC = () => {
             <section style={{ display: "flex", flexDirection: "column", justifyContent: "center", position: "sticky", overflow: "hidden" }}>
                 <header>
                     <section style={{ position: "fixed", top: 0, zIndex: 9000 }}>
-                    <PrimarySearchAppBar accessHref={''} accessLabel={''} />
-                    <SimpleBottomNavigation labels={[]} icons={[]}/>
+                        <HeaderBar></HeaderBar>
                         
                     </section>
                 </header>
@@ -88,7 +89,7 @@ const VolunteersView: React.FC = () => {
                     </section>
                 </main>
                 <footer>
-                    <Footer color={"#ffc200"} />
+                <FooterPublic></FooterPublic>
                 </footer>
             </section>
         </>

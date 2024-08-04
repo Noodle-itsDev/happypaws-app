@@ -14,6 +14,9 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import PrimarySearchAppBar from "@/_components/header/headerGradient";
 import SimpleBottomNavigation from "@/_components/navigation/navigationNavBar";
+import HeaderBar from "@/_components/headerBarPrivateProtectora/headerBarPrivateProtectora/headerBar";
+import FooterPrivate from "@/_components/FooterPrivate/footerPublic";
+import zIndex from "@mui/material/styles/zIndex";
 
 interface Usuario {
     idUsuario: string;
@@ -379,11 +382,10 @@ const Calendar: React.FC = () => {
     return (
         <>
             <header style={{ position: "fixed", top: 0, zIndex: 9999 }}>
-                <PrimarySearchAppBar accessHref={""} accessLabel={""} />
-                <SimpleBottomNavigation labels={[]} icons={[]}/>
+                <HeaderBar></HeaderBar>
             </header>
-            <main>
-                <div style={{ maxWidth: '100vh', margin: '0 auto', marginTop: '15vh' }}>
+            <main style={{height: "100vh", justifyContent: "center", alignItems: "center", display: "flex", flexDirection: "column" }}>
+                <div style={{ width: '100vh', margin: '0 auto', marginTop: '15vh' }}>
                     {error && <div style={{ color: 'red' }}>{error}</div>}
                     {success && <div style={{ color: 'green' }}>{success}</div>}
                     <FullCalendar
@@ -570,7 +572,78 @@ const Calendar: React.FC = () => {
                         </div>
                     </div>
                 </div>
+                <Box
+                    className="floating-circle"
+                    sx={{
+                        position: 'absolute',
+                        bottom: '10%',
+                        right: '10%',
+                        width: '100px',
+                        height: '100px',
+                        borderRadius: '50%',
+                        backgroundColor: '#104b4b',
+                        opacity: 1
+                    }}
+                ></Box>
+                <Box
+                    className="floating-circle"
+                    sx={{
+                        position: 'absolute',
+                        top: '-5%',
+                        left: '-10%',
+                        width: '600px',
+                        height: '600px',
+                        borderRadius: '50%',
+                        backgroundColor: '#fda547',
+                        opacity: 0.6
+                    }}
+                ></Box>
+                <Box
+                    className="floating-circle"
+                    sx={{
+                        position: 'absolute',
+                        top: '90%',
+                        right: '-15%',
+                        width: '520px',
+                        height: '520px',
+                        borderRadius: '50%',
+                        backgroundColor: '#94cf98',
+                        opacity: 0.6
+                    }}
+                ></Box>
+                <Box
+                    className="floating-flower"
+                    sx={{
+                        position: 'absolute',
+                        bottom: '20%',
+                        left: '10%',
+                        width: '80px',
+                        height: '80px',
+                        backgroundImage: 'url(/img/florAzul.png)', 
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        opacity: 0.7
+                    }}
+                ></Box>
+                <Box
+                    className="floating-flower"
+                    sx={{
+                        position: 'absolute',
+                        top: '30%',
+                        right: '-6%',
+                        width: '500px',
+                        height: '500px',
+                        backgroundImage: 'url(/img/florAzul.png)', 
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        opacity: 0.7
+                    }}
+                ></Box>
+
             </main>
+            <footer style={{ marginTop: '4rem'}}>
+            <FooterPrivate></FooterPrivate>
+            </footer>
         </>
     );
 };

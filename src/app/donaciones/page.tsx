@@ -11,6 +11,8 @@ import { gsap } from 'gsap';
 import SimpleBottomNavigation from '@/_components/navigation/navigationNavBar';
 import PrimarySearchAppBar from '@/_components/header/headerGradient';
 import { SelectChangeEvent } from '@mui/material/Select';
+import HeaderBar from '@/_components/headerBarPublic/headerBarPublic/headerBar';
+import FooterPublic from '@/_components/FooterPublic/footerPublic';
 
 interface Errors {
     email?: string;
@@ -184,8 +186,7 @@ export default function ContainedButtons() {
     return (
         <>
             <header style={{ position: "sticky", top: 0 }}>
-                <PrimarySearchAppBar accessHref={''} accessLabel={''} />
-                <SimpleBottomNavigation labels={[]} icons={[]} />
+                <HeaderBar></HeaderBar>
             </header>
             <main>
                 <Box
@@ -363,6 +364,7 @@ export default function ContainedButtons() {
                 </Dialog>
             </main>
             <footer>
+            <FooterPublic></FooterPublic>
             </footer>
         </>
     );

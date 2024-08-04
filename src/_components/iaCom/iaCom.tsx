@@ -34,25 +34,36 @@ const ChatButton = styled.button`
   color: white;
   border: none;
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  font-size: 24px;
+  width: 70px;  
+  height: 70px; 
+  font-size: 28px;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; 
+`;
 
-  &:hover {
-    background-color: #2d3748;
-    transform: translateY(-2px);
-  }
+const ChatButtonTransparent = styled.button`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 50%;
 `;
 
 const ChatBubble = styled.span<{ isVisible: boolean }>`
   position: absolute;
-  top: -40px;
-  right: 0;
+  top: -35px;
+  right: 40px;
   background-color: white;
-  padding: 8px 12px;
+  padding: 10px 14px;
   border-radius: 20px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   font-size: 14px;
@@ -126,7 +137,6 @@ const Input = styled.input`
 `;
 
 const SendButton = styled.button`
-  background-color: #4299e1;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -157,7 +167,6 @@ const chatReducer = (state: ChatState, action: ChatAction): ChatState => {
 
 const fetchAssistantResponse = async (message: string, token: string) => {
     try {
-       
         const response = await axios.post('http://194.164.165.239:8080/api/openai/chat/', { message }, {
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -233,8 +242,11 @@ const ChatAssistant: React.FC = () => {
     return (
         <ChatContainer>
             <ChatButton onClick={toggleChat}>
-                    <img src="/img/helper.png" alt="IA" />
-                <ChatBubble style={{}} isVisible={!state.isOpen}>¿Te puedo ayudar en algo?</ChatBubble>
+                <img src="/img/helper.png" alt="IA" style={{ width: '70px', height: '70px' }} />
+                <ChatBubble style={{ backgroundColor: "#104b4b" }} isVisible={!state.isOpen}>
+                    ¿Te puedo ayudar en algo?
+                </ChatBubble>
+                <ChatButtonTransparent onClick={toggleChat} />
             </ChatButton>
 
             <ChatModal isOpen={state.isOpen}>

@@ -17,6 +17,7 @@ import Typography from "@mui/material/Typography";
 import PrimarySearchAppBar from "@/_components/header/headerGradient";
 import SimpleBottomNavigation from "@/_components/navigation/navigationNavBar";
 import { Button, Grid, TextField } from "@mui/material";
+import HeaderBar from "@/_components/headerBarPrivateUsuario/headerBar";
 
 interface Usuario {
     idUsuario: string;
@@ -447,8 +448,7 @@ const CalendarUser: React.FC = () => {
     return (
         <>
             <header style={{}}>
-                <PrimarySearchAppBar accessHref={""} accessLabel={""} />
-                <SimpleBottomNavigation labels={[]} icons={[]} />
+                <HeaderBar></HeaderBar>
             </header>
             <main style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", width: "100vw" }}>
                 <Grid style={{ backgroundColor: "#abddf13b", padding: "10px 40px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", borderRadius: "40px", boxShadow: "0px 20px 20px 20px #00000029", marginTop: "8vh" }}>

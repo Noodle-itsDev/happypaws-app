@@ -18,6 +18,8 @@ const PrimarySearchAppBar = lazy(
 );
 import CircleButton from "@/_components/floatings/circleFloat/circleFloat";
 import RotatingButton from "@/_components/buttonColors/buttonFlower";
+import HeaderBar from "@/_components/headerBarPublic/headerBarPublic/headerBar";
+import FooterPublic from "@/_components/FooterPublic/footerPublic";
 const FloatingText = lazy(
   () => import("@/Animations/textAnimatio/textAnimation")
 );
@@ -53,7 +55,7 @@ const HomeView: React.FC = () => {
     <section className={styles.mainContainer}>
       <header className={styles.header}>
         <Suspense fallback={<div>Loading...</div>}>
-
+          <HeaderBar></HeaderBar>
         </Suspense>
       </header>
       <main className={styles.main}>
@@ -102,7 +104,7 @@ const HomeView: React.FC = () => {
       </main>
       <footer>
         <Suspense fallback={<div>Loading...</div>}>
-          <Footer color={"#ffc200"} />
+        <FooterPublic></FooterPublic>
         </Suspense>
       </footer>
     </section>

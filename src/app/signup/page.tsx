@@ -9,6 +9,8 @@ import Footer from "@/_components/footerCom/footer";
 //import RotatingFlower from "@/_components/flowerRotatingIcon/flowerRotationg.module";
 import CustomButton from "@/_components/button/buttonCurrent";
 import BasicTextFields from "@/_components/inputs/usuario/inputUsuario";
+import HeaderBar from "@/_components/headerBarPublic/headerBarPublic/headerBar";
+import FooterPublic from "@/_components/FooterPublic/footerPublic";
 
 const SignupView: React.FC = () => {
   const [view, setView] = useState<
@@ -224,12 +226,14 @@ const SignupView: React.FC = () => {
           document.getElementById('successProtectLogin')!.innerText = "Autenticación realizada con éxito";
           window.location.href = '/protectora/profile';
         }   
+      } else {
+        document.getElementById('errorProtectLogin')!.innerText = "Usuario o contraseña incorrectos.";
       }
 
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response) {
-          document.getElementById('error')!.innerText = "Usuario o contraseña incorrectos";
+          document.getElementById('errorProtectLogin')!.innerText = "Usuario o contraseña incorrectos";
           console.error('Error response data:', error);
         } else if (error.request) {
           console.error('Error request data:', error.request);
@@ -244,8 +248,7 @@ const SignupView: React.FC = () => {
   return (
     <>
       <header style={{ position: "fixed", top: "0", zIndex: 9000 }}>
-        <PrimarySearchAppBar accessHref={""} accessLabel={""}  />
-        <SimpleBottomNavigation labels={[]} icons={[]}        />
+        <HeaderBar></HeaderBar>
       </header>
 
       <main
@@ -777,7 +780,7 @@ const SignupView: React.FC = () => {
       </main>
 
       <footer>
-        <Footer color={"orange"} />
+      <FooterPublic></FooterPublic>
       </footer>
     </>
   );

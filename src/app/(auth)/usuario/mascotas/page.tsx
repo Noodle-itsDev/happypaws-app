@@ -1,14 +1,16 @@
 "use client";
 import axios from 'axios';
+import gsap from 'gsap/src';
 import { useState, useEffect } from 'react';
+import Styles from './userPet.module.css';
 import Footer from "@/_components/footerCom/footer";
 import PrimarySearchAppBar from "@/_components/header/headerGradient";
 import SimpleBottomNavigation from "@/_components/navigation/navigationNavBar";
 import { Grid, CircularProgress, Typography, Box, TablePagination } from "@mui/material";
-
 import ImgMediaCard from '@/_components/cardAnimales/cardAnimales';
 import FilterAccordion from '@/_components/filterAccordion/filterAccordion';
 import ChatAssistant from '@/_components/iaCom/iaCom';
+import HeaderBar from '@/_components/headerBarPrivateUsuario/headerBar';
 
 interface Mascota {
     id: number;
@@ -120,13 +122,14 @@ const PetsView: React.FC = () => {
         return <Typography color="error">{error}</Typography>;
     }
 
+
+
     return (
         <>
             <header>
-                <PrimarySearchAppBar accessHref={''} accessLabel={''} />
-                <SimpleBottomNavigation labels={[]} icons={[]} />
+                <HeaderBar></HeaderBar>
             </header>
-            <main>
+            <main style={{minHeight: "100vh"}}>
                 <Grid container spacing={6} padding={8}>
                     <Grid item xs={12} md={3}>
                         <FilterAccordion filters={filters} setFilters={setFilters} />
@@ -178,10 +181,85 @@ const PetsView: React.FC = () => {
                         </Box>
                     </Grid>
                 </Grid>
+
                 <Box>
-                <ChatAssistant/>
+                    <ChatAssistant />
                 </Box>
+
+                <Box
+                    className="floating-circle"
+                    sx={{
+                        position: 'absolute',
+                        bottom: '10%',
+                        right: '10%',
+                        width: '100px',
+                        height: '100px',
+                        borderRadius: '50%',
+                        backgroundColor: '#104b4b',
+                        opacity: 1,
+                        zIndex: -200
+                    }}
+                ></Box>
+                <Box
+                    className="floating-circle"
+                    sx={{
+                        position: 'absolute',
+                        top: '-5%',
+                        left: '-10%',
+                        width: '600px',
+                        height: '600px',
+                        borderRadius: '50%',
+                        backgroundColor: '#fda547',
+                        opacity: 0.6,
+                        zIndex: -200
+                    }}
+                ></Box>
+                <Box
+                    className="floating-circle"
+                    sx={{
+                        position: 'absolute',
+                        top: '90%',
+                        right: '-15%',
+                        width: '520px',
+                        height: '520px',
+                        borderRadius: '50%',
+                        backgroundColor: '#94cf98',
+                        opacity: 0.6,
+                        zIndex: -200
+                    }}
+                ></Box>
+                <Box
+                    className={`${Styles.floatingFlower}`}
+                    sx={{
+                        position: 'absolute',
+                        bottom: '20%',
+                        left: '10%',
+                        width: '80px',
+                        height: '80px',
+                        backgroundImage: 'url(/img/florAzul.png)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        opacity: 0.7,
+                        zIndex: -200
+                    }}
+                ></Box>
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: '30%',
+                        right: '-6%',
+                        width: '500px',
+                        height: '500px',
+                        backgroundImage: 'url(/img/florAzul.png)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        opacity: 0.7,
+                        zIndex: -200
+                    }}
+                ></Box>
+
             </main>
+
             <footer>
                 <Footer color={"orange"} />
             </footer>

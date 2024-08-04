@@ -9,6 +9,8 @@ import React, { useEffect, useRef, useState } from "react";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import Styles from './about.module.css';
+import HeaderBar from '@/_components/headerBarPublic/headerBarPublic/headerBar';
+import FooterPublic from '@/_components/FooterPublic/footerPublic';
 
 // Registro del plugin ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
@@ -84,19 +86,7 @@ const AboutPage: React.FC = () => {
                 ref={headerRef} 
                 style={{ position: "fixed", top: 0, width: '100%', height: '11vh', zIndex: 1200 }}
             >
-                <PrimarySearchAppBar
-                    accessHref={""}
-                    accessLabel={""}
-                    backgroundGradient="linear-gradient(311deg, rgba(57,200,148,1) 0%, rgba(255,214,157,1) 76%, rgba(253,141,29,1) 100%)"
-                />
-                <SimpleBottomNavigation labels={{
-                    textoUno: "",
-                    textoDos: "",
-                    textoTres: "",
-                    textoCuatro: "",
-                    textoCinco: "",
-                    textoSeis: ""
-                }} />
+                <HeaderBar></HeaderBar>
             </header>
             <main style={{ padding: '100px', overflow: 'hidden', marginTop: headerHeight }}>
                 <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -348,7 +338,7 @@ const AboutPage: React.FC = () => {
                     }}
                 ></Box>
             </main>
-            <Footer color={'#ffa500'} />
+            <FooterPublic></FooterPublic>
         </>
     );
 };

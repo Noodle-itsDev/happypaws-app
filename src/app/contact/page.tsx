@@ -10,6 +10,8 @@ import Styles from './contact.module.css'; // Asegúrate de que este archivo CSS
 import React, { FormEvent, useEffect } from "react";
 import gsap from 'gsap';
 import { Box } from '@mui/system';
+import HeaderBar from '@/_components/headerBarPublic/headerBarPublic/headerBar';
+import FooterPublic from '@/_components/FooterPublic/footerPublic';
 
 const ContactPage: React.FC = () => {
 
@@ -113,8 +115,7 @@ const ContactPage: React.FC = () => {
                 />
             </Head>
             <header style={{ position: "fixed", top: 0, width: '100%', height: '11vh', zIndex: 1200 }}>
-                <PrimarySearchAppBar accessHref={''} accessLabel={''}/>
-                <SimpleBottomNavigation labels={[]} icons={[]}                 />
+                <HeaderBar></HeaderBar>
             </header>
             <main style={{ marginTop: '11vh', padding: '40px', height: 'calc(140vh - 11vh)', overflow: 'hidden'}}>
                 <Container maxWidth="md" sx={{ py: 4, borderLeft: "1px solid black", borderRadius: "30px"}}>
@@ -291,7 +292,7 @@ const ContactPage: React.FC = () => {
 
             </main>
             <footer style={{ paddingTop: "16px", textAlign: "center",position: "relative", zIndex: "10"}}>
-                <Footer color={"#ffc200"} />
+            <FooterPublic></FooterPublic>
             </footer>
         </>
     );

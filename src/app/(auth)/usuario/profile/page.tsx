@@ -13,6 +13,7 @@ import Footer from "@/_components/footerCom/footer";
 import { gsap } from "gsap";
 import NotificationCard from "@/_components/notificationCard/notificationCard";
 import EventChips from "@/_components/chipsComponent/chipsComponent";
+import HeaderBar from "@/_components/headerBarPrivateUsuario/headerBar";
 
 interface UserData {
     nombre: string;
@@ -258,7 +259,6 @@ const UserProfile: React.FC = () => {
         fetchUserData();
     }, []);
 
-
     useEffect(() => {
         gsap.utils.toArray('.animate-scroll').forEach((section: unknown) => {
             const element = section as HTMLElement;
@@ -305,9 +305,7 @@ const UserProfile: React.FC = () => {
     return (
         <>
             <header style={{ position: "fixed", top: 0, zIndex: 9999 }}>
-                <PrimarySearchAppBarUser userType={"user"} />
-                <SimpleBottomNavigation labels={[]} icons={[]}
-                ></SimpleBottomNavigation>
+            <HeaderBar></HeaderBar>
             </header>
             <main
                 style={{

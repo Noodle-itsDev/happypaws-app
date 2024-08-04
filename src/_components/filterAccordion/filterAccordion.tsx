@@ -29,14 +29,14 @@ const FilterAccordion: React.FC<FilterAccordionProps> = ({ filters, setFilters }
 
     return (
         <Box sx={{ padding: 2 }}>
-            <Typography variant="h6" gutterBottom>
-                Filtrar Mascotas
+            <Typography variant="h5" gutterBottom style={{fontFamily: "system-ui", fontWeight: "bold", color: "#104b4b"}}>
+                Filtrar
             </Typography>
-            <Accordion>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography>Especie</Typography>
+            <Accordion >
+                <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
+                    <Typography >Mascota</Typography>
                 </AccordionSummary>
-                <AccordionDetails>
+                <AccordionDetails >
                     <FormControl component="fieldset">
                         <RadioGroup
                             name="especie"

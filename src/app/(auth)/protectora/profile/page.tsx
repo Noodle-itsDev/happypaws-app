@@ -12,6 +12,8 @@ import EventChipList from "@/_components/eventChipCom/eventChipCom";
 import { gsap } from "gsap";
 import NotificationCardShelter from "@/_components/cardNotificationShelter/cardNotificationShelter";
 import EventChips from "@/_components/chipsComponent/chipsComponent";
+import HeaderBar from "@/_components/headerBarPrivateProtectora/headerBarPrivateProtectora/headerBar";
+import FooterPrivate from "@/_components/FooterPrivate/footerPublic";
 
 interface UserData {
     nombre: string;
@@ -145,12 +147,12 @@ const UserProfile: React.FC = () => {
         setUserData({ ...userData, [e.target.name]: e.target.value });
     };
     useEffect(() => {
-        // Función para obtener datos de la API
+        
         const fetchData = async () => {
             try {
-                // Reemplaza con la URL de tu API
+     
                 const response = await axios.post('https://api.example.com/events', {
-                    token: 'YOUR_TOKEN_HERE', // Aquí puedes incluir el token si es necesario
+                    token: 'YOUR_TOKEN_HERE', 
                 });
                 setEvents(response.data);
             } catch (error) {
@@ -306,9 +308,7 @@ const UserProfile: React.FC = () => {
     return (
         <>
             <header style={{ position: "fixed", top: 0, zIndex: 9999 }}>
-                <PrimarySearchAppBarUser userType={"user"} />
-                <SimpleBottomNavigation labels={[]} icons={[]}
-                ></SimpleBottomNavigation>
+            <HeaderBar></HeaderBar>
             </header>
             <main
                 style={{
@@ -712,8 +712,8 @@ const UserProfile: React.FC = () => {
                     }}
                 ></Box>
             </main>
-            <footer style={{}}>
-
+            <footer>
+                <FooterPrivate></FooterPrivate>
             </footer>
         </>
     );
