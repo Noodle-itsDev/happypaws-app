@@ -11,12 +11,22 @@ import PrimarySearchAppBarUser from "@/_components/headerUser/headerGradient";
 import EventChipList from "@/_components/eventChipCom/eventChipCom";
 import Footer from "@/_components/footerCom/footer";
 import { gsap } from "gsap";
+import EventoCard from "@/_components/notificationCard/notificationCard";
 
 interface UserData {
-    name: string;
+    nombre: string;
+    apellidos: string;
+    dni: string;
     email: string;
-    phone: string;
-    address: string;
+    extension: number;
+    telefono: number;
+    provincia: string;
+    poblacion: string;
+    ciudad: string;
+    calle: string;
+    numero: string;
+    codigoPostal: number;
+    username: string,
 }
 
 interface Volunteer {
@@ -40,12 +50,34 @@ interface Event {
     name: string;
 }
 
+interface Evento {
+    idUsuario: number;
+    nombreUsuario: string;
+    idMascota: number;
+    nombreMascota: string;
+    tipoEvento: string;
+    nombreEvento: string;
+    fechaInicio: string;
+    fechaFin: string;
+    estado: string;
+}
+
 const UserProfile: React.FC = () => {
+    const [eventos, setEventos] = useState<Evento[]>([]);
     const [userData, setUserData] = useState<UserData>({
-        name: "",
+        nombre: "",
+        apellidos: "",
+        dni: "",
         email: "",
-        phone: "",
-        address: "",
+        extension: 0,
+        telefono: 0,
+        provincia: "",
+        poblacion: "",
+        ciudad: "",
+        calle: "",
+        numero: "",
+        codigoPostal: 0,
+        username: "",
     });
 
     const [volunteers, setVolunteers] = useState<Volunteer[]>([]);
@@ -63,7 +95,6 @@ const UserProfile: React.FC = () => {
     const toggleEdit = async () => {
         if (isEditable) {
             try {
-                // Recuperar token desde localStorage
                 const token = localStorage.getItem("authToken");
                 const usuarioJSON = localStorage.getItem("user");
 
@@ -72,38 +103,32 @@ const UserProfile: React.FC = () => {
                     return;
                 }
 
-                // Parsear los datos del usuario
                 const usuario = JSON.parse(usuarioJSON);
-
-                const response = await axios.put(`http://194.164.165.239:8080/api/user/edit/${usuario.idUsuario}`, userData,  
+                console.log(userData, usuario);
+                const response = await axios.put(`http://194.164.165.239:8080/api/user/edit/${usuario.idUsuario}`, userData,
                     {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    }
-                });
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    });
 
-                // Manejo de la respuesta
-                console.log('User data updated successfully:', response.data);
-         
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('user');
+                location.href = "/signup";
 
             } catch (error) {
                 console.error("Error updating user data", error);
- 
+
             }
         }
-
-        // Alternar el estado de edición
         setIsEditable(!isEditable);
     };
 
-
-    // Fetch user data from API on component mount
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                // Retrieve token from localStorage
                 const token = localStorage.getItem("authToken");
                 const usuarioJSON = localStorage.getItem("user");
 
@@ -117,13 +142,44 @@ const UserProfile: React.FC = () => {
                 console.log(usuario.email);
 
                 setUserData({
-                    name: usuario.nombre,
+                    nombre: usuario.nombre,
+                    apellidos: usuario.apellidos,
+                    dni: usuario.dni,
                     email: usuario.email,
-                    phone: usuario.telefono,
-                    address: usuario.ciudad,
+                    extension: usuario.extension,
+                    telefono: usuario.telefono,
+                    provincia: usuario.provincia,
+                    poblacion: usuario.poblacion,
+                    ciudad: usuario.ciudad,
+                    calle: usuario.calle,
+                    numero: usuario.numero,
+                    codigoPostal: usuario.codigoPostal,
+                    username: usuario.username,
                 })
 
+                const usuarioId = usuario.idUsuario;
 
+                const response = await axios.get(`http://194.164.165.239:8080/api/eventos/usuario/${usuarioId}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    }
+                });
+
+                console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC" + response.data.evento);
+                const eventosData = response.data.map((evento: any) => ({
+                    idUsuario: evento.usuario.idUsuario,
+                    nombreUsuario: evento.usuario.nombre,
+                    idMascota: evento.mascota.id,
+                    nombreMascota: evento.mascota.nombre,
+                    tipoEvento: evento.tipoEvento,
+                    nombreEvento: evento.nombreEvento,
+                    fechaInicio: evento.fechaInicio,
+                    fechaFin: evento.fechaFin,
+                    estado: evento.estado
+                }));
+
+                setEventos(eventosData);
 
             } catch (error) {
                 console.error("Error fetching user data", error);
@@ -177,14 +233,14 @@ const UserProfile: React.FC = () => {
     return (
         <>
             <header style={{ position: "fixed", top: 0, zIndex: 9999 }}>
-                <PrimarySearchAppBarUser userType={"user"}  />
+                <PrimarySearchAppBarUser userType={"user"} />
                 <SimpleBottomNavigation labels={[]} icons={[]}
                 ></SimpleBottomNavigation>
             </header>
             <main
                 style={{
                     width: "100vw",
-                    height: "calc(100vh + 60vh)",
+                    height: "calc(100vh + 100vh)",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -248,8 +304,34 @@ const UserProfile: React.FC = () => {
                                         <TextField
                                             fullWidth
                                             label="Nombre"
-                                            name="name"
-                                            value={userData.name}
+                                            name="nombre"
+                                            value={userData.nombre}
+                                            onChange={handleChange}
+                                            sx={{
+                                                ...textFieldStyle,
+                                                backgroundColor: !isEditable ? '#f0f0f0' : 'transparent',
+                                            }}
+                                            margin="normal"
+                                            InputProps={{ readOnly: !isEditable }}
+                                        />
+                                        <TextField
+                                            fullWidth
+                                            label="Apellidos"
+                                            name="apellidos"
+                                            value={userData.apellidos}
+                                            onChange={handleChange}
+                                            sx={{
+                                                ...textFieldStyle,
+                                                backgroundColor: !isEditable ? '#f0f0f0' : 'transparent',
+                                            }}
+                                            margin="normal"
+                                            InputProps={{ readOnly: !isEditable }}
+                                        />
+                                        <TextField
+                                            fullWidth
+                                            label="dni"
+                                            name="dni"
+                                            value={userData.dni}
                                             onChange={handleChange}
                                             sx={{
                                                 ...textFieldStyle,
@@ -273,9 +355,9 @@ const UserProfile: React.FC = () => {
                                         />
                                         <TextField
                                             fullWidth
-                                            label="Teléfono"
-                                            name="phone"
-                                            value={userData.phone}
+                                            label="Extensión telefónica"
+                                            name="extension"
+                                            value={userData.extension}
                                             onChange={handleChange}
                                             sx={{
                                                 ...textFieldStyle,
@@ -286,9 +368,100 @@ const UserProfile: React.FC = () => {
                                         />
                                         <TextField
                                             fullWidth
-                                            label="Dirección"
-                                            name="address"
-                                            value={userData.address}
+                                            label="Teléfono"
+                                            name="telefono"
+                                            value={userData.telefono}
+                                            onChange={handleChange}
+                                            sx={{
+                                                ...textFieldStyle,
+                                                backgroundColor: !isEditable ? '#f0f0f0' : 'transparent',
+                                            }}
+                                            margin="normal"
+                                            InputProps={{ readOnly: !isEditable }}
+                                        />
+                                        <TextField
+                                            fullWidth
+                                            label="Provincia"
+                                            name="provincia"
+                                            value={userData.provincia}
+                                            onChange={handleChange}
+                                            sx={{
+                                                ...textFieldStyle,
+                                                backgroundColor: !isEditable ? '#f0f0f0' : 'transparent',
+                                            }}
+                                            margin="normal"
+                                            InputProps={{ readOnly: !isEditable }}
+                                        />
+                                        <TextField
+                                            fullWidth
+                                            label="Poblacion"
+                                            name="poblacion"
+                                            value={userData.poblacion}
+                                            onChange={handleChange}
+                                            sx={{
+                                                ...textFieldStyle,
+                                                backgroundColor: !isEditable ? '#f0f0f0' : 'transparent',
+                                            }}
+                                            margin="normal"
+                                            InputProps={{ readOnly: !isEditable }}
+                                        />
+                                        <TextField
+                                            fullWidth
+                                            label="Ciudad"
+                                            name="ciudad"
+                                            value={userData.ciudad}
+                                            onChange={handleChange}
+                                            sx={{
+                                                ...textFieldStyle,
+                                                backgroundColor: !isEditable ? '#f0f0f0' : 'transparent',
+                                            }}
+                                            margin="normal"
+                                            InputProps={{ readOnly: !isEditable }}
+                                        />
+                                        <TextField
+                                            fullWidth
+                                            label="Calle"
+                                            name="calle"
+                                            value={userData.calle}
+                                            onChange={handleChange}
+                                            sx={{
+                                                ...textFieldStyle,
+                                                backgroundColor: !isEditable ? '#f0f0f0' : 'transparent',
+                                            }}
+                                            margin="normal"
+                                            InputProps={{ readOnly: !isEditable }}
+                                        />
+                                        <TextField
+                                            fullWidth
+                                            label="Número"
+                                            name="numero"
+                                            value={userData.numero}
+                                            onChange={handleChange}
+                                            sx={{
+                                                ...textFieldStyle,
+                                                backgroundColor: !isEditable ? '#f0f0f0' : 'transparent',
+                                            }}
+                                            margin="normal"
+                                            InputProps={{ readOnly: !isEditable }}
+                                        />
+                                        <TextField
+                                            fullWidth
+                                            label="Código postal"
+                                            name="codigoPostal"
+                                            value={userData.codigoPostal}
+                                            onChange={handleChange}
+                                            sx={{
+                                                ...textFieldStyle,
+                                                backgroundColor: !isEditable ? '#f0f0f0' : 'transparent',
+                                            }}
+                                            margin="normal"
+                                            InputProps={{ readOnly: !isEditable }}
+                                        />
+                                        <TextField
+                                            fullWidth
+                                            label="Usuario"
+                                            name="username"
+                                            value={userData.username}
                                             onChange={handleChange}
                                             sx={{
                                                 ...textFieldStyle,
@@ -412,7 +585,23 @@ const UserProfile: React.FC = () => {
                                 justifyContent: 'center',
                             }}
                         >
-                            <Typography style={{}}> </Typography>
+                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                <Typography style={{}}>Notificaciones</Typography>
+                                <div style={{ display: 'flex', flexDirection: 'column', width: '50vh' }}>
+                                    {eventos.map((evento, index) => (
+                                        <EventoCard
+                                            key={index}
+                                            tipo={evento.tipoEvento}
+                                            persona={evento.nombreUsuario}
+                                            mascota={evento.nombreMascota}
+                                            onClick={() => {
+                                                console.log(`Evento ${evento.tipoEvento} clicked`);
+                                            }}
+                                            isClicked={false}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
                         </Box>
                     </Grid>
                 </Grid>

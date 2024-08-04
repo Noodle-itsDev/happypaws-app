@@ -31,15 +31,9 @@
     text-align: center;
     font-size: 1.5rem;
     line-height: 1.5;
+    background: transparent;
 }
 
-.buttonDonate {
-    background-image: url('/img/NecesitasAyuda.png');
-}
-
-.buttonContribute {
-    background-image: url('/img/greenHeart.png');
-}
 
 .buttonDonate:hover,
 .buttonContribute:hover {
@@ -152,6 +146,7 @@
 }
 
 .buttonContainer .MuiButton-root:hover {
+    background-color: transparent;
     transform: scale(1.05);
 }
 
@@ -256,8 +251,10 @@
     box-shadow: none;
     transition: transform 0.3s ease-in-out;
     animation: pulse 1.5s infinite; 
+    background-color: transparent;
 }
 .buttonContribute{
+    background-color: transparent;
     background-image: url('/img/greenHeart.png'); 
     background-size: cover;
     background-position: center;

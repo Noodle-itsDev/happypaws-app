@@ -19,8 +19,9 @@ interface Errors {
     comments?: string;
 }
 
+// Conjunto de palabras clave opcionales
 const relevantKeywords = new Set([
-    'protectoras', 'mascotas', 'veterinaria', 'adopción', 'rescate', 'animal', 'refugio', 'cuidados', 'salud', 'donación', 'alimentación', 'vacunación', 'cuidado'
+    'protectora', 'comida', 'pienso'
 ]);
 
 const isCommentRelevant = (text: string) => {
@@ -37,24 +38,83 @@ export default function ContainedButtons() {
     const [errors, setErrors] = useState<Errors>({});
 
     useEffect(() => {
+        const totalDuration = 6; // Duración total en segundos
+        const baseDuration = totalDuration / 6; // Duración base para la animación de fade-in
+
+        // Animación de fade-in secuencial de los elementos del texto
         gsap.fromTo(
             `.${Styles.contentContainer}`,
-            { opacity: 0, y: 50 },
-            { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
+            { opacity: 0 },
+            { opacity: 1, duration: baseDuration, ease: "power3.out" }
+        );
+
+        gsap.fromTo(
+            `.${Styles.titleFont}`,
+            { opacity: 0 },
+            { opacity: 1, duration: baseDuration, ease: "power3.out", delay: baseDuration * 0.5 }
+        );
+
+        gsap.fromTo(
+            `.${Styles.divider}`,
+            { opacity: 0 },
+            { opacity: 1, duration: baseDuration, ease: "power3.out", delay: baseDuration * 1.0 }
+        );
+
+        gsap.fromTo(
+            `.${Styles.descriptionContainer}`,
+            { opacity: 0 },
+            { opacity: 1, duration: baseDuration, ease: "power3.out", delay: baseDuration * 1.5 }
         );
 
         gsap.fromTo(
             `.${Styles.buttonDonate}`,
-            { scale: 0.8 },
-            { scale: 1, duration: 1, repeat: -1, yoyo: true, ease: "power1.inOut" }
+            { opacity: 0 },
+            { opacity: 1, duration: baseDuration, ease: "power3.out", delay: baseDuration * 2.0 }
         );
 
         gsap.fromTo(
             `.${Styles.buttonContribute}`,
-            { scale: 0.8 },
-            { scale: 1, duration: 1, repeat: -1, yoyo: true, delay: 0.5, ease: "power1.inOut" }
+            { opacity: 0 },
+            { opacity: 1, duration: baseDuration, ease: "power3.out", delay: baseDuration * 2.5 }
+        );
+
+        // Animación de fade-in para las imágenes al final
+        gsap.fromTo(
+            `.${Styles.backgroundImage}`,
+            { opacity: 0 },
+            { opacity: 1, duration: baseDuration * 2, ease: "power3.out", delay: totalDuration - baseDuration * 2 }
         );
     }, []);
+
+    useEffect(() => {
+        if (openModal) {
+            // Animación de entrada del modal
+            gsap.fromTo(
+                '.MuiDialog-root',
+                { opacity: 0 },
+                { opacity: 1, duration: 0.5, ease: "power3.out" }
+            );
+
+            // Animación de fade-in secuencial para los elementos del modal
+            gsap.fromTo(
+                '.MuiDialogTitle-root',
+                { opacity: 0 },
+                { opacity: 1, duration: 0.5, ease: "power3.out", delay: 0.2 }
+            );
+
+            gsap.fromTo(
+                '.MuiDialogContent-root > *',
+                { opacity: 0 },
+                { opacity: 1, duration: 0.5, ease: "power3.out", stagger: 0.1, delay: 0.4 }
+            );
+
+            gsap.fromTo(
+                '.MuiDialogActions-root',
+                { opacity: 0 },
+                { opacity: 1, duration: 0.5, ease: "power3.out", delay: 0.6 }
+            );
+        }
+    }, [openModal]);
 
     const handleOpenModal = () => setOpenModal(true);
     const handleCloseModal = () => setOpenModal(false);
@@ -71,7 +131,7 @@ export default function ContainedButtons() {
         if (!isCommentRelevant(newComments)) {
             setErrors(prevErrors => ({
                 ...prevErrors,
-                comments: 'El comentario debe estar relacionado con temas de protectoras, mascotas, veterinaria, etc.'
+                comments: 'El comentario debe estar relacionado con temas de protectora, comida o pienso.'
             }));
         } else {
             setErrors(prevErrors => ({
@@ -89,19 +149,15 @@ export default function ContainedButtons() {
         if (!donationType) newErrors.donationType = "Debe seleccionar un tipo de donación.";
         if (donationType === 'otros' && !otherDetails) newErrors.otherDetails = "Debe especificar otros detalles.";
         if (wordCount < 20) newErrors.comments = "El comentario debe tener al menos 20 palabras.";
-        if (!isCommentRelevant(comments)) newErrors.comments = "El comentario debe estar relacionado con temas de protectoras, mascotas, veterinaria, etc.";
+        if (!isCommentRelevant(comments)) newErrors.comments = "El comentario debe estar relacionado con temas de protectora, comida o pienso.";
 
         if (Object.keys(newErrors).length === 0) {
             // Enviar datos del formulario
-            const payload = {
-                email,
-                donationType,
-                otherDetails,
-                comments
-            };
 
             try {
-                const response = await axios.post('https://your-api-endpoint.com/donations', payload, {
+                const response = await axios.post('http://194.164.165.239:8080/api/another/donation', {
+                    email: email,
+                    mensaje: comments,
                     headers: {
                         'Content-Type': 'application/json',
                     }
