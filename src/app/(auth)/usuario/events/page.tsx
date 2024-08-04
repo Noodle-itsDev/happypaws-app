@@ -1,9 +1,9 @@
 "use client";
 
 import axios from "axios";
-import  Styles from './eventsUsers.module.css';
+import Styles from './eventsUsers.module.css';
 import gsap from "gsap";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -16,7 +16,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import PrimarySearchAppBar from "@/_components/header/headerGradient";
 import SimpleBottomNavigation from "@/_components/navigation/navigationNavBar";
-import { Grid } from "@mui/material";
+import { Button, Grid, TextField } from "@mui/material";
 
 interface Usuario {
     idUsuario: string;
@@ -167,6 +167,15 @@ const CalendarUser: React.FC = () => {
         });
         setOpen(true);
     };
+
+    const modalRef = useRef<HTMLDivElement | null>(null);
+
+    const handleClickOutside = (event: React.MouseEvent<HTMLDivElement>) => {
+        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+            handleClose();
+        }
+    };
+
 
     const handleClose = () => {
         setOpen(false);
@@ -437,183 +446,201 @@ const CalendarUser: React.FC = () => {
 
     return (
         <>
-            <header style={{ position: "fixed", top: 0, zIndex: 9999 }}>
+            <header style={{}}>
                 <PrimarySearchAppBar accessHref={""} accessLabel={""} />
-                <SimpleBottomNavigation labels={[]} icons={[]}/>
+                <SimpleBottomNavigation labels={[]} icons={[]} />
             </header>
-            <main style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", width: "100vw"}}>
-            <Grid >
-                <div style={{ maxWidth: '100vh', margin: '0 auto', marginTop: '15vh', width: '65vw'}}>
-                    {error && <div style={{ color: 'red' }}>{error}</div>}
-                    {success && <div style={{ color: 'green' }}>{success}</div>}
-                    <FullCalendar
-                        plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
-                        initialView="listMonth"
-                        locale={esLocale}
-                        editable={true}
-                        droppable={true}
-                        selectable={true}
-                        height={"70vh"}
-                        customButtons={{
-                            addButton: {
-                                text: 'Añadir Evento',
-                                click: handleAddButtonClick,
-                            },
-                        }}
-                        headerToolbar={{
-                            left: 'prev,today,next',
-                            center: 'title',
-                            right: 'addButton'
-                        }}
-                        //eventClick={handleEventClick}
-                        eventContent={renderEventContent}
-                        events={events} />
+            <main style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", width: "100vw" }}>
+                <Grid style={{ backgroundColor: "#abddf13b", padding: "10px 40px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", borderRadius: "40px", boxShadow: "0px 20px 20px 20px #00000029", marginTop: "8vh" }}>
+                    <div style={{ maxWidth: '100vh', margin: '0 auto', marginTop: '15vh', width: '65vw' }}>
+                        {error && <div style={{ color: 'red' }}>{error}</div>}
+                        {success && <div style={{ color: 'green' }}>{success}</div>}
+                        <FullCalendar
+                            plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
 
-                    <Modal
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                    >
-                        <Box sx={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            flexDirection: 'column',
-                            transform: 'translate(-50%, -50%)',
-                            width: 400,
-                            bgcolor: '#2a8361',
-                            borderRadius: '10px',
-                            boxShadow: 24,
-                            p: 5,
-                        }}>
-                            <Typography id="modal-modal-title" variant="h6" component="h2">
-                                <span style={{ fontWeight: '600' }}>{selectedEvent?.title || 'No Title'}</span>
-                            </Typography>
-                            <Typography sx={{ mt: 2 }}>
-                                <div>
-                                    <div><input type="text" style={{ padding: '0.3rem 2rem', borderRadius: '2px', backgroundColor: 'lightgrey' }} readOnly value={selectedEvent?.nombre || ''} /></div>
-                                </div>
-                            </Typography>
-                            <Typography sx={{ mt: 2 }}>
-                                <div>
-                                    <div><input type="text" style={{ padding: '0.3rem 2rem', borderRadius: '2px', backgroundColor: 'lightgrey' }} readOnly value={selectedEvent?.apellidos || ''} /></div>
-                                </div>
-                            </Typography>
-                            <Typography sx={{ mt: 2 }}>
-                                <div>
-                                    <div><input type="text" style={{ padding: '0.3rem 2rem', borderRadius: '2px', backgroundColor: 'lightgrey' }} readOnly value={selectedEvent?.telefono || ''} /></div>
-                                </div>
-                            </Typography>
-                            <Typography sx={{ mt: 2 }}>
-                                <div>
-                                    <div><input type="text" style={{ padding: '0.3rem 2rem', borderRadius: '2px', backgroundColor: 'lightgrey' }} readOnly value={selectedEvent?.email || ''} /></div>
-                                </div>
-                            </Typography>
-                            <Typography id="modal-modal-title" variant="h6" component="h2" style={{ marginTop: "1.0rem" }}>
-                                <span style={{ fontWeight: '600' }}>Modificar estado</span>
-                            </Typography>
-                            <Typography sx={{ mt: 2 }}>
-                                <input type="hidden" name="" id="idEvento" value={selectedEvent?.id} />
-                                <div>
-                                    <select name="estadosEvento" id="estadosEvento" style={{ padding: '0.3rem 2rem', borderRadius: '2px', backgroundColor: 'lightgrey' }}>
-                                        <option value="Pendiente">Pendiente</option>
-                                        <option value="Aceptado">Aceptado</option>
-                                        <option value="Cancelado">Cancelado</option>
-                                        <option value="Asistido">Asistido</option>
-                                        <option value="No asistido">No asistido</option>
-                                    </select>
-                                </div>
-                            </Typography>
-                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', columnGap: '1rem' }}>
-                                <button onClick={handleDeshabilitarEvento} style={{ marginTop: '16px', borderRadius: '4px', padding: '0.6rem 1.3rem', backgroundColor: 'red' }}>Eliminar</button>
-                                <button onClick={handleModificarEstado} style={{ marginTop: '16px', borderRadius: '4px', padding: '0.6rem 1.3rem', backgroundColor: 'orange' }}>Modificar</button>
-                                <button onClick={handleClose} style={{ marginTop: '16px', borderRadius: '4px', padding: '0.6rem 1.3rem', backgroundColor: 'lightgrey' }}>Cerrar</button>
-                            </div>
-                        </Box>
-                    </Modal>
+                            initialView="listMonth"
+                            locale={esLocale}
+                            editable={true}
+                            droppable={true}
+                            selectable={true}
+                            height={"70vh"}
+                            customButtons={{
+                                addButton: {
+                                    text: 'Añadir Evento',
+                                    click: handleAddButtonClick,
+                                },
+                            }}
+                            headerToolbar={{
+                                left: 'prev,today,next',
+                                center: 'title',
+                                right: 'addButton'
+                            }}
+                            //eventClick={handleEventClick}
+                            eventContent={renderEventContent}
+                            events={events} />
 
-                    <Modal
-                        open={openAddModal}
-                        onClose={handleCloseAddModal}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                    >
-                        <Box sx={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            flexDirection: 'column',
-                            transform: 'translate(-50%, -50%)',
-                            width: 400,
-                            bgcolor: '#2a8361',
-                            borderRadius: '10px',
-                            boxShadow: 24,
-                            p: 5,
-                        }}>
-                            <Typography id="modal-modal-title" variant="h6" component="h2" style={{ marginBottom: '2rem' }}>
-                                Crear evento
-                            </Typography>
-                            <form onSubmit={async (e) => {
-                                e.preventDefault();
-                                const formData = new FormData(e.currentTarget);
-                                const newEvent = {
-                                    title: formData.get('title'),
-                                    description: formData.get('description'),
-                                    start: formData.get('start'),
-                                    end: formData.get('end'),
-                                };
-                                await handleAddEvent(newEvent as EventInput);
+                        <Modal
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="modal-modal-title"
+                            aria-describedby="modal-modal-description"
+                            onClick={handleClickOutside}
+                        >
+                            <Box sx={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                flexDirection: 'column',
+                                transform: 'translate(-50%, -50%)',
+                                width: 400,
+                                bgcolor: '#2a8361',
+                                borderRadius: '10px',
+                                boxShadow: 24,
+                                p: 5,
                             }}>
-                                <div>
-                                    <div><label>Fecha de Inicio:</label></div>
-                                    <div><input style={{ width: '100%' }} type="date" name="fechaEvento" id="fechaEvento" required /></div>
-                                </div>
-                                <div>
-                                    <div><label>Mascota:</label></div>
+                                <Typography id="modal-modal-title" variant="h6" component="h2">
+                                    <span style={{ fontWeight: '600' }}>{selectedEvent?.title || 'No Title'}</span>
+                                </Typography>
+                                <Typography sx={{ mt: 2 }}>
                                     <div>
-                                        <input style={{ width: '100%' }} name="mascotaEvento" id="mascotaEvento" type="text" value={`${selectedMascota?.nombre}, ${selectedMascota?.edad}`} readOnly />
+                                        <div><input type="text" style={{ padding: '0.3rem 2rem', borderRadius: '2px', backgroundColor: 'lightgrey' }} readOnly value={selectedEvent?.nombre || ''} /></div>
                                     </div>
+                                </Typography>
+                                <Typography sx={{ mt: 2 }}>
+                                    <div>
+                                        <div><input type="text" style={{ padding: '0.3rem 2rem', borderRadius: '2px', backgroundColor: 'lightgrey' }} readOnly value={selectedEvent?.apellidos || ''} /></div>
+                                    </div>
+                                </Typography>
+                                <Typography sx={{ mt: 2 }}>
+                                    <div>
+                                        <div><input type="text" style={{ padding: '0.3rem 2rem', borderRadius: '2px', backgroundColor: 'lightgrey' }} readOnly value={selectedEvent?.telefono || ''} /></div>
+                                    </div>
+                                </Typography>
+                                <Typography sx={{ mt: 2 }}>
+                                    <div>
+                                        <div><input type="text" style={{ padding: '0.3rem 2rem', borderRadius: '2px', backgroundColor: 'lightgrey' }} readOnly value={selectedEvent?.email || ''} /></div>
+                                    </div>
+                                </Typography>
+                                <Typography id="modal-modal-title" variant="h6" component="h2" style={{ marginTop: "1.0rem" }}>
+                                    <span style={{ fontWeight: '600' }}>Modificar estado</span>
+                                </Typography>
+                                <Typography sx={{ mt: 2 }}>
+                                    <input type="hidden" name="" id="idEvento" value={selectedEvent?.id} />
+                                    <div>
+                                        <select name="estadosEvento" id="estadosEvento" style={{ padding: '0.3rem 2rem', borderRadius: '2px', backgroundColor: 'lightgrey' }}>
+                                            <option value="Pendiente">Pendiente</option>
+                                            <option value="Aceptado">Aceptado</option>
+                                            <option value="Cancelado">Cancelado</option>
+                                            <option value="Asistido">Asistido</option>
+                                            <option value="No asistido">No asistido</option>
+                                        </select>
+                                    </div>
+                                </Typography>
+                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', columnGap: '1rem' }}>
+                                    <button onClick={handleDeshabilitarEvento} style={{ marginTop: '16px', borderRadius: '4px', padding: '0.6rem 1.3rem', backgroundColor: 'red' }}>Eliminar</button>
+                                    <button onClick={handleModificarEstado} style={{ marginTop: '16px', borderRadius: '4px', padding: '0.6rem 1.3rem', backgroundColor: 'orange' }}>Modificar</button>
+                                    <button onClick={handleClose} style={{ marginTop: '16px', borderRadius: '4px', padding: '0.6rem 1.3rem', backgroundColor: 'lightgrey' }}>Cerrar</button>
                                 </div>
-                                <button type="submit" onClick={handleSubmitCrear} style={{ marginTop: '16px', borderRadius: '4px', padding: '0.6rem 1.3rem', backgroundColor: 'lightgrey' }}>Crear</button>
-                            </form>
-                        </Box>
-                    </Modal>
-                </div>
-                <div>
-                    <div style={{ textAlign: 'center', fontWeight: '600', fontSize: '20px', margin: '2rem 0 0.4rem 0' }}>Leyenda</div>
-                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', columnGap: '0.5rem' }}>
-                        <div style={{ display: 'flex', flexDirection: 'row', columnGap: '0.5rem', justifyContent: 'center', alignItems: 'center' }}>
-                            <div style={{ height: '20px', width: '20px', borderRadius: '100%', backgroundColor: '#757575' }}></div>
-                            <div><span>Pendiente</span></div>
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'row', columnGap: '0.5rem', justifyContent: 'center', alignItems: 'center' }}>
-                            <div style={{ height: '20px', width: '20px', borderRadius: '100%', backgroundColor: '#0356d3' }}></div>
-                            <div><span>Aceptado</span></div>
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'row', columnGap: '0.5rem', justifyContent: 'center', alignItems: 'center' }}>
-                            <div style={{ height: '20px', width: '20px', borderRadius: '100%', backgroundColor: '#d51212' }}></div>
-                            <div><span>Cancelado</span></div>
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'row', columnGap: '0.5rem', justifyContent: 'center', alignItems: 'center' }}>
-                            <div style={{ height: '20px', width: '20px', borderRadius: '100%', backgroundColor: '#4cab24' }}></div>
-                            <div><span>Asistido</span></div>
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'row', columnGap: '0.5rem', justifyContent: 'center', alignItems: 'center' }}>
-                            <div style={{ height: '20px', width: '20px', borderRadius: '100%', backgroundColor: '#181a17' }}></div>
-                            <div><span>No asistido</span></div>
+                            </Box>
+                        </Modal>
+
+                        <Modal
+                            open={openAddModal}
+                            onClose={handleCloseAddModal}
+                            aria-labelledby="modal-modal-title"
+                            aria-describedby="modal-modal-description"
+                            onClick={handleClickOutside}
+                            
+                        >
+                            <Box ref={modalRef} sx={{
+                                displayPrint: "flex", 
+                                flexDirection: "column", 
+                                justifyContent: "center",
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                alignItems: 'center',
+                                transform: 'translate(-50%, -50%)',
+                                width: 400,
+                                bgcolor: '#fda547',
+                                borderRadius: '10px',
+                                boxShadow: 24,
+                                p: 5,
+                                textAlign: "center"
+                            }}>
+                                <Typography id="modal-modal-title" variant="h6" component="h2" style={{ marginBottom: '2rem', fontFamily: "system-ui",  marginLeft: "auto", marginRight: "auto"}}>
+                                    Crear evento
+                                </Typography>
+                                <form onSubmit={async (e) => {
+                                    e.preventDefault();
+                                    const formData = new FormData(e.currentTarget);
+                                    const newEvent = {
+                                        title: formData.get('title'),
+                                        description: formData.get('description'),
+                                        start: formData.get('start'),
+                                        end: formData.get('end'),
+                                    };
+                                    await handleAddEvent(newEvent as EventInput);
+                                }}>
+                                    <TextField
+                                        fullWidth
+                                        label="Fecha de Inicio"
+                                        type="date"
+                                        name="start"
+                                        InputLabelProps={{ shrink: true }}
+                                        required
+                                        sx={{ marginBottom: '16px' }}
+                                    />
+                                    <TextField
+                                        fullWidth
+                                        label="Mascota"
+                                        name="mascotaEvento"
+                                        value={`${selectedMascota?.nombre}, ${selectedMascota?.edad}`}
+                                        InputProps={{ readOnly: true }}
+                                        sx={{ marginBottom: '16px' }}
+                                    />
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        sx={{ borderRadius: '4px', padding: '0.6rem 1.3rem', backgroundColor: 'lightgrey', display: "flex", justifyContent: "center", alignSelf: "center", marginLeft: "auto", marginRight: "auto"}}
+                                    >
+                                        Crear
+                                    </Button>
+                                </form>
+                            </Box>
+                        </Modal>
+                    </div>
+                    <div>
+                        <div style={{ textAlign: 'center', fontWeight: '600', fontSize: '20px', margin: '2rem 0 0.4rem 0' }}>Leyenda</div>
+                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', columnGap: '0.5rem' }}>
+                            <div style={{ display: 'flex', flexDirection: 'row', columnGap: '0.5rem', justifyContent: 'center', alignItems: 'center' }}>
+                                <div style={{ height: '20px', width: '20px', borderRadius: '100%', backgroundColor: '#757575' }}></div>
+                                <div><span>Pendiente</span></div>
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'row', columnGap: '0.5rem', justifyContent: 'center', alignItems: 'center' }}>
+                                <div style={{ height: '20px', width: '20px', borderRadius: '100%', backgroundColor: '#0356d3' }}></div>
+                                <div><span>Aceptado</span></div>
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'row', columnGap: '0.5rem', justifyContent: 'center', alignItems: 'center' }}>
+                                <div style={{ height: '20px', width: '20px', borderRadius: '100%', backgroundColor: '#d51212' }}></div>
+                                <div><span>Cancelado</span></div>
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'row', columnGap: '0.5rem', justifyContent: 'center', alignItems: 'center' }}>
+                                <div style={{ height: '20px', width: '20px', borderRadius: '100%', backgroundColor: '#4cab24' }}></div>
+                                <div><span>Asistido</span></div>
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'row', columnGap: '0.5rem', justifyContent: 'center', alignItems: 'center' }}>
+                                <div style={{ height: '20px', width: '20px', borderRadius: '100%', backgroundColor: '#181a17' }}></div>
+                                <div><span>No asistido</span></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </Grid>
-            <Box
-            className="floating-circle"
+                </Grid>
+                <Box
+                    className="floating-circle"
                     sx={{
                         position: 'absolute',
                         bottom: '10%',
@@ -659,7 +686,7 @@ const CalendarUser: React.FC = () => {
                     sx={{
                         position: 'absolute',
                         bottom: '20%',
-                        left: '10%',
+                        right: '10%',
                         width: '80px',
                         height: '80px',
                         backgroundImage: 'url(/img/florAzul.png)',
@@ -674,7 +701,7 @@ const CalendarUser: React.FC = () => {
                     sx={{
                         position: 'absolute',
                         top: '30%',
-                        right: '-6%',
+                        left: '-6%',
                         width: '500px',
                         height: '500px',
                         backgroundImage: 'url(/img/florAzul.png)',

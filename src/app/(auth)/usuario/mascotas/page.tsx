@@ -10,14 +10,26 @@ import ImgMediaCard from '@/_components/cardAnimales/cardAnimales';
 import FilterAccordion from '@/_components/filterAccordion/filterAccordion';
 
 interface Mascota {
-    imagen: string;
     id: number;
     nombre: string;
     especie: string;
     raza: string;
     genero: string;
-    edad: string;
-    descripcion: string;
+    edad: number;
+    chip: boolean;
+    numeroChip: string;
+    estado: string;
+    vacunado: boolean;
+    esterilizacion: boolean;
+    desparasitacionInterna: boolean;
+    desparasitacionExterna: boolean;
+    tratamientos: string;
+    alergias: string;
+    socializacion: string;
+    informacionComportamiento: string;
+    incidentes: string;
+    fecha_defuncion: Date;
+    imagen: string;
 }
 
 const PetsView: React.FC = () => {
@@ -26,7 +38,7 @@ const PetsView: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [filters, setFilters] = useState({
         especie: '',
-        edad: '',
+        edad: 0,
         soloVoluntarios: false,
         soloAdopciones: false,
     });
@@ -82,10 +94,15 @@ const PetsView: React.FC = () => {
         if (filters.especie && mascota.especie !== filters.especie) {
             return false;
         }
-        if (filters.edad && mascota.edad <= filters.edad) {
+        if (filters.edad && mascota.edad < filters.edad) {
             return false;
         }
-        // Apply other filters as needed
+        // if (filters.soloVoluntarios && mascota.soloVoluntarios !== filters.soloVoluntarios) {
+        //     return false;
+        // }
+        // if (filters.soloAdopciones && mascota.soloAdopciones !== filters.soloAdopciones) {
+        //     return false;
+        // }
         return true;
     });
 
@@ -105,7 +122,7 @@ const PetsView: React.FC = () => {
     return (
         <>
             <header>
-                <PrimarySearchAppBar accessHref={''} accessLabel={''}/>
+                <PrimarySearchAppBar accessHref={''} accessLabel={''} />
                 <SimpleBottomNavigation labels={[]} icons={[]} />
             </header>
             <main>
@@ -119,13 +136,29 @@ const PetsView: React.FC = () => {
                                 {currentItems.map((mascota) => (
                                     <Grid item xs={12} sm={6} md={3} key={mascota.id}>
                                         <ImgMediaCard
-                                            title={mascota.nombre}
-                                            description={mascota.descripcion}
-                                            imageSrc={mascota.imagen}
+                                            id={mascota.id}
+                                            alergias={mascota.alergias}
+                                            incidentes={mascota.incidentes}
+                                            chip={mascota.chip}
+                                            desparasitacionExterna={mascota.desparasitacionExterna}
+                                            desparasitacionInterna={mascota.desparasitacionInterna}
                                             edad={mascota.edad}
-                                            shareButtonLabel="Share"
-                                            learnMoreButtonLabel="Learn More" 
-                                            especie={''}                                        />
+                                            especie={mascota.especie}
+                                            esterilizacion={mascota.esterilizacion}
+                                            fecha_defuncion={mascota.fecha_defuncion}
+                                            genero={mascota.genero}
+                                            informacionComportamiento={mascota.informacionComportamiento}
+                                            nombre={mascota.nombre}
+                                            numeroChip={mascota.numeroChip}
+                                            raza={mascota.raza}
+                                            socializacion={mascota.socializacion}
+                                            tratamientos={mascota.tratamientos}
+                                            vacunado={mascota.vacunado}
+                                            imagen={mascota.imagen}
+                                            shareButtonLabel={''}
+                                            learnMoreButtonLabel={''}
+                                            estado={mascota.estado}
+                                        />
                                     </Grid>
                                 ))}
                             </Grid>

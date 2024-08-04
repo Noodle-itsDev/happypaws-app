@@ -80,7 +80,7 @@ const VolunteersView: React.FC = () => {
                             <Carousel
                                 images={images}
                                 paragraphs={paragraphs}
-                                fontSize="18px"
+                                fontSize="calc(1rem + 1vw)"
                                 fontColor="#fff"
                                 titles={title}
                             />

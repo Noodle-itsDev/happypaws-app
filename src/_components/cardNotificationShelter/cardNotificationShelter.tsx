@@ -22,9 +22,9 @@ const cardContentStyle: React.CSSProperties = {
 
 // Definir los colores para diferentes estados
 const statusColors: Record<string, string> = {
-  "Pendiente": '#757575',
+  "Pendiente": '#757575', 
   "Aceptado": '#0356d3',
-  "Cancelado": 'rgb(213, 18, 18)',
+  "Cancelado": 'rgb(213, 18, 18)', 
   "Asistido": '#4cab24',
   "No asistido": '#181a17',
 };
@@ -42,11 +42,17 @@ interface NotificationCardProps {
   events: Evento[];
 }
 
-const NotificationCard: React.FC<NotificationCardProps> = ({ events }) => {
+// Función para formatear la fecha
+const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' });
+};
+
+const NotificationCardShelter: React.FC<NotificationCardProps> = ({ events }) => {
   const [expanded, setExpanded] = React.useState<{ [key: number]: boolean }>({});
 
   const handleExpandClick = (index: number) => {
-    setExpanded((prev) => ({
+    setExpanded(prev => ({
       ...prev,
       [index]: !prev[index]
     }));
@@ -83,7 +89,7 @@ const NotificationCard: React.FC<NotificationCardProps> = ({ events }) => {
             {groupedEvents[monthYear].map((event, index) => (
               <Card sx={cardStyle} key={index}>
                 <CardHeader
-                  title={`${event.tipoEvento.charAt(0).toUpperCase() + event.tipoEvento.slice(1)} - ${new Date(event.fechaInicio).toLocaleDateString()}`}
+                  title={`${event.tipoEvento.charAt(0).toUpperCase() + event.tipoEvento.slice(1)} - ${formatDate(event.fechaInicio)}`}
                   sx={{
                     backgroundColor: statusColors[event.estado] || '#1e5b5b',
                     color: 'white',
@@ -116,4 +122,4 @@ const NotificationCard: React.FC<NotificationCardProps> = ({ events }) => {
   );
 };
 
-export default NotificationCard;
+export default NotificationCardShelter;

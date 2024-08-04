@@ -5,13 +5,13 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 interface FilterAccordionProps {
     filters: {
         especie: string;
-        edad: string;
+        edad: number;
         soloVoluntarios: boolean;
         soloAdopciones: boolean;
     };
     setFilters: React.Dispatch<React.SetStateAction<{
         especie: string;
-        edad: string;
+        edad: number;
         soloVoluntarios: boolean;
         soloAdopciones: boolean;
     }>>;
@@ -23,7 +23,7 @@ const FilterAccordion: React.FC<FilterAccordionProps> = ({ filters, setFilters }
 
         setFilters(prevFilters => ({
             ...prevFilters,
-            [name]: name === 'soloVoluntarios' || name === 'soloAdopciones' ? checked : value,
+            [name]: name === 'soloVoluntarios' || name === 'soloAdopciones' ? checked : name === 'edad' ? parseInt(value) : value,
         }));
     };
 
@@ -59,15 +59,16 @@ const FilterAccordion: React.FC<FilterAccordionProps> = ({ filters, setFilters }
                         <FormLabel component="legend">Filtrar por edad</FormLabel>
                         <RadioGroup
                             name="edad"
-                            value={filters.edad}
+                            value={filters.edad.toString()}
                             onChange={handleFilterChange}
                         >
-                            <FormControlLabel value="" control={<Radio />} label="Todos" />
-                            <FormControlLabel value="5" control={<Radio />} label="Mayores de 5 años" disabled />
+                            <FormControlLabel value="0" control={<Radio />} label="Todos" />
+                            <FormControlLabel value="5" control={<Radio />} label="Mayores de 5 años" />
                         </RadioGroup>
                     </FormControl>
                 </AccordionDetails>
             </Accordion>
+            {/* 
             <Accordion>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography>Opciones Adicionales</Typography>
@@ -84,7 +85,7 @@ const FilterAccordion: React.FC<FilterAccordionProps> = ({ filters, setFilters }
                         />
                     </FormGroup>
                 </AccordionDetails>
-            </Accordion>
+            </Accordion> */}
         </Box>
     );
 };

@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";  // Importa axios para las solicitudes HTTP
-import Styles from './users.module.css';
+import Styles from './profileShelter.module.css';
 import { Card, CardContent, Typography, Grid, Box, TextField, IconButton, Chip } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import UploadImg from "@/_components/uploadImg/uploadImg";
@@ -74,7 +74,7 @@ const UserProfile: React.FC = () => {
 
                 if (!token || !usuarioJSON) {
                     console.error('Token or user not found in localStorage');
-                    localStorage.removeItem('token');
+                    localStorage.removeItem('authToken');
                     localStorage.removeItem('user');
                     location.href = "/signup";
                     return;
@@ -84,14 +84,14 @@ const UserProfile: React.FC = () => {
                 const protectoras = usuario.protectoras;
                 const usuarioId = usuario.idUsuario;
 
-                if (protectoras.length != 0) {
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
-                    location.href = "/signup"
-                    return;
-                }
+                // if (protectoras.length != 0) {
+                //     localStorage.removeItem('authToken');
+                //     localStorage.removeItem('user');
+                //     location.href = "/signup"
+                //     return;
+                // }
 
-                const response = await axios.get(`http://194.164.165.239:8080/api/eventos/usuario/${usuarioId}`, {
+                const response = await axios.get(`http://194.164.165.239:8080/api/eventos/all`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`,

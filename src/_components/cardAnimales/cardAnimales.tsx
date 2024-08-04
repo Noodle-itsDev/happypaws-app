@@ -7,13 +7,29 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
+import axios from 'axios';
 
 interface ImgMediaCardProps {
-  title: string;
-  description: string;
-  imageSrc: string;
+  id: number;
+  nombre: string;
   especie: string;
-  edad: string;
+  raza: string;
+  genero: string;
+  edad: number;
+  chip: boolean;
+  numeroChip: string;
+  estado: string;
+  vacunado: boolean;
+  esterilizacion: boolean;
+  desparasitacionInterna: boolean;
+  desparasitacionExterna: boolean;
+  tratamientos: string;
+  alergias: string;
+  socializacion: string;
+  informacionComportamiento: string;
+  incidentes: string;
+  fecha_defuncion: Date;
+  imagen: string;
   shareButtonLabel: string;
   learnMoreButtonLabel: string;
   shareButtonColor?: string;
@@ -21,11 +37,26 @@ interface ImgMediaCardProps {
 }
 
 const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
-  title,
-  description,
-  imageSrc,
+  id,
+  nombre,
   especie,
+  raza,
+  genero,
   edad,
+  chip,
+  numeroChip,
+  estado,
+  vacunado,
+  esterilizacion,
+  desparasitacionInterna,
+  desparasitacionExterna,
+  tratamientos,
+  alergias,
+  socializacion,
+  informacionComportamiento,
+  incidentes,
+  fecha_defuncion,
+  imagen,
   shareButtonLabel,
   learnMoreButtonLabel,
   shareButtonColor = 'blue',
@@ -34,14 +65,44 @@ const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
   const [open, setOpen] = useState(false);
   const [adoptModalOpen, setAdoptModalOpen] = useState(false);
   const [walkModalOpen, setWalkModalOpen] = useState(false);
-
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleAdoptOpen = () => {
-    setOpen(false);
-    setAdoptModalOpen(true);
+  const handleAdoptOpen = async () => {
+
+    const userJson = localStorage.getItem('user');
+    const token = localStorage.getItem('authToken');
+
+    if (!userJson || !token) {
+      location.href = "/signup";
+      return;
+    }
+
+    const usuario = JSON.parse(userJson);
+    const usuarioNombre = usuario.nombre;
+    const email = usuario.email;
+    const telefono = usuario.telefono;
+
+    try {
+      await axios.post('http://194.164.165.239:8080/api/another/send/adoptation', {
+        nombreUsuario: usuarioNombre,
+        nombreMascota: nombre,
+        email: email,
+        imagen: imagen,
+        telefono: telefono,
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setOpen(false);
+      setAdoptModalOpen(true);
+    } catch (error) {
+      console.error('Error al enviar los datos de adopción:', error);
+    }
   };
+
+
 
   const handleAdoptClose = () => setAdoptModalOpen(false);
 
@@ -68,8 +129,8 @@ const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
       >
         <CardMedia
           component="img"
-          alt={title}
-          image={imageSrc}
+          alt={informacionComportamiento}
+          image={imagen}
           sx={{
             height: 200,
             objectFit: 'cover',
@@ -78,14 +139,14 @@ const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {title}
+            {nombre}
           </Typography>
           <Typography
             variant="body2"
             color="text.secondary"
             sx={{ textAlign: 'justify' }}
           >
-            {description}
+            {informacionComportamiento}
           </Typography>
           <Typography
             variant="body2"
@@ -120,13 +181,34 @@ const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
         }}>
           <Typography variant="h6" component="h2" gutterBottom>
             ¿Qué quieres hacer?
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <img src={imagen} alt={nombre} style={{ width: '20rem', height: '20rem' }} />
+              <input name='idMascota' type="hidden" value={id} />
+              <input name='nombre' type="text" value={nombre} />
+              <input type="text" value={especie} />
+              <input type="hidden" value={raza} />
+              <input type="text" value={genero} />
+              <input name='edad' type="text" value={edad} />
+              {/* <input type="checkbox" value={chip}/> */}
+              <input type="hidden" value={numeroChip} />
+              <input type="text" value={estado} />
+              {/* <input type="text" value={esterilizacion}/> */}
+              {/* <input type="text" value={desparasitacionInterna}/> */}
+              {/* <input type="text" value={vacunado}/> */}
+              {/* <input type="text" value={desparasitacionExterna}/> */}
+              <input type="text" value={tratamientos} />
+              <input type="text" value={alergias} />
+              <input type="text" value={socializacion} />
+              <input type="text" value={informacionComportamiento} />
+              <input type="text" value={incidentes} />
+              {/* <input type="date" value={fechaDefuncion}/> */}
+            </div>
+
           </Typography>
-          <Button variant="contained" color="primary" onClick={handleAdoptOpen} sx={{ marginRight: 2 }}>
-            Adoptar
-          </Button>
-          <Button variant="contained" color="secondary" onClick={handleWalkOpen}>
+          <Button variant="contained" color="primary" onClick={handleAdoptOpen} sx={{ marginRight: 2 }}>Adoptar</Button>
+          {/* <Button variant="contained" color="secondary" onClick={handleWalkOpen}>
             Pasear
-          </Button>
+          </Button> */}
         </Box>
       </Modal>
 
@@ -148,8 +230,8 @@ const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
         }}>
           <CardMedia
             component="img"
-            alt={title}
-            image={imageSrc}
+            alt={nombre}
+            image={imagen}
             sx={{
               height: 150,
               width: 150,
@@ -159,18 +241,16 @@ const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
             }}
           />
           <Typography variant="h6" component="h2" gutterBottom>
-            Adoptar a {title}
+            Adoptar a {nombre}
           </Typography>
           <Typography variant="body1" sx={{ textAlign: 'justify' }}>
-            Aquí puedes añadir el contenido relacionado con la adopción.
+            Muchas gracias por ponerte en contacto con nosotros, en breve recibirás respuesta a tu solicitud.
           </Typography>
           <Button variant="contained" color="primary" onClick={handleAdoptClose} sx={{ marginTop: 2 }}>
             Cerrar
           </Button>
         </Box>
       </Modal>
-
-
 
       <Modal open={walkModalOpen} onClose={handleWalkClose}>
         <Box sx={{
@@ -187,10 +267,10 @@ const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
           outline: 'none',
         }}>
           <CardMedia
-          id=''
+            id=''
             component="img"
-            alt={title}
-            image={imageSrc}
+            alt={nombre}
+            image={imagen}
             sx={{
               height: 150,
               width: 150,
@@ -200,7 +280,7 @@ const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
             }}
           />
           <Typography variant="h6" component="h2" gutterBottom>
-            Pasear a {title}
+            Pasear a {nombre}
           </Typography>
           <Typography variant="body1" sx={{ textAlign: 'justify' }}>
             Aquí puedes añadir el contenido relacionado con el paseo.
