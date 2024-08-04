@@ -8,6 +8,15 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import axios from 'axios';
+import { styled } from '@mui/material/styles';
+
+// Define the animation styles for the CardMedia image
+const AnimatedCardMedia = styled(CardMedia)`
+  transition: transform 0.5s ease-in-out;
+  &:hover {
+    transform: scale(1.1) rotate(5deg);
+  }
+`;
 
 interface ImgMediaCardProps {
   id: number;
@@ -65,11 +74,11 @@ const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
   const [open, setOpen] = useState(false);
   const [adoptModalOpen, setAdoptModalOpen] = useState(false);
   const [walkModalOpen, setWalkModalOpen] = useState(false);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const handleAdoptOpen = async () => {
-
     const userJson = localStorage.getItem('user');
     const token = localStorage.getItem('authToken');
 
@@ -102,8 +111,6 @@ const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
     }
   };
 
-
-
   const handleAdoptClose = () => setAdoptModalOpen(false);
 
   const handleWalkOpen = () => {
@@ -127,9 +134,7 @@ const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
         }}
         onClick={handleOpen}
       >
-        <CardMedia
-          component="img"
-          alt={informacionComportamiento}
+        <AnimatedCardMedia
           image={imagen}
           sx={{
             height: 200,
@@ -189,30 +194,22 @@ const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
               <input type="hidden" value={raza} />
               <input type="text" value={genero} />
               <input name='edad' type="text" value={edad} />
-              {/* <input type="checkbox" value={chip}/> */}
               <input type="hidden" value={numeroChip} />
               <input type="text" value={estado} />
-              {/* <input type="text" value={esterilizacion}/> */}
-              {/* <input type="text" value={desparasitacionInterna}/> */}
-              {/* <input type="text" value={vacunado}/> */}
-              {/* <input type="text" value={desparasitacionExterna}/> */}
               <input type="text" value={tratamientos} />
               <input type="text" value={alergias} />
               <input type="text" value={socializacion} />
               <input type="text" value={informacionComportamiento} />
               <input type="text" value={incidentes} />
-              {/* <input type="date" value={fechaDefuncion}/> */}
             </div>
 
           </Typography>
           <Button variant="contained" color="primary" onClick={handleAdoptOpen} sx={{ marginRight: 2 }}>Adoptar</Button>
-          {/* <Button variant="contained" color="secondary" onClick={handleWalkOpen}>
+          <Button variant="contained" color="secondary" onClick={handleWalkOpen}>
             Pasear
-          </Button> */}
+          </Button>
         </Box>
       </Modal>
-
-
 
       <Modal open={adoptModalOpen} onClose={handleAdoptClose}>
         <Box sx={{
@@ -267,7 +264,6 @@ const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
           outline: 'none',
         }}>
           <CardMedia
-            id=''
             component="img"
             alt={nombre}
             image={imagen}

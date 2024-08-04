@@ -47,7 +47,7 @@ const SignupView: React.FC = () => {
     setTimeout(() => {
       setView(targetView);
       setFadeOut(false);
-    }, 500); // Tiempo de desvanecimiento
+    }, 500); 
   };
 
   const handleAccessProtectoraClick = () => {
@@ -55,7 +55,7 @@ const SignupView: React.FC = () => {
     setTimeout(() => {
       setView("protectora");
       setFadeOut(false);
-    }, 500); // Tiempo de desvanecimiento
+    }, 500);
   };
 
   const handleRegisterUsuarioClick = () => {
@@ -63,7 +63,7 @@ const SignupView: React.FC = () => {
     setTimeout(() => {
       setView("formularioRegistroUsuario");
       setFadeOut(false);
-    }, 500); // Tiempo de desvanecimiento
+    }, 500);
   };
 
   const handleAccessUsuarioClick = () => {
@@ -71,7 +71,7 @@ const SignupView: React.FC = () => {
     setTimeout(() => {
       setView("user");
       setFadeOut(false);
-    }, 500); // Tiempo de desvanecimiento
+    }, 500);
   };
 
   const handleRegisterProtectoraClick = () => {
@@ -79,9 +79,9 @@ const SignupView: React.FC = () => {
     setTimeout(() => {
       setView("formularioRegistroProtectora");
       setFadeOut(false);
-    }, 500); // Tiempo de desvanecimiento
+    }, 500);
   };
-
+  
   const handleRegisterUser = async () => {
 
     const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -530,19 +530,11 @@ const SignupView: React.FC = () => {
                     </p>
                   </div>
                 </div>
-                {/* Botón para volver a Formulario de Acceso */}
-                <div style={{ position: "absolute", bottom: "40px", left: "120px" }}>
-                  <CustomButton
-                    bgColor={"#104b4b"}
-                    opacity={1}
-                    fontColor={""}
-                    buttonId={"volverAcceso"}
-                    label={"Volver"}
-                    width={150}
-                    height={40}
-                    onClick={() => handleBackToAccessFormClick("initial")}
-                  />
-                </div>
+
+
+
+
+                
               </div>
 
               {/* Formulario Registro Protectora */}
@@ -633,19 +625,6 @@ const SignupView: React.FC = () => {
                     </p>
                   </div>
                 </div>
-                {/* Botón para volver a Formulario de Acceso */}
-                <div style={{ position: "absolute", bottom: "40px", left: "120px" }}>
-                  <CustomButton
-                    bgColor={"#104b4b"}
-                    opacity={1}
-                    fontColor={""}
-                    buttonId={"volverAcceso"}
-                    label={"Volver"}
-                    width={150}
-                    height={40}
-                    onClick={() => handleBackToAccessFormClick("initial")}
-                  />
-                </div>
               </div>
 
               {/* Formulario de Acceso Usuario */}
@@ -717,19 +696,6 @@ const SignupView: React.FC = () => {
                       </span>
                     </p>
                   </div>
-                </div>
-                {/* Botón para volver a Formulario de Acceso */}
-                <div style={{ position: "absolute", bottom: "40px", left: "120px" }}>
-                  <CustomButton
-                    bgColor={"#104b4b"}
-                    opacity={1}
-                    fontColor={""}
-                    buttonId={"volverAcceso"}
-                    label={"Volver"}
-                    width={150}
-                    height={40}
-                    onClick={() => handleBackToAccessFormClick("initial")}
-                  />
                 </div>
               </div>
 
@@ -803,19 +769,7 @@ const SignupView: React.FC = () => {
                     </p>
                   </div>
                 </div>
-                {/* Botón para volver a Formulario de Acceso */}
-                <div style={{ position: "absolute", bottom: "40px", left: "120px" }}>
-                  <CustomButton
-                    bgColor={"#104b4b"}
-                    opacity={1}
-                    fontColor={""}
-                    buttonId={"volverAcceso"}
-                    label={"Volver"}
-                    width={150}
-                    height={40}
-                    onClick={() => handleBackToAccessFormClick("initial")}
-                  />
-                </div>
+
               </div>
             </section>
           </section>

@@ -8,6 +8,7 @@ import { Grid, CircularProgress, Typography, Box, TablePagination } from "@mui/m
 
 import ImgMediaCard from '@/_components/cardAnimales/cardAnimales';
 import FilterAccordion from '@/_components/filterAccordion/filterAccordion';
+import ChatAssistant from '@/_components/iaCom/iaCom';
 
 interface Mascota {
     id: number;
@@ -126,7 +127,7 @@ const PetsView: React.FC = () => {
                 <SimpleBottomNavigation labels={[]} icons={[]} />
             </header>
             <main>
-                <Grid container spacing={6}>
+                <Grid container spacing={6} padding={8}>
                     <Grid item xs={12} md={3}>
                         <FilterAccordion filters={filters} setFilters={setFilters} />
                     </Grid>
@@ -177,6 +178,9 @@ const PetsView: React.FC = () => {
                         </Box>
                     </Grid>
                 </Grid>
+                <Box>
+                <ChatAssistant/>
+                </Box>
             </main>
             <footer>
                 <Footer color={"orange"} />

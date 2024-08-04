@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";  // Importa axios para las solicitudes HTTP
-import Styles from './profileShelter.module.css';
+import Styles from './users.module.css';
 import { Card, CardContent, Typography, Grid, Box, TextField, IconButton, Chip } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import UploadImg from "@/_components/uploadImg/uploadImg";
