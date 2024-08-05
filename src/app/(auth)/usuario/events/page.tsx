@@ -18,6 +18,7 @@ import PrimarySearchAppBar from "@/_components/header/headerGradient";
 import SimpleBottomNavigation from "@/_components/navigation/navigationNavBar";
 import { Button, Grid, TextField } from "@mui/material";
 import HeaderBar from "@/_components/headerBarPrivateUsuario/headerBar";
+import FooterPrivate from "@/_components/FooterPrivate/footerPublic";
 
 interface Usuario {
     idUsuario: string;
@@ -714,6 +715,9 @@ const CalendarUser: React.FC = () => {
                     }}
                 ></Box>
             </main>
+            <footer>
+                <FooterPrivate></FooterPrivate>
+            </footer>
         </>
     );
 };

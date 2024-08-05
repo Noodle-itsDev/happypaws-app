@@ -11,6 +11,7 @@ import { gsap } from "gsap";
 import NotificationCard from "@/_components/notificationCard/notificationCard";
 import EventChips from "@/_components/chipsComponent/chipsComponent";
 import HeaderBar from "@/_components/headerBarPrivateUsuario/headerBar";
+import FooterPrivate from "@/_components/FooterPrivate/footerPublic";
 
 interface UserData {
     nombre: string;
@@ -728,8 +729,8 @@ const UserProfile: React.FC = () => {
                     }}
                 ></Box>
             </main>
-            <footer style={{}}>
-
+            <footer>
+                <FooterPrivate></FooterPrivate>
             </footer>
         </>
     );

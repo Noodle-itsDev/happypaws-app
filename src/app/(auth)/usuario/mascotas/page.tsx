@@ -11,6 +11,7 @@ import ImgMediaCard from '@/_components/cardAnimales/cardAnimales';
 import FilterAccordion from '@/_components/filterAccordion/filterAccordion';
 import ChatAssistant from '@/_components/iaCom/iaCom';
 import HeaderBar from '@/_components/headerBarPrivateUsuario/headerBar';
+import FooterPrivate from '@/_components/FooterPrivate/footerPublic';
 
 interface Mascota {
     id: number;
@@ -302,7 +303,7 @@ const PetsView: React.FC = () => {
             </main>
 
             <footer>
-                <Footer color={"orange"} />
+                <FooterPrivate></FooterPrivate>
             </footer>
         </>
     );
