@@ -16,10 +16,10 @@ import FooterPublic from '@/_components/FooterPublic/footerPublic';
 gsap.registerPlugin(ScrollTrigger);
 
 const teamMembers = [
-    { name: "Johana Almeida", role: "CEO", image: "/img/john.jpg" },
-    { name: "Borja Orts López", role: "CEO", image: "/img/jane.jpg" },
-    { name: "Alejandro Agustech", image: "/img/john.jpg" },
-    { name: "Jennifer Diaz", image: "/img/jane.jpg" },
+    { name: "Johana Almeida",  image: "/img/johana.png" },
+    { name: "Borja Orts López",  image: "/img/Borja.png" },
+    { name: "Alejandro Agustech", image: "/img/Alejandro.png" },
+    { name: "Jennifer Diaz", image: "/img/Jennifer.png" },
 ];
 
 const AboutPage: React.FC = () => {
@@ -31,12 +31,12 @@ const AboutPage: React.FC = () => {
         if (headerRef.current) {
             setHeaderHeight(headerRef.current.offsetHeight);
         }
-    
+
         // Animaciones para elementos de scroll
         gsap.utils.toArray('.animate-scroll').forEach((section: unknown) => {
-            const element = section as HTMLElement; // Type assertion here
-    
-            gsap.fromTo(element, // Use the element with proper type
+            const element = section as HTMLElement;
+
+            gsap.fromTo(element,
                 { opacity: 0, y: 100 },
                 {
                     opacity: 1,
@@ -53,7 +53,7 @@ const AboutPage: React.FC = () => {
                 }
             );
         });
-    
+
         gsap.to('.floating-circle', {
             y: 20,
             rotation: 360,
@@ -62,7 +62,7 @@ const AboutPage: React.FC = () => {
             yoyo: true,
             ease: 'sine.inOut'
         });
-    
+
         gsap.to('.floating-flower', {
             y: 10,
             duration: 2,
@@ -70,9 +70,9 @@ const AboutPage: React.FC = () => {
             repeat: -1,
             ease: 'sine.inOut'
         });
-    
+
     }, []);
-    
+
 
     return (
         <>
@@ -82,63 +82,60 @@ const AboutPage: React.FC = () => {
                     href="https://fonts.googleapis.com/css2?family=Anton&display=swap"
                 />
             </Head>
-            <header 
-                ref={headerRef} 
+            <header
+                ref={headerRef}
                 style={{ position: "fixed", top: 0, width: '100%', height: '11vh', zIndex: 1200 }}
             >
                 <HeaderBar></HeaderBar>
             </header>
-            <main style={{ padding: '100px', overflow: 'hidden', marginTop: headerHeight }}>
+            <main style={{ padding: '100px', overflow: 'hidden', marginTop: "10vh" }}>
                 <Container maxWidth="lg" sx={{ py: 4 }}>
                     {/* Introducción */}
                     <Typography
                         variant="h3"
                         gutterBottom
                         align="center"
-                        style={{ color: "#104b4b" }}
+                        style={{ color: "#104b4b", fontFamily: "system-ui", fontWeight: "bolder" }}
                         className="intro-text animate-scroll"
                     >
                         Sobre Nosotros
                     </Typography>
 
                     <Typography
-                        variant="body1"
+                        variant="h6"
                         align="center"
-                        style={{ color: "#104b4b", marginBottom: '2rem' }}
+                        style={{ color: "#104b4b", marginBottom: '2rem', padding: "30px", boxShadow: "0px 5px 10px 5px #0000002b", borderRadius: "10px" }}
                         className="intro-text animate-scroll"
                     >
-                        En nuestra empresa, nos dedicamos a gestionar voluntariados para el cuidado de mascotas, facilitar la adopción de animales y promover las donaciones para mejorar sus vidas. 
+                        En nuestra empresa, nos dedicamos a gestionar voluntariados para el cuidado de mascotas, facilitar la adopción de animales y promover las donaciones para mejorar sus vidas.
                         Estamos especialmente comprometidos con incentivar la adopción de mascotas mayores de 5 años, dándoles una segunda oportunidad para encontrar un hogar amoroso.
                     </Typography>
 
-                    <Typography
-                        variant="h4"
-                        gutterBottom
-                        align="center"
-                        style={{ color: "#104b4b", marginTop: '4rem' }}
-                        className="intro-text animate-scroll"
-                    >
-                        Misión y Visión
-                    </Typography>
 
-                    <Grid container spacing={4} justifyContent="center" className="grid-section animate-scroll">
+                    <Grid container spacing={4} justifyContent="center" className="grid-section animate-scroll" >
                         <Grid item xs={12} md={6}>
-                            <Paper sx={{ p: 3, textAlign: 'center', backgroundColor: '#bfe2c1' }}>
-                                <Typography variant="h5" gutterBottom>
+                            <Paper sx={{ p: 3, textAlign: 'center', justifyContent: "center", display: "flex", flexDirection: "column", alignItems: "center", borderRadius: "10px", boxShadow: "0px 5px 10px 5px #0000002b" }}>
+                                <Box sx={{ marginBottom: "1rem" }}>
+                                    <img src="/img/cuidador.png" alt="Cuidador" style={{ width: "200px" }} />
+                                </Box>
+                                <Typography variant="h4" gutterBottom sx={{ fontFamily: "system-ui", fontWeight: 800, color: "#104b4b" }}>
                                     Misión
                                 </Typography>
-                                <Typography variant="body1" color="textSecondary">
+                                <Typography variant="h6" color="textSecondary" sx={{ fontFamily: "system-ui", fontWeight: "bold", color: "#104b4b" }}>
                                     Nuestra misión es proporcionar cuidados excepcionales a los animales, promover su adopción y asegurar que cada mascota tenga una vida digna y feliz a través de programas de voluntariado y donaciones.
                                 </Typography>
                             </Paper>
                         </Grid>
                         <Grid item xs={12} md={6}>
-                            <Paper sx={{ p: 3, textAlign: 'center', backgroundColor: '#bfe2c1' }}>
-                                <Typography variant="h5" gutterBottom>
+                            <Paper sx={{ p: 3, textAlign: 'center', justifyContent: "center", display: "flex", flexDirection: "column", alignItems: "center", borderRadius: "10px", boxShadow: "0px 5px 10px 5px #0000002b" }}>
+                                <Box sx={{ marginBottom: "1rem" }}>
+                                    <img src="/img/pasion.png" alt="Cuidador" style={{ width: "200px" }} />
+                                </Box>
+                                <Typography variant="h4" gutterBottom sx={{ fontFamily: "system-ui", fontWeight: 800, color: "#104b4b" }}>
                                     Visión
                                 </Typography>
-                                <Typography variant="body1" color="textSecondary">
-                                    Aspiramos a ser líderes en el bienestar animal, creando comunidades conscientes y solidarias que apoyen la adopción y cuidado de mascotas, especialmente las mayores de 5 años.
+                                <Typography variant="h6" color="textSecondary" sx={{ fontFamily: "system-ui", fontWeight: "bold", color: "#104b4b" }}>
+                                    Aspiramos a tener un gran impacto en el bienestar animal y social, creando comunidades conscientes y solidarias que apoyen la adopción y cuidado de mascotas, sin que tengan en cuenta su raza, género o edad.
                                 </Typography>
                             </Paper>
                         </Grid>
@@ -148,7 +145,7 @@ const AboutPage: React.FC = () => {
                         variant="h4"
                         gutterBottom
                         align="center"
-                        style={{ color: "#104b4b", marginTop: '4rem' }}
+                        style={{ color: "#104b4b", marginTop: '4rem', fontFamily: "system-ui", fontWeight: "bolder", marginBottom: '4rem' }}
                         className="intro-text animate-scroll"
                     >
                         Nuestros Valores
@@ -156,8 +153,11 @@ const AboutPage: React.FC = () => {
 
                     <Grid container spacing={4} justifyContent="center" className="grid-section animate-scroll">
                         <Grid item xs={12} sm={6} md={3}>
-                            <Paper sx={{ p: 3, textAlign: 'center', backgroundColor: '#bfe2c1' }}>
-                                <Typography variant="h5" gutterBottom>
+                            <Paper sx={{ p: 3, textAlign: 'center', backgroundColor: '#bfe2c1', color: "#104b4b", fontFamily: "system-ui" }}>
+                                <Box>
+                                    <img src="/img/compasion.png" alt="Compasión" />
+                                </Box>
+                                <Typography variant="h5" gutterBottom sx={{ fontFamily: "system-ui", fontWeight: "bold", color: "#104b4b" }}>
                                     Compasión
                                 </Typography>
                                 <Typography variant="body1" color="textSecondary">
@@ -167,7 +167,10 @@ const AboutPage: React.FC = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Paper sx={{ p: 3, textAlign: 'center', backgroundColor: '#bfe2c1' }}>
-                                <Typography variant="h5" gutterBottom>
+                                <Box>
+                                    <img src="/img/integridad.png" alt="Integridad" />
+                                </Box>
+                                <Typography variant="h5" gutterBottom sx={{ fontFamily: "system-ui", fontWeight: "bold", color: "#104b4b" }}>
                                     Integridad
                                 </Typography>
                                 <Typography variant="body1" color="textSecondary">
@@ -177,7 +180,10 @@ const AboutPage: React.FC = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Paper sx={{ p: 3, textAlign: 'center', backgroundColor: '#bfe2c1' }}>
-                                <Typography variant="h5" gutterBottom>
+                                <Box>
+                                    <img src="/img/comunidad.png" alt="Comunidad" />
+                                </Box>
+                                <Typography variant="h5" gutterBottom sx={{ fontFamily: "system-ui", fontWeight: "bold", color: "#104b4b" }}>
                                     Comunidad
                                 </Typography>
                                 <Typography variant="body1" color="textSecondary">
@@ -187,7 +193,10 @@ const AboutPage: React.FC = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Paper sx={{ p: 3, textAlign: 'center', backgroundColor: '#bfe2c1' }}>
-                                <Typography variant="h5" gutterBottom>
+                                <Box>
+                                    <img src="/img/creatividad.png" alt="Creatividad" />
+                                </Box>
+                                <Typography variant="h5" gutterBottom sx={{ fontFamily: "system-ui", fontWeight: "bold", color: "#104b4b" }}>
                                     Innovación
                                 </Typography>
                                 <Typography variant="body1" color="textSecondary">
@@ -197,42 +206,39 @@ const AboutPage: React.FC = () => {
                         </Grid>
                     </Grid>
 
+                    <Container>
+                        <Typography
+                            variant="h4"
+                            gutterBottom
+                            align="center"
+                            style={{ color: "#ff9e00", marginTop: '8rem', marginBottom: "4vh", fontWeight: "bolder", fontFamily: "system-ui" }}
+                            className="intro-text animate-scroll"
+                        >
+                            ¿Cómo surgió Happy Paws?
+                        </Typography>
+
+                        <Box sx={{ display: "flex", flexDirection: "row", padding: "30px", boxShadow: "0px 5px 5px 5px #0000002b", borderRadius: "10px" }}>
+                            <Typography
+                                variant="h6"
+                                align="center"
+                                style={{ color: "#104b4b", marginBottom: '2rem', textAlign: "left", fontFamily: "system-ui", fontWeight: "bold" }}
+                                className="intro-text animate-scroll"
+                            >
+                                Nuestra história comenzó este año cuando nuestro equipo al ir a algunas protectoras a realizar adopciones fuimos conscientes del grave problema que había a la hora de encontrar voluntarios en las protectoras y de la cantidad de mascotas mayores de cinco años que se encontraban sin un hogar. Decidimos tomar acción sobre ello para poder gestionar los voluntariados, adopciones y donaciones, haciendo así más fácil el trabajo para las protectoras y poder hacer resonar su voz además de brindar un medio más fácil para aquellas mascotas que aún no han encontrado a su media naranja.
+                            </Typography>
+                            <Box sx={{ display: "flex", position: "absolute", left: { md: "4%", lg: "3%" }, top: { md: "280%", lg: "245%" } }}>
+                                <img src="/img/naranja.png" alt="Orange" style={{ transform: "rotate(-40deg)", width: "200px" }} />
+                            </Box>
+                        </Box>
+                    </Container>
+
                     <Typography
                         variant="h4"
-                        gutterBottom
                         align="center"
-                        style={{ color: "#104b4b", marginTop: '4rem' }}
+                        style={{ color: "#104b4b", marginTop: '8rem', marginBottom: "4vh", fontFamily: "fantasy" }}
                         className="intro-text animate-scroll"
                     >
-                        Nuestra Historia
-                    </Typography>
-
-                    <Typography
-                        variant="body1"
-                        align="center"
-                        style={{ color: "#104b4b", marginBottom: '2rem' }}
-                        className="intro-text animate-scroll"
-                    >
-                        Fundada en 2010, nuestra empresa comenzó como un pequeño grupo de entusiastas del bienestar animal. Desde entonces, hemos crecido y expandido nuestras operaciones para ayudar a miles de mascotas a encontrar hogares amorosos y mejorar sus vidas a través de nuestros programas de voluntariado y donaciones.
-                    </Typography>
-
-                    <Typography
-                        variant="h4"
-                        gutterBottom
-                        align="center"
-                        style={{ color: "#104b4b", marginTop: '4rem' }}
-                        className="intro-text animate-scroll"
-                    >
-                        Nuestro Impacto
-                    </Typography>
-
-                    <Typography
-                        variant="body1"
-                        align="center"
-                        style={{ color: "#104b4b", marginBottom: '2rem' }}
-                        className="intro-text animate-scroll"
-                    >
-                        A través de nuestros esfuerzos, hemos logrado mejorar la vida de más de 10,000 animales, facilitando su adopción y promoviendo la educación sobre el cuidado y bienestar de las mascotas. Estamos orgullosos de nuestro impacto y continuaremos trabajando para hacer una diferencia aún mayor.
+                        A través de nuestros esfuerzos, queremos lograr la estabilidad y alegría de las mascotas, facilitando su adopción y promoviendo la educación sobre el cuidado y bienestar de las mascotas. Estamos orgullosos de nuestro impacto y continuaremos trabajando para hacer una diferencia aún mayor.
                     </Typography>
 
                     <Typography
@@ -241,25 +247,24 @@ const AboutPage: React.FC = () => {
                         align="center"
                         style={{ color: "#ffa500", marginTop: '4rem' }}
                         className="intro-text animate-scroll"
+                        sx={{fontFamily: "system-ui", fontWeight: "bolder"}}
                     >
                         Conoce a Nuestro Equipo
                     </Typography>
 
-                    <Grid container spacing={4} justifyContent="center" className="grid-section animate-scroll">
+                    <Grid container spacing={4} justifyContent="center" className="grid-section animate-scroll" >
                         {teamMembers.map((member, index) => (
                             <Grid item xs={12} sm={6} md={3} key={index}>
                                 <Paper sx={{ p: 3, textAlign: 'center', backgroundColor: '#bfe2c1' }} className="team-member animate-scroll">
                                     <Avatar
                                         alt={member.name}
                                         src={member.image}
-                                        sx={{ width: 100, height: 100, margin: 'auto' }}
+                                        sx={{ width: 200, height: 200, margin: 'auto' }}
                                     />
-                                    <Typography variant="h6" gutterBottom>
+                                    <Typography variant="h6" gutterBottom sx={{fontFamily: "system-ui", marginTop: "20px", color: "#104b4b", fontWeight: "bold"}}>
                                         {member.name}
                                     </Typography>
-                                    <Typography variant="body2" color="textSecondary">
-                                        {member.role}
-                                    </Typography>
+
                                 </Paper>
                             </Grid>
                         ))}
@@ -275,7 +280,7 @@ const AboutPage: React.FC = () => {
                         width: '100px',
                         height: '100px',
                         borderRadius: '50%',
-                        backgroundColor: '#104b4b',
+                        backgroundColor: '#ffb552',
                         opacity: 1
                     }}
                 ></Box>
@@ -289,8 +294,8 @@ const AboutPage: React.FC = () => {
                         width: '600px',
                         height: '600px',
                         borderRadius: '50%',
-                        backgroundColor: '#ffa500',
-                        opacity: 0.6
+                        backgroundColor: '#fda547',
+                        opacity: 1
                     }}
                 ></Box>
                 <Box
@@ -303,8 +308,8 @@ const AboutPage: React.FC = () => {
                         width: '520px',
                         height: '520px',
                         borderRadius: '50%',
-                        backgroundColor: '#bfe2c1',
-                        opacity: 0.6
+                        backgroundColor: '#94cf98',
+                        opacity: 1
                     }}
                 ></Box>
                 <Box
@@ -316,10 +321,10 @@ const AboutPage: React.FC = () => {
                         left: '10%',
                         width: '80px',
                         height: '80px',
-                        backgroundImage: 'url(/img/florAzul.png)', 
+                        backgroundImage: 'url(/img/florAzul.png)',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
-                        opacity: 0.7
+                        opacity: 1
                     }}
                 ></Box>
                 <Box
@@ -327,14 +332,14 @@ const AboutPage: React.FC = () => {
                     sx={{
                         position: 'absolute',
                         zIndex: -100,
-                        top: '30%',
+                        top: '16%',
                         right: '-6%',
                         width: '500px',
                         height: '500px',
-                        backgroundImage: 'url(/img/florAzul.png)', 
+                        backgroundImage: 'url(/img/florAzul.png)',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
-                        opacity: 0.7
+                        opacity: 1
                     }}
                 ></Box>
             </main>

@@ -6,19 +6,19 @@ import { gsap } from 'gsap';
 
 interface CircleButtonProps {
     text: string;
-    size: string; // Tamaño opcional para el botón
-    backgroundColor: string; // Color de fondo opcional
-    id: string; // ID opcional para el botón
+    size?: string; // Tamaño opcional para el botón
+    backgroundColor?: string; // Color de fondo opcional
+    id?: string; // ID opcional para el botón
+    href?: string; // URL opcional para el enlace
 }
 
-const CircleButton: React.FC<CircleButtonProps> = ({ text, size = '200px', backgroundColor = 'transparent', id }) => {
-    const buttonRef = useRef<HTMLButtonElement | null>(null);
+const CircleButton: React.FC<CircleButtonProps> = ({ text, size = '200px', backgroundColor = 'transparent', id, href }) => {
+    const buttonRef = useRef<HTMLButtonElement | HTMLAnchorElement | null>(null);
 
     useEffect(() => {
         const button = buttonRef.current;
 
         if (button) {
-            // Animación inicial
             gsap.fromTo(
                 button,
                 { opacity: 0, y: 50, filter: "drop-shadow(0 0 0 rgba(0,0,0,0))" },
@@ -41,34 +41,39 @@ const CircleButton: React.FC<CircleButtonProps> = ({ text, size = '200px', backg
                 }
             );
 
-            // Efecto de hover con GSAP
-            gsap.to(button, {
-                scale: 1.1,
-                rotate: 15,
-                duration: 0.3,
-                ease: "power2.out",
-                paused: true,
-                onStart: () => {
-                    button?.addEventListener('mouseenter', () => {
-                        gsap.to(button, { scale: 1.1, rotate: 15, duration: 0.3, ease: "power2.out" });
-                    });
-                    button?.addEventListener('mouseleave', () => {
-                        gsap.to(button, { scale: 1, rotate: 0, duration: 0.3, ease: "power2.out" });
-                    });
-                },
-            });
+
+            const handleMouseEnter = () => {
+                gsap.to(button, { scale: 1.1, rotate: 15, duration: 0.3, ease: "power2.out" });
+            };
+
+            const handleMouseLeave = () => {
+                gsap.to(button, { scale: 1, rotate: 0, duration: 0.3, ease: "power2.out" });
+            };
+
+            button.addEventListener('mouseenter', handleMouseEnter);
+            button.addEventListener('mouseleave', handleMouseLeave);
+
+            // Cleanup the event listeners on component unmount
+            return () => {
+                button.removeEventListener('mouseenter', handleMouseEnter);
+                button.removeEventListener('mouseleave', handleMouseLeave);
+            };
         }
     }, []);
 
+    // Decidimos si usar <a> o <button> basándonos en la presencia de href
+    const Tag = href ? 'a' : 'button';
+
     return (
-        <button
-            id={id} // Aplica el ID al botón
+        <Tag
+            id={id}
+            href={href}
             className={Styles.button}
-            ref={buttonRef}
+            ref={buttonRef as React.RefObject<HTMLButtonElement | HTMLAnchorElement>}
             style={{ width: size, height: size, backgroundColor }}
         >
             {text}
-        </button>
+        </Tag>
     );
 };
 

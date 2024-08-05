@@ -76,23 +76,26 @@ const HomeView: React.FC = () => {
                 />
               </Suspense>
             </div>
-            <div className={styles.buttonContainer}>
+            <div className={styles.buttonContainer} style={{ height: "70vh", minHeight: "60vh"}}>
               <CircleButton
+              href="/voluntarios"
                 text="Adopta"
                 size="30ch"
                 backgroundColor="#6fc263"
                 id=""
               />
               <div className={styles.rotatingButtonWrapper}>
-                <RotatingButton/>
+                <RotatingButton />
               </div>
               <CircleButton
+              href="/voluntarios"
                 text="Ayuda"
                 size="40ch"
                 backgroundColor="#94cf98"
                 id=""
               />
               <CircleButton
+                href="/donaciones"
                 text="Dona"
                 size="20ch"
                 backgroundColor="#ffc200"
@@ -104,7 +107,7 @@ const HomeView: React.FC = () => {
       </main>
       <footer>
         <Suspense fallback={<div>Loading...</div>}>
-        <FooterPublic></FooterPublic>
+          <FooterPublic></FooterPublic>
         </Suspense>
       </footer>
     </section>

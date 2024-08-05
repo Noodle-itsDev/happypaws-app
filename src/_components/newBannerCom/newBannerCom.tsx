@@ -228,7 +228,7 @@ const Carousel: React.FC<CarouselProps> = ({
                 flexDirection: "column",
                 alignItems: "center",
                 textAlign: "center",
-                maxHeight: "50vh",
+                maxHeight: "60vh",
               }}
             >
 

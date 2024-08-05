@@ -497,78 +497,7 @@ const UserProfile: React.FC = () => {
                                             InputProps={{ readOnly: !isEditable }}
                                         />
                                     </Grid>
-                                    <Grid item xs={12}>
-                                        <Typography variant="h5" sx={{ color: "#104b4b", mb: 2, fontFamily: 'system-ui' }}>
-                                            Últimos Voluntariados
-                                        </Typography>
-                                        <EventChips />
-                                        {/* <Typography variant="h5" sx={{ color: "#104b4b", mt: 3, mb: 2, fontFamily: 'system-ui' }}>
-                                            Mascotas Adoptadas
-                                        </Typography>
-                                        <Box
-                                            sx={{
-                                                display: 'flex',
-                                                flexWrap: 'wrap',
-                                                gap: 1,
-                                                border: '1px solid rgba(255,255,255,0.5)',
-                                                backgroundColor: 'rgba(255,255,255,0.1)',
-                                                p: 1,
-                                                borderRadius: 1,
-                                                minHeight: '120px',
-                                                maxHeight: '120px',
-                                                overflowY: 'auto',
-                                            }}
-                                        >
-                                            {adoptedPets.length === 0 ? (
-                                                <Typography variant="body2" sx={{ color: '#104b4b', fontFamily: 'system-ui' }}>
-                                                    No hay mascotas adoptadas registradas.
-                                                </Typography>
-                                            ) : (
-                                                adoptedPets.map((pet, index) => (
-                                                    <Chip
-                                                        key={index}
-                                                        label={`${pet.name} (${pet.species}) - ${pet.adoptionDate}`}
-                                                        color="secondary"
-                                                        sx={{ margin: '2px' }}
-                                                    />
-                                                ))
-                                            )}
-                                        </Box> */}
-                                        <Typography variant="h5" sx={{ color: "#104b4b", mt: 3, mb: 2, fontFamily: 'system-ui' }}>
-                                            Donaciones Realizadas
-                                        </Typography>
-                                        <Box
-                                            sx={{
-                                                display: 'flex',
-                                                flexWrap: 'wrap',
-                                                gap: 1,
-                                                border: '1px solid rgba(255,255,255,0.5)',
-                                                backgroundColor: 'rgba(255,255,255,0.1)',
-                                                p: 1,
-                                                borderRadius: 1,
-                                                minHeight: '120px',
-                                                maxHeight: '120px',
-                                                overflowY: 'auto',
-                                            }}
-                                        >
-                                            {donations.length === 0 ? (
-                                                <Typography variant="body2" sx={{ color: '#104b4b', fontFamily: 'system-ui' }}>
-                                                    No hay donaciones registradas.
-                                                </Typography>
-                                            ) : (
-                                                donations.map((donation, index) => (
-                                                    <Chip
-                                                        key={index}
-                                                        label={`$${donation.amount} - ${donation.date}`}
-                                                        color="success"
-                                                        sx={{ margin: '2px' }}
-                                                    />
-                                                ))
-                                            )}
-                                        </Box>
-                                    </Grid>
                                 </Grid>
-                                <EventChipList events={events} />
                             </CardContent>
                         </Card>
                     </Grid>
