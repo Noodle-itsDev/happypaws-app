@@ -127,7 +127,6 @@ const CalendarUser: React.FC = () => {
             }
 
             const response = await axios.get(`http://194.164.165.239:8080/api/eventos/usuario/${usuarioId}`, {
-                //const response = await axios.get(`http://194.164.165.239:8080/api/eventos/all`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
@@ -215,11 +214,11 @@ const CalendarUser: React.FC = () => {
             const newEvent = {
                 nombreEvento: "Voluntariado",
                 descripcion: "Evento para promover el bienestar animal.",
-                fechaInicio : start,
+                fechaInicio: start,
                 fechaFin: start,
                 usuario: { idUsuario: Number(usuarioId) },
                 mascota: { id: Number(mascotaId) },
-                protectora: { idProtectora: 16},
+                protectora: { idProtectora: 16 },
                 estado: "Pendiente",
                 tipoEvento: "Voluntariado",
             }
