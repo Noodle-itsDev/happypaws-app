@@ -169,8 +169,15 @@ const SignupView: React.FC = () => {
         }
       });
       
+      const userToVerify = response.data.user;
+
+      if(!userToVerify.isVerified){
+        document.getElementById('error')!.innerText = "Para acceder debe validar el email.";
+        return false;
+      } 
+      
       const { accesToken, user } = response.data;
-      console.log(user.protectoras.length);
+    
       if(response){
         if (user.protectoras.length == 0) {
           localStorage.setItem('authToken', accesToken);
@@ -482,12 +489,13 @@ const SignupView: React.FC = () => {
                     <BasicTextFields id={"registerCorreoUsuario"} placeholder={"Correo"} />
                   </div>
                   <div>
-                    <BasicTextFields id={"registerPasswdUsuario"} placeholder={"Contraseña"} />
+                    <BasicTextFields id={"registerPasswdUsuario"} placeholder={"Contraseña"} type="password"/>
                   </div>
                   <div>
                     <BasicTextFields
                       id={"registerPasswdUsuarioConfirm"}
                       placeholder={"Confirmar Contraseña"}
+                      type="password"
                     />
                   </div>
                   <div>

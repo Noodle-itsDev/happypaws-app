@@ -12,12 +12,31 @@ import gsap from 'gsap';
 import { Box } from '@mui/system';
 import HeaderBar from '@/_components/headerBarPublic/headerBarPublic/headerBar';
 import FooterPublic from '@/_components/FooterPublic/footerPublic';
+import axios from 'axios';
 
 const ContactPage: React.FC = () => {
 
-    function handleSubmit(event: FormEvent<HTMLFormElement>): void {
-        event.preventDefault();
-        // Aquí va el código para manejar el envío del formulario
+    function handleSubmit(){
+    
+        const nombre = (document.getElementById('nombre') as HTMLInputElement).value;
+        const correo = (document.getElementById('email') as HTMLInputElement).value;
+        const telefono = (document.getElementById('telefono') as HTMLInputElement).value;
+        const mensaje = (document.getElementById('mensaje') as HTMLInputElement).value;
+
+        const data = {
+            nombre,
+            correo,
+            telefono,
+            mensaje
+        };
+
+        axios.post('http://194.164.165.239:8080/api/another/send/contact', data)
+            .then(response => {
+                location.reload;
+            })
+            .catch(error => {
+                console.error('Error al enviar el formulario:', error);
+            });
     }
 
     useEffect(() => {
@@ -38,7 +57,6 @@ const ContactPage: React.FC = () => {
             { opacity: 1, scale: 1, duration: 1, delay: 1.5, ease: 'power3.out' }
         );
 
-        // Animaciones para elementos flotantes
         gsap.to('.floating-circle', {
             y: 20,
             rotation: 360,
@@ -117,8 +135,9 @@ const ContactPage: React.FC = () => {
             <header style={{ position: "fixed", top: 0, width: '100%', height: '11vh', zIndex: 1200 }}>
                 <HeaderBar></HeaderBar>
             </header>
-            <main style={{ marginTop: '11vh', padding: '40px',height: "auto", overflow: 'hidden'}}>
-                <Container maxWidth="md" sx={{ py: 4, borderRadius: "30px", boxShadow: "0px 10px 20px 10px #0000002b",
+            <main style={{ marginTop: '11vh', padding: '40px', height: "auto", overflow: 'hidden' }}>
+                <Container maxWidth="md" sx={{
+                    py: 4, borderRadius: "30px", boxShadow: "0px 10px 20px 10px #0000002b",
                 }}>
                     <Typography
                         variant="h3"
@@ -141,6 +160,7 @@ const ContactPage: React.FC = () => {
                                     <Grid container spacing={2}>
                                         <Grid item xs={12}>
                                             <TextField
+                                                id='nombre'
                                                 label="Nombre"
                                                 variant="outlined"
                                                 fullWidth
@@ -149,6 +169,7 @@ const ContactPage: React.FC = () => {
                                         </Grid>
                                         <Grid item xs={12}>
                                             <TextField
+                                                id='email'
                                                 label="Correo electrónico"
                                                 variant="outlined"
                                                 fullWidth
@@ -158,6 +179,7 @@ const ContactPage: React.FC = () => {
                                         </Grid>
                                         <Grid item xs={12}>
                                             <TextField
+                                                id='telefono'
                                                 label="Teléfono"
                                                 variant="outlined"
                                                 fullWidth
@@ -167,6 +189,7 @@ const ContactPage: React.FC = () => {
                                         </Grid>
                                         <Grid item xs={12}>
                                             <TextField
+                                                id='mensaje'
                                                 label="Mensaje"
                                                 variant="outlined"
                                                 fullWidth
@@ -176,7 +199,7 @@ const ContactPage: React.FC = () => {
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <Button type="submit" variant="contained" fullWidth style={{ backgroundColor: "#104b4b" }}>
+                                            <Button type="submit" variant="contained" fullWidth style={{ backgroundColor: "#104b4b" }}  onClick={handleSubmit}>
                                                 Enviar
                                             </Button>
                                         </Grid>
@@ -224,78 +247,78 @@ const ContactPage: React.FC = () => {
                 </Container>
 
 
-                    <Box
-                        className="floating-circle"
-                        sx={{
-                            position: 'absolute',
-                            zIndex: -100,
-                            bottom: '10%',
-                            right: '10%',
-                            width: '100px',
-                            height: '100px',
-                            borderRadius: '50%',
-                            backgroundColor: '#ffb552',
-                            opacity: 1
-                        }}
-                    ></Box>
-                    <Box
-                        className="floating-circle"
-                        sx={{
-                            position: 'absolute',
-                            zIndex: -100,
-                            top: '-5%',
-                            left: '-10%',
-                            width: '600px',
-                            height: '600px',
-                            borderRadius: '50%',
-                            backgroundColor: '#fda547',
-                            opacity: 1
-                        }}
-                    ></Box>
-                    <Box
-                        className="floating-circle"
-                        sx={{
-                            position: 'absolute',
-                            zIndex: -100,
-                            top: '90%',
-                            right: '-15%',
-                            width: '520px',
-                            height: '520px',
-                            borderRadius: '50%',
-                            backgroundColor: '#94cf98',
-                            opacity: 1
-                        }}
-                    ></Box>
-                    <Box
-                        className="floating-flower"
-                        sx={{
-                            position: 'absolute',
-                            zIndex: -100,
-                            bottom: '20%',
-                            left: '10%',
-                            width: '80px',
-                            height: '80px',
-                            backgroundImage: 'url(/img/florAzul.png)',
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                            opacity: 1
-                        }}
-                    ></Box>
-                    <Box
-                        className="floating-flower"
-                        sx={{
-                            position: 'absolute',
-                            zIndex: -100,
-                            top: '16%',
-                            right: '-6%',
-                            width: '500px',
-                            height: '500px',
-                            backgroundImage: 'url(/img/florAzul.png)',
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                            opacity: 1
-                        }}
-                    ></Box>
+                <Box
+                    className="floating-circle"
+                    sx={{
+                        position: 'absolute',
+                        zIndex: -100,
+                        bottom: '10%',
+                        right: '10%',
+                        width: '100px',
+                        height: '100px',
+                        borderRadius: '50%',
+                        backgroundColor: '#ffb552',
+                        opacity: 1
+                    }}
+                ></Box>
+                <Box
+                    className="floating-circle"
+                    sx={{
+                        position: 'absolute',
+                        zIndex: -100,
+                        top: '-5%',
+                        left: '-10%',
+                        width: '600px',
+                        height: '600px',
+                        borderRadius: '50%',
+                        backgroundColor: '#fda547',
+                        opacity: 1
+                    }}
+                ></Box>
+                <Box
+                    className="floating-circle"
+                    sx={{
+                        position: 'absolute',
+                        zIndex: -100,
+                        top: '90%',
+                        right: '-15%',
+                        width: '520px',
+                        height: '520px',
+                        borderRadius: '50%',
+                        backgroundColor: '#94cf98',
+                        opacity: 1
+                    }}
+                ></Box>
+                <Box
+                    className="floating-flower"
+                    sx={{
+                        position: 'absolute',
+                        zIndex: -100,
+                        bottom: '20%',
+                        left: '10%',
+                        width: '80px',
+                        height: '80px',
+                        backgroundImage: 'url(/img/florAzul.png)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        opacity: 1
+                    }}
+                ></Box>
+                <Box
+                    className="floating-flower"
+                    sx={{
+                        position: 'absolute',
+                        zIndex: -100,
+                        top: '16%',
+                        right: '-6%',
+                        width: '500px',
+                        height: '500px',
+                        backgroundImage: 'url(/img/florAzul.png)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        opacity: 1
+                    }}
+                ></Box>
 
 
             </main>

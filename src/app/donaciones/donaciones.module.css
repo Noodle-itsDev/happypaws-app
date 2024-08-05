@@ -1,288 +1,303 @@
-@import '../../../public/fonts/AntonSC.css';
-
+@import "../../../public/fonts/AntonSC.css";
 
 .backgroundContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: url('/img/image.jpg') no-repeat center center;
-    background-size: cover;
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-    overflow: hidden;
-    font-family: 'Raleway', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url("/img/image.jpg") no-repeat center center;
+  background-size: cover;
+  width: 100vw;
+  height: 160vh;
+  position: relative;
+  overflow: hidden;
+  font-family: "Raleway", sans-serif;
+  background-repeat: no-repeat;
+  overflow: hidden;
 }
 
-.buttonDonate, .buttonContribute {
-    background-size: cover; 
-    background-position: center; 
-    background-repeat: no-repeat;
-    color: #fff;
-    border: none;
-    box-shadow: none;
+.buttonDonate,
+.buttonContribute {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #fff;
+  border: none;
+  box-shadow: none;
+  transition: transform 0.3s ease-in-out;
+  animation: pulse 1.5s infinite;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 1.5rem;
+  line-height: 1.5;
+  background: transparent;
+}
+.pulse{
     transition: transform 0.3s ease-in-out;
     animation: pulse 1.5s infinite;
-    width: 200px; 
-    height: 200px; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-size: 1.5rem;
-    line-height: 1.5;
-    background: transparent;
+    background-color: #ffa450;
 }
-
 
 .buttonDonate:hover,
 .buttonContribute:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 @keyframes pulse {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-    }
-    50% {
-        transform: scale(1.1);
-        opacity: 0.8;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
-.rotate{
-    transform: rotate(10deg);
+.rotate {
+  transform: rotate(10deg);
 }
-.rotateLeft{
-    transform: rotate(-10deg);
+.rotateLeft {
+  transform: rotate(-10deg);
 }
 .backgroundContainer::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    backdrop-filter: blur(8px);
-    z-index: 1;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(8px);
+  z-index: 1;
 }
 
 .contentContainer {
-    background-color: #ffffff6b;
-    border-radius: 16px;
-    padding: 40px;
-    max-width: 70%;
-    width: 60%;
-    height: auto;
-    min-height: 500px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    box-sizing: border-box;
-    z-index: 2;
-    margin: 20px;
-    position: relative;
-    overflow: hidden;
-    transform: rotate(0deg);
-    transition: transform 0.3s ease-in-out;
+  background-color: #ffffff6b;
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 70%;
+  width: 60%;
+  height: 100;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  box-sizing: border-box;
+  z-index: 2;
+  margin: 20px;
+  position: relative;
+  overflow: hidden;
+  transform: rotate(0deg);
+  transition: transform 0.3s ease-in-out;
 }
 
 .contentContainer:hover {
-    transform: rotate(-2deg);
-    
+  transform: rotate(-2deg);
 }
 
 .descriptionContainer {
-    text-align: center;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 40px;
-    width: 100%;
-    
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px;
+  width: 100%;
 }
 
-
 .descriptionContainer p {
-    font-size: 1.2rem;
-    animation: moveUpDown 3s infinite alternate;
+  font-size: 1.2rem;
+  animation: moveUpDown 3s infinite alternate;
 }
 
 @keyframes moveUpDown {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-10px); }
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
 }
 
 .buttonContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 .buttonContainer .MuiButton-root {
-    color: #fff;
-    margin: 10px auto;
-    width: 100%;
-    max-width: 400px;
-    height: 60px;
-    font-size: 1.5rem;
-    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
-    animation: slideIn 1s ease-in-out;
+  color: #fff;
+  margin: 10px auto;
+  width: 100%;
+  max-width: 400px;
+  height: 60px;
+  font-size: 1.5rem;
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+  animation: slideIn 1s ease-in-out;
 }
 
 @keyframes slideIn {
-    0% { transform: translateY(20px); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .buttonContainer .MuiButton-root:hover {
-    background-color: transparent;
-    transform: scale(1.05);
+  background-color: transparent;
+  transform: scale(1.05);
 }
 
 .buttonDonate {
-    background-color: transparent;
-    width: 200px;
-    height: 200px;
+  background-color: transparent;
+  width: 200px;
+  height: 200px;
 }
-.buttonDonate:hover{
-    background-color: transparent;  
-    box-shadow: none;
+.buttonDonate:hover {
+  background-color: transparent;
+  box-shadow: none;
 }
 
 .buttonContribute {
-    background-color: transparent;
-    width: 200px;
-    height: 200px;
+  background-color: transparent;
+  width: 200px;
+  height: 200px;
 }
 .buttonContribute:hover {
-    background-color: transparent;
-    width: 200px;
-    height: 200px;
-    box-shadow: none;
+  background-color: transparent;
+  width: 200px;
+  height: 200px;
+  box-shadow: none;
 }
 
-
 .divider {
-    border: none;
-    animation: bounce 1.5s infinite;
+  border: none;
+  animation: bounce 1.5s infinite;
 }
 
 @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .titleFont {
-    color: #104b4b;
-    font-size: 3rem;
-    font-weight: bold;
-    position: relative;
-    font-family: Anton SC, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    border-bottom: 1px white solid;
-    
+  color: #104b4b;
+  font-size: 3rem;
+  font-weight: bold;
+  position: relative;
+  font-family: Anton SC, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+    sans-serif;
+  border-bottom: 1px white solid;
 }
 
-
 .textFont {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-weight: 500;
-    color: #104b4b;
-    animation: float 3s ease-in-out infinite;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-weight: 500;
+  color: #104b4b;
+  animation: float 3s ease-in-out infinite;
 }
 
 @media (max-width: 1200px) {
-    .contentContainer {
-        max-width: 80%;
-    }
+  .contentContainer {
+    max-width: 80%;
+  }
 }
 
 @media (max-width: 768px) {
-    .contentContainer {
-        max-width: 90%;
-    }
+  .contentContainer {
+    max-width: 90%;
+  }
 
-    .buttonContainer .MuiButton-root {
-        width: 100%;
-        font-size: 1rem;
-    }
+  .buttonContainer .MuiButton-root {
+    width: 100%;
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
-    .contentContainer {
-        padding: 20px;
-    }
+  .contentContainer {
+    padding: 20px;
+  }
 
-    .buttonContainer .MuiButton-root {
-        height: 50px;
-        font-size: 1rem;
-    }
+  .buttonContainer .MuiButton-root {
+    height: 50px;
+    font-size: 1rem;
+  }
 
-    .title-font {
-        font-size: 2rem;
-    }
+  .title-font {
+    font-size: 2rem;
+  }
 
-    .text-font {
-        font-size: 1rem;
-    }
+  .text-font {
+    font-size: 1rem;
+  }
 
-    .divider {
-        margin: 10px 0;
-    }
+  .divider {
+    margin: 10px 0;
+  }
 }
 
-
-.buttonDonate{
-    background-image: url('/img/NecesitasAyuda.png'); 
-    background-size: cover;
-    background-position: center;
-    color: #fff;
-    border: none;
-    box-shadow: none;
-    transition: transform 0.3s ease-in-out;
-    animation: pulse 1.5s infinite; 
-    background-color: transparent;
+.buttonDonate {
+  background-image: url("/img/NecesitasAyuda.png");
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  border: none;
+  box-shadow: none;
+  transition: transform 0.3s ease-in-out;
+  animation: pulse 1.5s infinite;
+  background-color: transparent;
 }
-.buttonContribute{
-    background-color: transparent;
-    background-image: url('/img/greenHeart.png'); 
-    background-size: cover;
-    background-position: center;
-    color: #fff;
-    border: none;
-    box-shadow: none;
-    transition: transform 0.3s ease-in-out;
-    animation: pulse 1.5s infinite; 
+.buttonContribute {
+  background-color: transparent;
+  background-image: url("/img/greenHeart.png");
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  border: none;
+  box-shadow: none;
+  transition: transform 0.3s ease-in-out;
+  animation: pulse 1.5s infinite;
 }
 
 @keyframes pulse {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-    }
-    50% {
-        transform: scale(1.1);
-        opacity: 0.8;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .buttonDonate:hover,
 .buttonContribute:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
-
-

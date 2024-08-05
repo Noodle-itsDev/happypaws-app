@@ -40,10 +40,10 @@ export default function ContainedButtons() {
     const [errors, setErrors] = useState<Errors>({});
 
     useEffect(() => {
-        const totalDuration = 6; // Duración total en segundos
-        const baseDuration = totalDuration / 6; // Duración base para la animación de fade-in
+        const totalDuration = 6;
+        const baseDuration = totalDuration / 6;
 
-        // Animación de fade-in secuencial de los elementos del texto
+
         gsap.fromTo(
             `.${Styles.contentContainer}`,
             { opacity: 0 },
@@ -90,14 +90,14 @@ export default function ContainedButtons() {
 
     useEffect(() => {
         if (openModal) {
-            // Animación de entrada del modal
+
             gsap.fromTo(
                 '.MuiDialog-root',
                 { opacity: 0 },
                 { opacity: 1, duration: 0.5, ease: "power3.out" }
             );
 
-            // Animación de fade-in secuencial para los elementos del modal
+
             gsap.fromTo(
                 '.MuiDialogTitle-root',
                 { opacity: 0 },
@@ -154,7 +154,7 @@ export default function ContainedButtons() {
         if (!isCommentRelevant(comments)) newErrors.comments = "El comentario debe estar relacionado con temas de protectora, comida o pienso.";
 
         if (Object.keys(newErrors).length === 0) {
-            // Enviar datos del formulario
+
 
             try {
                 const response = await axios.post('http://194.164.165.239:8080/api/another/donation', {
@@ -185,10 +185,13 @@ export default function ContainedButtons() {
 
     return (
         <>
-            <header style={{ position: "sticky", top: 0 }}>
+            <header>
                 <HeaderBar></HeaderBar>
             </header>
-            <main>
+            <main style={{
+                width: '100vw',
+
+            }}>
                 <Box
                     className={`${Styles.backgroundContainer}`}
                     sx={{
@@ -199,7 +202,7 @@ export default function ContainedButtons() {
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                         width: '100vw',
-                        height: '100vh',
+                        height: '140vh',
                         position: 'relative',
                         overflow: 'hidden',
                         fontFamily: `'Raleway', sans-serif`,
@@ -223,7 +226,7 @@ export default function ContainedButtons() {
                         <Grid item xs={12}>
                             <hr className={`${Styles.divider}`} />
                         </Grid>
-                        <Grid item xs={12} container spacing={2} alignItems="center" justifyContent="center" borderBottom={"1px solid white"} style={{ backgroundColor: "#ffffff6b", borderRadius: "30px"}}>
+                        <Grid item xs={12} container spacing={2} alignItems="center" justifyContent="center" borderBottom={"1px solid white"} style={{ backgroundColor: "#ffffff6b", borderRadius: "30px" }}>
                             <Grid item xs={12} md={6} container alignItems="center" justifyContent="center">
                                 <Box
                                     className={`${Styles.descriptionContainer}`}
@@ -244,13 +247,16 @@ export default function ContainedButtons() {
                                 </Box>
                             </Grid>
                             <Grid className={`${Styles.rotate}`} item xs={12} md={6} container justifyContent="center" marginBottom={"20px"}>
-                                <Button
-                                    variant="contained"
-                                    href="https://buy.stripe.com/test_4gw5kY4ez7dF252aEG"
-                                    className={`${Styles.buttonDonate}`}
-                                >
-                                    Donar
-                                </Button>
+                                <Box sx= {{}}>
+                                    <Button
+                                        variant="contained"
+                                        href="https://buy.stripe.com/test_4gw5kY4ez7dF252aEG"
+                                        className={`${Styles.pulse}`}
+                                        sx={{ borderRadius: "50%", minWidth: "200px", minHeight: "200px" }}
+                                    >
+                                        Donar
+                                    </Button>
+                                </Box>
                             </Grid>
                         </Grid>
                         <Grid item xs={12} container spacing={2} alignItems="center" marginTop={"4vh"} marginBottom={"20px"} style={{ backgroundColor: "#ffffff6b", borderRadius: "30px", }}>
@@ -259,8 +265,10 @@ export default function ContainedButtons() {
                                     variant="contained"
                                     onClick={handleOpenModal}
                                     className={`${Styles.buttonContribute}`}
-                                    sx={{ backgroundColor: "transparent", 
-                                        boxShadow: "none" }}
+                                    sx={{
+                                        backgroundColor: "transparent",
+                                        boxShadow: "none"
+                                    }}
                                 >
                                     Aportar
                                 </Button>
@@ -364,7 +372,7 @@ export default function ContainedButtons() {
                 </Dialog>
             </main>
             <footer>
-            <FooterPublic></FooterPublic>
+                <FooterPublic></FooterPublic>
             </footer>
         </>
     );
