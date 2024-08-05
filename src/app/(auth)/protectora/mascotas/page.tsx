@@ -1,5 +1,6 @@
 "use client";
 
+import React, { lazy, Suspense } from 'react';
 import { useState, useEffect } from 'react';
 import Footer from "@/_components/footerCom/footer";
 import PrimarySearchAppBar from "@/_components/header/headerGradient";
@@ -30,6 +31,29 @@ interface Mascota {
 }
 
 const PetsView: React.FC = () => {
+
+    /** SEGURIDAD */
+    useEffect(() => {
+        const token = localStorage.getItem("authToken");
+        const usuarioJSON = localStorage.getItem("user");
+
+        if (!token || !usuarioJSON) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            location.href = "/logout";
+            return;
+        }
+
+        const usuario = JSON.parse(usuarioJSON);
+
+        if (usuario.protectoras.length == 0) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            location.href = "/logout";
+        }
+    }, [])
+    /** FIN SEGURIDAD */
+
     const [mascotas, setMascotas] = useState<Mascota[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -119,7 +143,7 @@ const PetsView: React.FC = () => {
             <header>
                 <HeaderBar></HeaderBar>
             </header>
-            <main style={{overflow: "hidden", height: "100vh"}}>
+            <main style={{ overflow: "hidden", height: "100vh" }}>
                 <Grid container spacing={6} padding={10}>
                     <Grid item xs={12} md={3}>
                         <Box mb={2}>
@@ -180,100 +204,100 @@ const PetsView: React.FC = () => {
                     </Grid>
                 </Grid>
                 <Modal
-                open={openModal}
-                onClose={() => setOpenModal(false)}
-                aria-labelledby="modal-title"
-                aria-describedby="modal-description"
-            >
-                <Container maxWidth="sm" sx={{ bgcolor: 'background.paper', p: 4, mt: 8, borderRadius: 2 }}>
-                    <CreateMascota />
-                </Container>
-            </Modal>
+                    open={openModal}
+                    onClose={() => setOpenModal(false)}
+                    aria-labelledby="modal-title"
+                    aria-describedby="modal-description"
+                >
+                    <Container maxWidth="sm" sx={{ bgcolor: 'background.paper', p: 4, mt: 8, borderRadius: 2 }}>
+                        <CreateMascota />
+                    </Container>
+                </Modal>
 
 
-            <Modal
-                open={openUpdate}
-                onClose={() => setOpenUpdate(false)}
-                aria-labelledby="modal-title"
-                aria-describedby="modal-description"
-            >
-                <Container maxWidth="sm" sx={{ bgcolor: 'background.paper', p: 4, mt: 8, borderRadius: 2 }}>
-                    <UpdateMascota />
-                </Container>
-            </Modal>
+                <Modal
+                    open={openUpdate}
+                    onClose={() => setOpenUpdate(false)}
+                    aria-labelledby="modal-title"
+                    aria-describedby="modal-description"
+                >
+                    <Container maxWidth="sm" sx={{ bgcolor: 'background.paper', p: 4, mt: 8, borderRadius: 2 }}>
+                        <UpdateMascota />
+                    </Container>
+                </Modal>
 
-            <Box
-                className="floating-circle"
-                sx={{
-                    position: 'absolute',
-                    bottom: '10%',
-                    right: '10%',
-                    width: '100px',
-                    height: '100px',
-                    borderRadius: '50%',
-                    backgroundColor: '#104b4b',
-                    opacity: 1,
-                    zIndex: -200
-                }}
-            ></Box>
-            <Box
-                className="floating-circle"
-                sx={{
-                    position: 'absolute',
-                    top: '-5%',
-                    left: '-10%',
-                    width: '600px',
-                    height: '600px',
-                    borderRadius: '50%',
-                    backgroundColor: '#fda547',
-                    opacity: 0.6,
-                    zIndex: -200
-                }}
-            ></Box>
-            <Box
-                className="floating-circle"
-                sx={{
-                    position: 'absolute',
-                    top: '90%',
-                    right: '-15%',
-                    width: '520px',
-                    height: '520px',
-                    borderRadius: '50%',
-                    backgroundColor: '#94cf98',
-                    opacity: 0.6,
-                    zIndex: -200
-                }}
-            ></Box>
-            <Box
-                className="floating-flower"
-                sx={{
-                    position: 'absolute',
-                    bottom: '20%',
-                    left: '10%',
-                    width: '80px',
-                    height: '80px',
-                    backgroundImage: 'url(/img/florAzul.png)',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    opacity: 0.7,
-                    zIndex: -200
-                }}
-            ></Box>
-            <Box
-                className="floating-flower"
-                sx={{
-                    position: 'absolute',
-                    top: '30%',
-                    right: '-6%',
-                    width: '500px',
-                    height: '500px',
-                    backgroundImage: 'url(/img/florAzul.png)',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    opacity: 0.7,
-                    zIndex: -200
-                }}
-            ></Box>
+                <Box
+                    className="floating-circle"
+                    sx={{
+                        position: 'absolute',
+                        bottom: '10%',
+                        right: '10%',
+                        width: '100px',
+                        height: '100px',
+                        borderRadius: '50%',
+                        backgroundColor: '#104b4b',
+                        opacity: 1,
+                        zIndex: -200
+                    }}
+                ></Box>
+                <Box
+                    className="floating-circle"
+                    sx={{
+                        position: 'absolute',
+                        top: '-5%',
+                        left: '-10%',
+                        width: '600px',
+                        height: '600px',
+                        borderRadius: '50%',
+                        backgroundColor: '#fda547',
+                        opacity: 0.6,
+                        zIndex: -200
+                    }}
+                ></Box>
+                <Box
+                    className="floating-circle"
+                    sx={{
+                        position: 'absolute',
+                        top: '90%',
+                        right: '-15%',
+                        width: '520px',
+                        height: '520px',
+                        borderRadius: '50%',
+                        backgroundColor: '#94cf98',
+                        opacity: 0.6,
+                        zIndex: -200
+                    }}
+                ></Box>
+                <Box
+                    className="floating-flower"
+                    sx={{
+                        position: 'absolute',
+                        bottom: '20%',
+                        left: '10%',
+                        width: '80px',
+                        height: '80px',
+                        backgroundImage: 'url(/img/florAzul.png)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        opacity: 0.7,
+                        zIndex: -200
+                    }}
+                ></Box>
+                <Box
+                    className="floating-flower"
+                    sx={{
+                        position: 'absolute',
+                        top: '30%',
+                        right: '-6%',
+                        width: '500px',
+                        height: '500px',
+                        backgroundImage: 'url(/img/florAzul.png)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        opacity: 0.7,
+                        zIndex: -200
+                    }}
+                ></Box>
 
             </main>
 
@@ -281,7 +305,7 @@ const PetsView: React.FC = () => {
             <footer>
                 <FooterPrivate></FooterPrivate>
             </footer>
-            </>
+        </>
 
     );
 };

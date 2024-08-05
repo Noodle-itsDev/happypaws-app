@@ -36,6 +36,29 @@ interface DataForModal {
 }
 
 const CalendarUser: React.FC = () => {
+
+    /** SEGURIDAD */
+    useEffect(() => {
+        const token = localStorage.getItem("authToken");
+        const usuarioJSON = localStorage.getItem("user");
+
+        if (!token || !usuarioJSON) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            location.href = "/logout";
+            return;
+        }
+
+        const usuario = JSON.parse(usuarioJSON);
+
+        if (usuario.protectoras.length != 0) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            location.href = "/logout";
+        }
+    }, [])
+    /** FIN SEGURIDAD */
+
     const [events, setEvents] = useState<EventInput[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
@@ -64,8 +87,9 @@ const CalendarUser: React.FC = () => {
         const token = localStorage.getItem('authToken');
 
         if (!userJson || !token) {
-            setError('User or token not found in localStorage');
-            location.href = "/signup";
+            localStorage.removeItem('user');
+            localStorage.removeItem('authToken');
+            location.href = "/logout";
             return;
         }
 
@@ -74,7 +98,7 @@ const CalendarUser: React.FC = () => {
         if (usuario.protectoras.length != 0) {
             localStorage.removeItem('user');
             localStorage.removeItem('authToken');
-            location.href = "/signup";
+            location.href = "/logout";
         }
         fetchEvents();
     }, []);
@@ -102,7 +126,6 @@ const CalendarUser: React.FC = () => {
                 location.href = "/signup";
             }
 
-            console.log(usuarioId);
             const response = await axios.get(`http://194.164.165.239:8080/api/eventos/usuario/${usuarioId}`, {
                 //const response = await axios.get(`http://194.164.165.239:8080/api/eventos/all`, {
                 headers: {
@@ -153,22 +176,6 @@ const CalendarUser: React.FC = () => {
         }
     };
 
-    const handleEventClick = (clickInfo: EventClickArg) => {
-        setSelectedEvent({
-            id: clickInfo.event.id,
-            title: clickInfo.event.title,
-            description: clickInfo.event.extendedProps.description as string,
-            start: clickInfo.event.extendedProps.inicio as string,
-            end: clickInfo.event.extendedProps.final as string,
-            nombre: clickInfo.event.extendedProps.nombre,
-            apellidos: clickInfo.event.extendedProps.apellidos,
-            telefono: clickInfo.event.extendedProps.telefono,
-            email: clickInfo.event.extendedProps.email,
-            estado: clickInfo.event.extendedProps.estado,
-        });
-        setOpen(true);
-    };
-
     const modalRef = useRef<HTMLDivElement | null>(null);
 
     const handleClickOutside = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -188,45 +195,47 @@ const CalendarUser: React.FC = () => {
         setSelectedMascota(null);
     };
 
-    const handleDeshabilitarEvento = async () => {
-        if (!selectedEvent) return;
-
+    const handleAddEvent = async () => {
         try {
             const token = localStorage.getItem('authToken');
+            const usuario = localStorage.getItem('user');
+
+            if (!usuario || !token) {
+                setError('User or token not found in localStorage');
+                location.href = "/signup";
+                return;
+            }
+
+            const usuarioParsed = JSON.parse(usuario);
+            const usuarioId = usuarioParsed.idUsuario;
+            const startDateInput = (document.getElementById('fechaInicio') as HTMLInputElement).value;
+            const mascotaId = selectedMascota?.id;
+            const start = formatDate(startDateInput);
+
+            const newEvent = {
+                nombreEvento: "Voluntariado",
+                descripcion: "Evento para promover el bienestar animal.",
+                fechaInicio : start,
+                fechaFin: start,
+                usuario: { idUsuario: Number(usuarioId) },
+                mascota: { id: Number(mascotaId) },
+                protectora: { idProtectora: 16},
+                estado: "Pendiente",
+                tipoEvento: "Voluntariado",
+            }
+
             if (!token) {
                 setError('Token not found in localStorage');
                 return;
             }
 
-            await axios.put(`http://194.164.165.239:8080/api/eventos/disable/${selectedEvent.id}`, {}, {
+            const response = await axios.post(`http://194.164.165.239:8080/api/eventos/create`, newEvent, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
                 }
             });
-            setSuccess('Event disabled successfully');
-            setOpen(false);
-            setSelectedEvent(null);
-            fetchEvents();
-        } catch (error) {
-            handleError(error);
-        }
-    };
 
-    const handleAddEvent = async (newEvent: EventInput) => {
-        try {
-            const token = localStorage.getItem('authToken');
-            if (!token) {
-                setError('Token not found in localStorage');
-                return;
-            }
-
-            await axios.post(`http://194.164.165.239:8080/api/eventos`, newEvent, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                }
-            });
             setSuccess('Event added successfully');
             setOpenAddModal(false);
             fetchEvents();
@@ -540,7 +549,6 @@ const CalendarUser: React.FC = () => {
                                     </div>
                                 </Typography>
                                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', columnGap: '1rem' }}>
-                                    <button onClick={handleDeshabilitarEvento} style={{ marginTop: '16px', borderRadius: '4px', padding: '0.6rem 1.3rem', backgroundColor: 'red' }}>Eliminar</button>
                                     <button onClick={handleModificarEstado} style={{ marginTop: '16px', borderRadius: '4px', padding: '0.6rem 1.3rem', backgroundColor: 'orange' }}>Modificar</button>
                                     <button onClick={handleClose} style={{ marginTop: '16px', borderRadius: '4px', padding: '0.6rem 1.3rem', backgroundColor: 'lightgrey' }}>Cerrar</button>
                                 </div>
@@ -553,11 +561,11 @@ const CalendarUser: React.FC = () => {
                             aria-labelledby="modal-modal-title"
                             aria-describedby="modal-modal-description"
                             onClick={handleClickOutside}
-                            
+
                         >
                             <Box ref={modalRef} sx={{
-                                displayPrint: "flex", 
-                                flexDirection: "column", 
+                                displayPrint: "flex",
+                                flexDirection: "column",
                                 justifyContent: "center",
                                 position: 'absolute',
                                 top: '50%',
@@ -571,22 +579,15 @@ const CalendarUser: React.FC = () => {
                                 p: 5,
                                 textAlign: "center"
                             }}>
-                                <Typography id="modal-modal-title" variant="h6" component="h2" style={{ marginBottom: '2rem', fontFamily: "system-ui",  marginLeft: "auto", marginRight: "auto"}}>
+                                <Typography id="modal-modal-title" variant="h6" component="h2" style={{ marginBottom: '2rem', fontFamily: "system-ui", marginLeft: "auto", marginRight: "auto" }}>
                                     Crear evento
                                 </Typography>
                                 <form onSubmit={async (e) => {
                                     e.preventDefault();
-                                    const formData = new FormData(e.currentTarget);
-                                    const newEvent = {
-                                        title: formData.get('title'),
-                                        description: formData.get('description'),
-                                        start: formData.get('start'),
-                                        end: formData.get('end'),
-                                    };
-                                    await handleAddEvent(newEvent as EventInput);
                                 }}>
                                     <TextField
                                         fullWidth
+                                        id="fechaInicio"
                                         label="Fecha de Inicio"
                                         type="date"
                                         name="start"
@@ -596,6 +597,7 @@ const CalendarUser: React.FC = () => {
                                     />
                                     <TextField
                                         fullWidth
+                                        id="nombreMascota"
                                         label="Mascota"
                                         name="mascotaEvento"
                                         value={`${selectedMascota?.nombre}, ${selectedMascota?.edad}`}
@@ -605,7 +607,8 @@ const CalendarUser: React.FC = () => {
                                     <Button
                                         type="submit"
                                         variant="contained"
-                                        sx={{ borderRadius: '4px', padding: '0.6rem 1.3rem', backgroundColor: 'lightgrey', display: "flex", justifyContent: "center", alignSelf: "center", marginLeft: "auto", marginRight: "auto"}}
+                                        sx={{ borderRadius: '4px', padding: '0.6rem 1.3rem', backgroundColor: 'lightgrey', display: "flex", justifyContent: "center", alignSelf: "center", marginLeft: "auto", marginRight: "auto" }}
+                                        onClick={handleAddEvent}
                                     >
                                         Crear
                                     </Button>

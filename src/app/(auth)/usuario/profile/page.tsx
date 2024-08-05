@@ -6,10 +6,7 @@ import Styles from './users.module.css';
 import { Card, CardContent, Typography, Grid, Box, TextField, IconButton, Chip } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import UploadImg from "@/_components/uploadImg/uploadImg";
-import SimpleBottomNavigation from "@/_components/navigation/navigationNavBar";
-import PrimarySearchAppBarUser from "@/_components/headerUser/headerGradient";
 import EventChipList from "@/_components/eventChipCom/eventChipCom";
-import Footer from "@/_components/footerCom/footer";
 import { gsap } from "gsap";
 import NotificationCard from "@/_components/notificationCard/notificationCard";
 import EventChips from "@/_components/chipsComponent/chipsComponent";
@@ -63,60 +60,83 @@ interface Evento {
 interface NotificationCardProps {
     events: Evento;
 }
+
 const UserProfile: React.FC = () => {
+
+    /** SEGURIDAD */
+    useEffect(() => {
+        const token = localStorage.getItem("authToken");
+        const usuarioJSON = localStorage.getItem("user");
+
+        if (!token || !usuarioJSON) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            location.href = "/logout";
+            return;
+        }
+
+        const usuario = JSON.parse(usuarioJSON);
+
+        if (usuario.protectoras.length !== 0) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            location.href = "/logout";
+        }
+        console.log("paret1");
+    }, [])
+    /** FIN SEGURIDAD */
 
     const [eventos, setEventos] = useState<Evento[]>([]);
 
-    useEffect(() => {
-        const fetchEventos = async () => {
-            try {
-                const token = localStorage.getItem("authToken");
-                const usuarioJSON = localStorage.getItem("user");
+    // useEffect(() => {
+    //     const fetchEventos = async () => {
+    //         try {
+    //             const token = localStorage.getItem("authToken");
+    //             const usuarioJSON = localStorage.getItem("user");
 
-                if (!token || !usuarioJSON) {
-                    console.error('Token or user not found in localStorage');
-                    localStorage.removeItem('authToken');
-                    localStorage.removeItem('user');
-                    location.href = "/signup";
-                    return;
-                }
+    //             if (!token || !usuarioJSON) {
+    //                 console.error('Token or user not found in localStorage');
+    //                 localStorage.removeItem('authToken');
+    //                 localStorage.removeItem('user');
+    //                 location.href = "/signup";
+    //                 return;
+    //             }
 
-                const usuario = JSON.parse(usuarioJSON);
-                const protectoras = usuario.protectoras;
-                const usuarioId = usuario.idUsuario;
+    //             const usuario = JSON.parse(usuarioJSON);
+    //             const protectoras = usuario.protectoras;
+    //             const usuarioId = usuario.idUsuario;
 
-                // if (protectoras.length != 0) {
-                //     localStorage.removeItem('authToken');
-                //     localStorage.removeItem('user');
-                //     location.href = "/signup"
-                //     return;
-                // }
+    //             // if (protectoras.length != 0) {
+    //             //     localStorage.removeItem('authToken');
+    //             //     localStorage.removeItem('user');
+    //             //     location.href = "/signup"
+    //             //     return;
+    //             // }
+    //             console.log("EVENTOS ALL");
+    //             const response = await axios.get(`http://194.164.165.239:8080/api/eventos/all`, {
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                     'Authorization': `Bearer ${token}`,
+    //                 }
+    //             });
+    //             console.log(response);
+    //             const eventosData = response.data.map((evento: any) => ({
+    //                 tipoEvento: evento.tipoEvento,
+    //                 nombreUsuario: evento.usuario.nombre,
+    //                 nombreMascota: evento.mascota.nombre,
+    //                 nombreEvento: evento.nombreEvento,
+    //                 fecha: evento.fechaInicio,
+    //                 estado: evento.estado
+    //             }));
 
-                const response = await axios.get(`http://194.164.165.239:8080/api/eventos/all`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                    }
-                });
+    //             setEventos(eventosData);
+    //         } catch (error) {
+    //             console.error("Error fetching eventos", error);
+    //         }
+    //     };
 
-                const eventosData = response.data.map((evento: any) => ({
-                    tipoEvento: evento.tipoEvento,
-                    nombreUsuario: evento.usuario.nombre,
-                    nombreMascota: evento.mascota.nombre,
-                    nombreEvento: evento.nombreEvento,
-                    fecha: evento.fechaInicio,
-                    estado: evento.estado
-                }));
-
-                setEventos(eventosData);
-            } catch (error) {
-                console.error("Error fetching eventos", error);
-            }
-        };
-
-        fetchEventos();
-    }, []);
-
+    //     fetchEventos();
+    // }, []);
 
     const [userData, setUserData] = useState<UserData>({
         nombre: "",
@@ -145,22 +165,6 @@ const UserProfile: React.FC = () => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserData({ ...userData, [e.target.name]: e.target.value });
     };
-    useEffect(() => {
-        // Función para obtener datos de la API
-        const fetchData = async () => {
-            try {
-                // Reemplaza con la URL de tu API
-                const response = await axios.post('https://api.example.com/events', {
-                    token: 'YOUR_TOKEN_HERE', // Aquí puedes incluir el token si es necesario
-                });
-                setEvents(response.data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
-        fetchData();
-    }, []);
 
     const toggleEdit = async () => {
         if (isEditable) {
@@ -169,12 +173,20 @@ const UserProfile: React.FC = () => {
                 const usuarioJSON = localStorage.getItem("user");
 
                 if (!token || !usuarioJSON) {
-                    console.error('Token or user not found in localStorage');
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('user');
+                    location.href = "/logout";
                     return;
                 }
 
                 const usuario = JSON.parse(usuarioJSON);
-                console.log(userData, usuario);
+
+                if (usuario.protectoras.length != 0) {
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('user');
+                    location.href = "/logout";
+                }
+
                 const response = await axios.put(`http://194.164.165.239:8080/api/user/edit/${usuario.idUsuario}`, userData,
                     {
                         headers: {
@@ -183,10 +195,6 @@ const UserProfile: React.FC = () => {
                             'Content-Type': 'application/json'
                         }
                     });
-
-                localStorage.removeItem('authToken');
-                localStorage.removeItem('user');
-                location.href = "/signup";
 
             } catch (error) {
                 console.error("Error updating user data", error);
@@ -202,14 +210,27 @@ const UserProfile: React.FC = () => {
                 const token = localStorage.getItem("authToken");
                 const usuarioJSON = localStorage.getItem("user");
 
+                /** Control errores protectoras */
+                if (!token) {
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('user');
+                    location.href = "/logout";
+                }
+
                 if (!usuarioJSON) {
-                    setError('User or token not found in localStorage');
-                    location.href = "/signup";
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('user');
+                    location.href = "/logout";
                     return;
                 }
 
                 const usuario = JSON.parse(usuarioJSON);
-                console.log(usuario.email);
+
+                if (usuario.protectoras.length != 0) {
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('user');
+                    location.href = "/logout";
+                }
 
                 setUserData({
                     nombre: usuario.nombre,
@@ -305,7 +326,7 @@ const UserProfile: React.FC = () => {
     return (
         <>
             <header style={{ position: "fixed", top: 0, zIndex: 9999 }}>
-            <HeaderBar></HeaderBar>
+                <HeaderBar></HeaderBar>
             </header>
             <main
                 style={{
@@ -708,7 +729,7 @@ const UserProfile: React.FC = () => {
                 ></Box>
             </main>
             <footer style={{}}>
-                
+
             </footer>
         </>
     );

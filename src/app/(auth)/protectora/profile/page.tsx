@@ -65,61 +65,31 @@ interface NotificationCardProps {
 }
 const UserProfile: React.FC = () => {
 
+    /** SEGURIDAD */
+    useEffect(() => {
+        const token = localStorage.getItem("authToken");
+        const usuarioJSON = localStorage.getItem("user");
+
+        if (!token || !usuarioJSON) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            location.href = "/logout";
+            return;
+        }
+
+        const usuario = JSON.parse(usuarioJSON);
+
+        if (usuario.protectoras.length == 0) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            location.href = "/logout";
+        }
+    }, [])
+    /** FIN SEGURIDAD */
+
     const [eventos, setEventos] = useState<Evento[]>([]);
 
-    useEffect(() => {
-        const fetchEventos = async () => {
-            try {
-                const token = localStorage.getItem("authToken");
-                const usuarioJSON = localStorage.getItem("user");
-
-                if (!token || !usuarioJSON) {
-                    console.error('Token or user not found in localStorage');
-                    localStorage.removeItem('authToken');
-                    localStorage.removeItem('user');
-                    location.href = "/signup";
-                    return;
-                }
-
-                const usuario = JSON.parse(usuarioJSON);
-                const protectoras = usuario.protectoras;
-                const usuarioId = usuario.idUsuario;
-
-                // if (protectoras.length != 0) {
-                //     localStorage.removeItem('authToken');
-                //     localStorage.removeItem('user');
-                //     location.href = "/signup"
-                //     return;
-                // }
-
-                const response = await axios.get(`http://194.164.165.239:8080/api/eventos/all`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                    }
-                });
-
-                console.log(response.data);
-                const eventosData = response.data.map((evento: any) => ({
-                    tipoEvento: evento.tipoEvento,
-                    nombreUsuario: evento.usuario.nombre,
-                    nombreMascota: evento.mascota.nombre,
-                    nombreEvento: evento.nombreEvento,
-                    fecha: evento.fechaInicio,
-                    estado: evento.estado
-                }));
-
-                setEventos(eventosData);
-            } catch (error) {
-                console.error("Error fetching eventos", error);
-            }
-        };
-
-        fetchEventos();
-    }, []);
-
-
-    const [userData, setUserData] = useState<UserData>({
+     const [userData, setUserData] = useState<UserData>({
         nombre: "",
         apellidos: "",
         dni: "",
@@ -135,33 +105,14 @@ const UserProfile: React.FC = () => {
         username: "",
     });
 
-    const [volunteers, setVolunteers] = useState<Volunteer[]>([]);
-    const [adoptedPets, setAdoptedPets] = useState<AdoptedPet[]>([]);
     const [donations, setDonations] = useState<Donation[]>([]);
     const [events, setEvents] = useState<Event[]>([]);
     const [isEditable, setIsEditable] = useState(false);
-
     const cardRef = useRef<HTMLDivElement>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserData({ ...userData, [e.target.name]: e.target.value });
     };
-    useEffect(() => {
-        
-        const fetchData = async () => {
-            try {
-     
-                const response = await axios.post('https://api.example.com/events', {
-                    token: 'YOUR_TOKEN_HERE', 
-                });
-                setEvents(response.data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
-        fetchData();
-    }, []);
 
     const toggleEdit = async () => {
         if (isEditable) {
@@ -308,7 +259,7 @@ const UserProfile: React.FC = () => {
     return (
         <>
             <header style={{ position: "fixed", top: 0, zIndex: 9999 }}>
-            <HeaderBar></HeaderBar>
+                <HeaderBar></HeaderBar>
             </header>
             <main
                 style={{

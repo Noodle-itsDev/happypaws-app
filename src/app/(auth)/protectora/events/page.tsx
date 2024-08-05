@@ -35,6 +35,29 @@ interface DataForModal {
 }
 
 const Calendar: React.FC = () => {
+
+    /** SEGURIDAD */
+    useEffect(() => {
+        const token = localStorage.getItem("authToken");
+        const usuarioJSON = localStorage.getItem("user");
+
+        if (!token || !usuarioJSON) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            location.href = "/logout";
+            return;
+        }
+
+        const usuario = JSON.parse(usuarioJSON);
+
+        if (usuario.protectoras.length == 0) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            location.href = "/logout";
+        }
+    }, [])
+    /** FIN SEGURIDAD */
+
     const [events, setEvents] = useState<EventInput[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
@@ -62,18 +85,25 @@ const Calendar: React.FC = () => {
         const userJson = localStorage.getItem('user');
         const token = localStorage.getItem('authToken');
 
-        if (!userJson || !token) {
-            setError('User or token not found in localStorage');
-            location.href = "/signup";
+        if (!token) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            location.href = "/logout";
+        }
+
+        if (!userJson) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            location.href = "/logout";
             return;
         }
 
         const usuario = JSON.parse(userJson);
 
         if (usuario.protectoras.length == 0) {
-            localStorage.removeItem('user');
             localStorage.removeItem('authToken');
-            location.href = "/signup";
+            localStorage.removeItem('user');
+            location.href = "/logout";
         }
         fetchEvents();
     }, []);
@@ -384,7 +414,7 @@ const Calendar: React.FC = () => {
             <header style={{ position: "fixed", top: 0, zIndex: 9999 }}>
                 <HeaderBar></HeaderBar>
             </header>
-            <main style={{height: "100vh", justifyContent: "center", alignItems: "center", display: "flex", flexDirection: "column" }}>
+            <main style={{ height: "100vh", justifyContent: "center", alignItems: "center", display: "flex", flexDirection: "column" }}>
                 <div style={{ width: '100vh', margin: '0 auto', marginTop: '15vh' }}>
                     {error && <div style={{ color: 'red' }}>{error}</div>}
                     {success && <div style={{ color: 'green' }}>{success}</div>}
@@ -548,8 +578,8 @@ const Calendar: React.FC = () => {
                     </Modal>
                 </div>
                 <div>
-                    <div style={{ textAlign: 'center', fontWeight: '600', fontSize: '20px', margin: '2rem 0 0.4rem 0'}}>Leyenda</div>
-                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', columnGap: '0.5rem'}}>
+                    <div style={{ textAlign: 'center', fontWeight: '600', fontSize: '20px', margin: '2rem 0 0.4rem 0' }}>Leyenda</div>
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', columnGap: '0.5rem' }}>
                         <div style={{ display: 'flex', flexDirection: 'row', columnGap: '0.5rem', justifyContent: 'center', alignItems: 'center' }}>
                             <div style={{ height: '20px', width: '20px', borderRadius: '100%', backgroundColor: '#757575' }}></div>
                             <div><span>Pendiente</span></div>
@@ -619,7 +649,7 @@ const Calendar: React.FC = () => {
                         left: '10%',
                         width: '80px',
                         height: '80px',
-                        backgroundImage: 'url(/img/florAzul.png)', 
+                        backgroundImage: 'url(/img/florAzul.png)',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                         opacity: 0.7
@@ -633,7 +663,7 @@ const Calendar: React.FC = () => {
                         right: '-6%',
                         width: '500px',
                         height: '500px',
-                        backgroundImage: 'url(/img/florAzul.png)', 
+                        backgroundImage: 'url(/img/florAzul.png)',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                         opacity: 0.7
@@ -641,8 +671,8 @@ const Calendar: React.FC = () => {
                 ></Box>
 
             </main>
-            <footer style={{ marginTop: '4rem'}}>
-            <FooterPrivate></FooterPrivate>
+            <footer style={{ marginTop: '4rem' }}>
+                <FooterPrivate></FooterPrivate>
             </footer>
         </>
     );

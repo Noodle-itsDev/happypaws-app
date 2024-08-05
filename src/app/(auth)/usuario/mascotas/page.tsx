@@ -36,6 +36,29 @@ interface Mascota {
 }
 
 const PetsView: React.FC = () => {
+
+    /** SEGURIDAD */
+    useEffect(() => {
+        const token = localStorage.getItem("authToken");
+        const usuarioJSON = localStorage.getItem("user");
+
+        if (!token || !usuarioJSON) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            location.href = "/logout";
+            return;
+        }
+
+        const usuario = JSON.parse(usuarioJSON);
+
+        if (usuario.protectoras.length != 0) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            location.href = "/logout";
+        }
+    }, [])
+    /** FIN SEGURIDAD */
+
     const [mascotas, setMascotas] = useState<Mascota[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -52,9 +75,27 @@ const PetsView: React.FC = () => {
         const fetchMascotas = async () => {
             try {
                 const token = localStorage.getItem('authToken');
+                const userJson = localStorage.getItem('user');
+
                 if (!token) {
-                    location.href = "/signup";
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('user');
+                    location.href = "/logout";
+                }
+
+                if (!userJson) {
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('user');
+                    location.href = "/logout";
                     return;
+                }
+
+                const usuario = JSON.parse(userJson);
+
+                if (usuario.protectoras.length != 0) {
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('user');
+                    location.href = "/logout";
                 }
 
                 const res = await axios.get<Mascota[]>('http://194.164.165.239:8080/api/mascota/all', {
@@ -129,7 +170,7 @@ const PetsView: React.FC = () => {
             <header>
                 <HeaderBar></HeaderBar>
             </header>
-            <main style={{minHeight: "100vh"}}>
+            <main style={{ minHeight: "100vh" }}>
                 <Grid container spacing={6} padding={8}>
                     <Grid item xs={12} md={3}>
                         <FilterAccordion filters={filters} setFilters={setFilters} />
