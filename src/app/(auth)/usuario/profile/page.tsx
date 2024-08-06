@@ -139,6 +139,7 @@ const UserProfile: React.FC = () => {
                     location.href = "/logout";
                 }
 
+                console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", usuario.idUsuario);
                 const response = await axios.put(`http://194.164.165.239:8080/api/user/edit/${usuario.idUsuario}`, userData,
                     {
                         headers: {
@@ -147,6 +148,12 @@ const UserProfile: React.FC = () => {
                             'Content-Type': 'application/json'
                         }
                     });
+                    
+                if(response.status == 200){
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('user');
+                    location.href = '/signup';
+                }
 
             } catch (error) {
                 console.error("Error updating user data", error);
