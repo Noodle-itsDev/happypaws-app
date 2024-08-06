@@ -16,7 +16,7 @@ import PrimarySearchAppBar from "@/_components/header/headerGradient";
 import SimpleBottomNavigation from "@/_components/navigation/navigationNavBar";
 import HeaderBar from "@/_components/headerBarPrivateProtectora/headerBarPrivateProtectora/headerBar";
 import FooterPrivate from "@/_components/FooterPrivate/footerPublic";
-import zIndex from "@mui/material/styles/zIndex";
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import ChatAssistant from "@/_components/iaCom/iaCom";
 
 interface Usuario {
@@ -34,6 +34,7 @@ interface DataForModal {
     data1: Usuario[];
     data2: Mascota[];
 }
+
 
 const Calendar: React.FC = () => {
 
@@ -353,6 +354,8 @@ const Calendar: React.FC = () => {
             });
 
             setSuccess('Event added successfully');
+            handleCloseAddModal();
+
             setOpenAddModal(false);
             fetchEvents();
         } catch (error) {
@@ -410,13 +413,16 @@ const Calendar: React.FC = () => {
         fetchEvents();
     }
 
+
+
+
     return (
         <>
             <header>
                 <HeaderBar></HeaderBar>
             </header>
             <main style={{ height: "120vh", justifyContent: "center", alignItems: "center", display: "flex", flexDirection: "column" }}>
-                <Box sx={{padding: "20px", backgroundColor: "ffffff6a", height: "auto", width: "auto", boxShadow: "0px 10px 20px 10px #0000003a", borderRadius: "30px"}}>
+                <Box sx={{ padding: "20px", backgroundColor: "ffffff6a", height: "auto", width: "auto", boxShadow: "0px 10px 20px 10px #0000003a", borderRadius: "30px" }}>
                     <div style={{ width: '150vh', margin: '0 auto' }}>
                         {error && <div style={{ color: 'red' }}>{error}</div>}
                         {success && <div style={{ color: 'green' }}>{success}</div>}
@@ -459,12 +465,13 @@ const Calendar: React.FC = () => {
                                 flexDirection: 'column',
                                 transform: 'translate(-50%, -50%)',
                                 width: 400,
-                                bgcolor: '#2a8361',
+                                bgcolor: '#104b4b',
                                 borderRadius: '10px',
                                 boxShadow: 24,
                                 p: 5,
+                                
                             }}>
-                                <Typography id="modal-modal-title" variant="h6" component="h2">
+                                <Typography id="modal-modal-title" variant="h5" component="h2" sx={{color: "white", }}>
                                     <span style={{ fontWeight: '600' }}>{selectedEvent?.title || 'No Title'}</span>
                                 </Typography>
                                 <Typography sx={{ mt: 2 }}>
@@ -526,12 +533,14 @@ const Calendar: React.FC = () => {
                                 flexDirection: 'column',
                                 transform: 'translate(-50%, -50%)',
                                 width: 400,
-                                bgcolor: '#2a8361',
+                                bgcolor: '#fda547',
                                 borderRadius: '10px',
                                 boxShadow: 24,
                                 p: 5,
+                                textAlign: "center",
+                                fontFamily: "system-ui"
                             }}>
-                                <Typography id="modal-modal-title" variant="h6" component="h2" style={{ marginBottom: '2rem' }}>
+                                <Typography id="modal-modal-title" variant="h4" component="h2" style={{ marginBottom: '2rem', fontFamily: "system-ui", fontWeight: "bold", color: "#104b4b" }}>
                                     Crear evento
                                 </Typography>
                                 <form onSubmit={async (e) => {
@@ -545,33 +554,33 @@ const Calendar: React.FC = () => {
                                     };
                                     await handleAddEvent(newEvent as EventInput);
                                 }}>
-                                    <div>
+                                    <div style={{ marginTop: "10px" }}>
                                         <div><label>Nombre del Evento:</label></div>
                                         <div>
-                                            <select name="tipoEvento" id="tipoEvento">
+                                            <select style={{ width: '100%', height: "40px", borderRadius: "18px", padding: "20px" }} name="tipoEvento" id="tipoEvento">
                                                 <option value="Adopción de mascotas">Adopción de mascotas</option>
                                                 <option value="Voluntariado">Voluntariado</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div>
-                                        <div><label>Fecha de Inicio:</label></div>
-                                        <div><input style={{ width: '100%' }} type="date" name="fechaEvento" id="fechaEvento" required /></div>
+                                    <div style={{ marginTop: "10px" }}>
+                                        <div><label>Fecha:</label></div>
+                                        <div><input style={{ width: '100%', height: "40px", borderRadius: "18px", padding: "10px" }} type="date" name="fechaEvento" id="fechaEvento" required /></div>
                                     </div>
-                                    <div>
+                                    <div style={{ marginTop: "10px" }}>
                                         <div><label>Usuario</label></div>
                                         <div>
-                                            <select style={{ width: '100%' }} name="usuarioEvento" id="usuarioEvento" required>
+                                            <select style={{ width: '100%', height: "40px", borderRadius: "18px", padding: "10px" }} name="usuarioEvento" id="usuarioEvento" required>
                                                 {usuarios.map((usuario) => (
                                                     <option key={usuario.idUsuario} value={usuario.idUsuario}>{usuario.nombre}</option>
                                                 ))}
                                             </select>
                                         </div>
                                     </div>
-                                    <div>
+                                    <div style={{ marginTop: "10px" }}>
                                         <div><label>Mascota:</label></div>
                                         <div>
-                                            <input style={{ width: '100%' }} name="mascotaEvento" id="mascotaEvento" type="text" value={`${selectedMascota?.nombre}, ${selectedMascota?.edad}`} readOnly />
+                                            <input style={{ width: '100%', height: "40px", borderRadius: "18px", padding: "10px" }} name="mascotaEvento" id="mascotaEvento" type="text" value={`${selectedMascota?.nombre}, ${selectedMascota?.edad}`} readOnly />
                                         </div>
                                     </div>
                                     <button type="submit" onClick={handleSubmitCrear} style={{ marginTop: '16px', borderRadius: '4px', padding: '0.6rem 1.3rem', backgroundColor: 'lightgrey' }}>Crear</button>
@@ -677,7 +686,7 @@ const Calendar: React.FC = () => {
                         }}
                     ></Box>
                 </Box>
-                <ChatAssistant/>
+                <ChatAssistant />
             </main>
             <footer style={{ marginTop: '4rem' }}>
                 <FooterPrivate></FooterPrivate>

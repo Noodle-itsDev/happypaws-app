@@ -5,19 +5,28 @@ import Footer from "@/_components/footerCom/footer";
 import PrimarySearchAppBar from "@/_components/header/headerGradient";
 import SimpleBottomNavigation from "@/_components/navigation/navigationNavBar";
 import { Phone, Email, LocationOn } from "@mui/icons-material";
-import { Button, Container, Grid, Paper, TextField, Typography } from "@mui/material";
+import { Button, Container, Grid, Paper, TextField, Typography, Modal, Box } from "@mui/material";
 import Styles from './contact.module.css'; // Asegúrate de que este archivo CSS esté bien configurado.
-import React, { FormEvent, useEffect } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import gsap from 'gsap';
-import { Box } from '@mui/system';
 import HeaderBar from '@/_components/headerBarPublic/headerBarPublic/headerBar';
 import FooterPublic from '@/_components/FooterPublic/footerPublic';
 import axios from 'axios';
 import ChatAssistant from '@/_components/iaCom/iaCom';
 
 const ContactPage: React.FC = () => {
+    const [openModal, setOpenModal] = useState(false);
 
-    function handleSubmit() {
+    function handleOpenModal() {
+        setOpenModal(true);
+    }
+
+    function handleCloseModal() {
+        setOpenModal(false);
+    }
+
+    function handleSubmit(e: FormEvent) {
+        e.preventDefault(); // Prevent the default form submission behavior
 
         const nombre = (document.getElementById('nombre') as HTMLInputElement).value;
         const correo = (document.getElementById('email') as HTMLInputElement).value;
@@ -33,7 +42,7 @@ const ContactPage: React.FC = () => {
 
         axios.post('http://194.164.165.239:8080/api/another/send/contact', data)
             .then(response => {
-                location.reload;
+                handleOpenModal();
             })
             .catch(error => {
                 console.error('Error al enviar el formulario:', error);
@@ -75,7 +84,7 @@ const ContactPage: React.FC = () => {
             ease: 'sine.inOut'
         });
 
-        // Añadir más animaciones para otros elementos flotantes
+        
         gsap.to('.floating-circle:nth-of-type(2)', {
             x: 100,
             y: 20,
@@ -95,7 +104,7 @@ const ContactPage: React.FC = () => {
             ease: 'sine.inOut'
         });
 
-        // Añadir animaciones para flores adicionales
+     
         gsap.to('.floating-flower:nth-of-type(3)', {
             x: 150,
             y: -20,
@@ -247,6 +256,44 @@ const ContactPage: React.FC = () => {
                     </Grid>
                 </Container>
 
+                {/* Modal de Confirmación */}
+                <Modal
+                    open={openModal}
+                    onClose={handleCloseModal}
+                    aria-labelledby="modal-title"
+                    aria-describedby="modal-description"
+                >
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            width: 300,
+                            bgcolor: 'background.paper',
+                            borderRadius: 1,
+                            boxShadow: 24,
+                            p: 4,
+                            justifyContent: "center",
+                            alignItems: "center",
+                            textAlign: "center"
+                        }}
+                    >
+                        <Typography id="modal-title" variant="h6" component="h2">
+                            ¡Mensaje Enviado!
+                        </Typography>
+                        <Typography id="modal-description" sx={{ mt: 2 }}>
+                            Tu mensaje ha sido enviado correctamente. Nos pondremos en contacto contigo pronto.
+                        </Typography>
+                        <Button
+                            onClick={handleCloseModal}
+                            variant="contained"
+                            sx={{ mt: 2, backgroundColor: "#104b4b"}}
+                        >
+                            Cerrar
+                        </Button>
+                    </Box>
+                </Modal>
 
                 <Box
                     className="floating-circle"

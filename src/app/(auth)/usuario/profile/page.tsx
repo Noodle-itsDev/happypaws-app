@@ -594,7 +594,7 @@ const UserProfile: React.FC = () => {
                         <Box
                             sx={{
                                 width: '100%',
-                                maxHeight: '171vh',
+                                maxHeight: '225vh',
                                 backgroundColor: '#eeeeee',
                                 display: 'flex',
                                 justifyContent: 'center',

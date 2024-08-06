@@ -74,37 +74,38 @@ const PetsView: React.FC = () => {
             try {
                 const token = localStorage.getItem('authToken');
                 const userJson = localStorage.getItem('user');
-
+    
                 if (!token) {
                     localStorage.removeItem('authToken');
                     localStorage.removeItem('user');
                     location.href = "/logout";
                 }
-
+    
                 if (!userJson) {
                     localStorage.removeItem('authToken');
                     localStorage.removeItem('user');
                     location.href = "/logout";
                     return;
                 }
-
+    
                 const usuario = JSON.parse(userJson);
-
+    
                 if (usuario.protectoras.length != 0) {
                     localStorage.removeItem('authToken');
                     localStorage.removeItem('user');
                     location.href = "/logout";
                 }
-
+    
                 const res = await axios.get<Mascota[]>('http://194.164.165.239:8080/api/mascota/all', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     }
                 });
-
+    
                 if (res.status === 200) {
-                    setMascotas(res.data);
+                    const mascotasFiltradas = res.data.filter(mascota => mascota.estado !== 'Fallecido' && mascota.estado !== 'Enfermo');
+                    setMascotas(mascotasFiltradas);
                 } else {
                     localStorage.removeItem('authToken');
                     location.href = "/signup";
@@ -119,9 +120,10 @@ const PetsView: React.FC = () => {
                 setLoading(false);
             }
         };
-
+    
         fetchMascotas();
     }, []);
+    
 
     const handlePageChange = (event: unknown, newPage: number) => {
         setPage(newPage);
@@ -167,7 +169,7 @@ const PetsView: React.FC = () => {
             <header>
                 <HeaderBar></HeaderBar>
             </header>
-            <main style={{ minHeight: "100vh" }}>
+            <main style={{ minHeight: "120vh" }}>
                 <Grid container spacing={6} padding={8}>
                     <Grid item xs={12} md={3}>
                         <FilterAccordion filters={filters} setFilters={setFilters} />

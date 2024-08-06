@@ -261,7 +261,7 @@ const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
                 <Typography hidden variant="body1" sx={{ fontFamily: "system-ui", mb: 1 }}>
                   <strong>Incidentes:</strong> {incidentes}
                 </Typography>
-                <Button variant="contained" color="primary" onClick={handleAdoptOpen} sx={{ marginTop: 2 }}>Adoptar</Button>
+                <Button variant="contained" color="primary" onClick={handleAdoptOpen} sx={{ marginTop: 2,  backgroundColor: "#104b4b"}}>Adoptar</Button>
               </Box>
             </Box>
           </Box>
@@ -279,11 +279,12 @@ const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
             backgroundColor: 'white',
             margin: '5% auto',
             width: { xs: '50%', sm: '50%', md: '30%' },
-            maxHeight: '90vh',
+            maxHeight: '40vh',
             overflowY: 'auto',
             borderRadius: 2,
             outline: 'none',
             fontFamily: "system-ui",
+            overflow: "hidden"
           }}>
             <CardMedia
               component="img"
@@ -297,15 +298,16 @@ const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
                 marginBottom: 2,
               }}
             />
-            <Typography variant="h6" component="h2" gutterBottom sx={{ fontFamily: "system-ui" }}>
-              Adoptar a {nombre}
+            <Typography variant="h6" component="h2" gutterBottom sx={{ fontFamily: "system-ui", textAlign: "center"}}>
+              Solicitud para adoptar a {nombre} <br/> enviada.
             </Typography>
             <Typography variant="body1" sx={{ textAlign: 'center', fontFamily: "system-ui" }}>
               Muchas gracias por ponerte en contacto con nosotros, en breve recibirás respuesta a tu solicitud.
             </Typography>
-            <Button variant="contained" color="primary" onClick={handleAdoptClose} sx={{ marginTop: 2, fontFamily: "system-ui" }}>
+            <Button variant="contained" color="primary" onClick={handleAdoptClose} sx={{ marginTop: 2, fontFamily: "system-ui", backgroundColor: "#104b4b"}}>
               Cerrar
             </Button>
+
           </Box>
         </Box>
 
