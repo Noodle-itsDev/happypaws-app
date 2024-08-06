@@ -465,7 +465,7 @@ const SignupView: React.FC = () => {
                   : Styles.fadeOut
                   } ${fadeOut ? Styles.fadeOut : ""} formularioRegistroUsuario`}
                 style={{
-                  height: "70vh",
+                  height: "80vh",
                   width: "40vw",
                   display:
                     view === "formularioRegistroUsuario" ? "flex" : "none",

@@ -134,6 +134,7 @@ const CalendarUser: React.FC = () => {
                 }
             });
 
+            if(response.data){
             const activeEvents = response.data.filter((event: any) => event.estado !== "Inactivo");
             const transformedEvents = activeEvents.map((event: any) => ({
                 id: event.eventoId,
@@ -153,6 +154,8 @@ const CalendarUser: React.FC = () => {
                 }
             }));
             setEvents(transformedEvents);
+            }
+
         } catch (error: unknown) {
             handleError(error);
         }
@@ -311,57 +314,6 @@ const CalendarUser: React.FC = () => {
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
-    };
-
-    const handleSubmitCrear = async (event: React.FormEvent) => {
-        event.preventDefault();
-
-        const startDateInput = (document.getElementById('fechaEvento') as HTMLInputElement).value;
-        const mascotaId = selectedMascota?.id;
-        const start = formatDate(startDateInput);
-        const userJson = localStorage.getItem('user');
-
-        if (!userJson) {
-            setError('User or token not found in localStorage');
-            location.href = "/signup";
-            return;
-        }
-        const usuario = JSON.parse(userJson);
-        const usuarioId = usuario.idUsuario;
-
-        const newEvent = {
-            nombreEvento: "Voluntariado",
-            descripcion: "Evento para promover el bienestar animal.)",
-            fechaInicio: start,
-            fechaFin: start,
-            finalizado: false,
-            usuario: { idUsuario: Number(usuarioId) },
-            mascota: { id: Number(mascotaId) },
-            protectora: { idProtectora: 16 },
-            estado: "Pendiente",
-            tipoEvento: "Voluntariado",
-        };
-
-        try {
-            const token = localStorage.getItem('authToken');
-            if (!token) {
-                setError('Token not found in localStorage');
-                return;
-            }
-
-            await axios.post(`http://194.164.165.239:8080/api/eventos/create`, newEvent, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                }
-            });
-
-            setSuccess('Event added successfully');
-            setOpenAddModal(false);
-            fetchEvents();
-        } catch (error) {
-            handleError(error);
-        }
     };
 
     const handleModificarEstado = async (event: React.FormEvent) => {
