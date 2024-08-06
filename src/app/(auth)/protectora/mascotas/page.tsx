@@ -2,16 +2,13 @@
 
 import React, { lazy, Suspense } from 'react';
 import { useState, useEffect } from 'react';
-import Footer from "@/_components/footerCom/footer";
-import PrimarySearchAppBar from "@/_components/header/headerGradient";
-import SimpleBottomNavigation from "@/_components/navigation/navigationNavBar";
+import './petsProtectora.module.css';
 import { Grid, CircularProgress, Typography, Box, TablePagination, Accordion, AccordionSummary, AccordionDetails, Button, Modal, Container } from "@mui/material";
 import axios from 'axios';
 import ImgMediaCard from '@/_components/cardAnimalesProtectora/cardAnimales';
 import FilterAccordion from '@/_components/filterAccordion/filterAccordion';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CreateMascota from '@/_components/formPet/formPet';
-import updateMascota from '@/_components/formPetUpdate/formPetUpdate';
 import UpdateMascota from '@/_components/formPetUpdate/formPetUpdate';
 import HeaderBar from '@/_components/headerBarPrivateProtectora/headerBarPrivateProtectora/headerBar';
 import FooterPrivate from '@/_components/FooterPrivate/footerPublic';
@@ -136,7 +133,7 @@ const PetsView: React.FC = () => {
     if (error) {
         return <Typography color="error">{error}</Typography>;
     }
-
+    
     return (
         <>
 
@@ -230,48 +227,49 @@ const PetsView: React.FC = () => {
                     className="floating-circle"
                     sx={{
                         position: 'absolute',
+                        zIndex: -100,
                         bottom: '10%',
                         right: '10%',
                         width: '100px',
                         height: '100px',
                         borderRadius: '50%',
-                        backgroundColor: '#104b4b',
-                        opacity: 1,
-                        zIndex: -200
+                        backgroundColor: '#ffb552',
+                        opacity: 1
                     }}
                 ></Box>
                 <Box
                     className="floating-circle"
                     sx={{
                         position: 'absolute',
+                        zIndex: -100,
                         top: '-5%',
                         left: '-10%',
                         width: '600px',
                         height: '600px',
                         borderRadius: '50%',
                         backgroundColor: '#fda547',
-                        opacity: 0.6,
-                        zIndex: -200
+                        opacity: 1
                     }}
                 ></Box>
                 <Box
                     className="floating-circle"
                     sx={{
                         position: 'absolute',
+                        zIndex: -100,
                         top: '90%',
                         right: '-15%',
                         width: '520px',
                         height: '520px',
                         borderRadius: '50%',
                         backgroundColor: '#94cf98',
-                        opacity: 0.6,
-                        zIndex: -200
+                        opacity: 1
                     }}
                 ></Box>
                 <Box
                     className="floating-flower"
                     sx={{
                         position: 'absolute',
+                        zIndex: -100,
                         bottom: '20%',
                         left: '10%',
                         width: '80px',
@@ -279,25 +277,25 @@ const PetsView: React.FC = () => {
                         backgroundImage: 'url(/img/florAzul.png)',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
-                        opacity: 0.7,
-                        zIndex: -200
+                        opacity: 1
                     }}
                 ></Box>
                 <Box
                     className="floating-flower"
                     sx={{
                         position: 'absolute',
-                        top: '30%',
+                        zIndex: -100,
+                        top: '16%',
                         right: '-6%',
                         width: '500px',
                         height: '500px',
                         backgroundImage: 'url(/img/florAzul.png)',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
-                        opacity: 0.7,
-                        zIndex: -200
+                        opacity: 1
                     }}
                 ></Box>
+
 
             </main>
 

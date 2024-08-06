@@ -12,6 +12,7 @@ import NotificationCard from "@/_components/notificationCard/notificationCard";
 import EventChips from "@/_components/chipsComponent/chipsComponent";
 import HeaderBar from "@/_components/headerBarPrivateUsuario/headerBar";
 import FooterPrivate from "@/_components/FooterPrivate/footerPublic";
+import ChatAssistant from "@/_components/iaCom/iaCom";
 
 interface UserData {
     nombre: string;
@@ -330,9 +331,10 @@ const UserProfile: React.FC = () => {
                 <HeaderBar></HeaderBar>
             </header>
             <main
+            className= {`${Styles.mHeight}`}
                 style={{
                     width: "100vw",
-                    height: "calc(100vh + 100vh)",
+
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -660,48 +662,49 @@ const UserProfile: React.FC = () => {
                     className="floating-circle"
                     sx={{
                         position: 'absolute',
+                        zIndex: -100,
                         bottom: '10%',
                         right: '10%',
                         width: '100px',
                         height: '100px',
                         borderRadius: '50%',
-                        backgroundColor: '#104b4b',
-                        opacity: 1,
-                        zIndex: -200
+                        backgroundColor: '#ffb552',
+                        opacity: 1
                     }}
                 ></Box>
                 <Box
                     className="floating-circle"
                     sx={{
                         position: 'absolute',
+                        zIndex: -100,
                         top: '-5%',
                         left: '-10%',
                         width: '600px',
                         height: '600px',
                         borderRadius: '50%',
                         backgroundColor: '#fda547',
-                        opacity: 0.6,
-                        zIndex: -200
+                        opacity: 1
                     }}
                 ></Box>
                 <Box
                     className="floating-circle"
                     sx={{
                         position: 'absolute',
+                        zIndex: -100,
                         top: '90%',
                         right: '-15%',
                         width: '520px',
                         height: '520px',
                         borderRadius: '50%',
                         backgroundColor: '#94cf98',
-                        opacity: 0.6,
-                        zIndex: -200
+                        opacity: 1
                     }}
                 ></Box>
                 <Box
-                    className={`${Styles.floatingFlower}`}
+                    className="floating-flower"
                     sx={{
                         position: 'absolute',
+                        zIndex: -100,
                         bottom: '20%',
                         left: '10%',
                         width: '80px',
@@ -709,25 +712,25 @@ const UserProfile: React.FC = () => {
                         backgroundImage: 'url(/img/florAzul.png)',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
-                        opacity: 0.7,
-                        zIndex: -200
+                        opacity: 1
                     }}
                 ></Box>
                 <Box
                     className="floating-flower"
                     sx={{
                         position: 'absolute',
-                        top: '30%',
+                        zIndex: -100,
+                        top: '16%',
                         right: '-6%',
                         width: '500px',
                         height: '500px',
                         backgroundImage: 'url(/img/florAzul.png)',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
-                        opacity: 0.7,
-                        zIndex: -200
+                        opacity: 1
                     }}
                 ></Box>
+                <ChatAssistant/>
             </main>
             <footer>
                 <FooterPrivate></FooterPrivate>

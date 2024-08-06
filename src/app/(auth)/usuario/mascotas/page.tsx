@@ -2,10 +2,6 @@
 import axios from 'axios';
 import gsap from 'gsap/src';
 import { useState, useEffect } from 'react';
-import Styles from './userPet.module.css';
-import Footer from "@/_components/footerCom/footer";
-import PrimarySearchAppBar from "@/_components/header/headerGradient";
-import SimpleBottomNavigation from "@/_components/navigation/navigationNavBar";
 import { Grid, CircularProgress, Typography, Box, TablePagination } from "@mui/material";
 import ImgMediaCard from '@/_components/cardAnimales/cardAnimales';
 import FilterAccordion from '@/_components/filterAccordion/filterAccordion';
@@ -164,6 +160,45 @@ const PetsView: React.FC = () => {
         return <Typography color="error">{error}</Typography>;
     }
 
+    useEffect(() => {
+        gsap.utils.toArray('.animate-scroll').forEach((section: unknown) => {
+            const element = section as HTMLElement;
+
+            gsap.fromTo(element,
+                { opacity: 0, y: 100 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: element,
+                        start: 'top 80%',
+                        end: 'bottom 60%',
+                        scrub: true,
+                        toggleActions: 'play none none reverse'
+                    }
+                }
+            );
+        });
+
+        gsap.to('.floating-circle', {
+            y: 20,
+            rotation: 360,
+            duration: 5,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut'
+        });
+
+        gsap.to('.floating-flower', {
+            y: 10,
+            duration: 2,
+            yoyo: true,
+            repeat: -1,
+            ease: 'sine.inOut'
+        });
+    }, []);
 
 
     return (
@@ -232,48 +267,49 @@ const PetsView: React.FC = () => {
                     className="floating-circle"
                     sx={{
                         position: 'absolute',
+                        zIndex: -100,
                         bottom: '10%',
                         right: '10%',
                         width: '100px',
                         height: '100px',
                         borderRadius: '50%',
-                        backgroundColor: '#104b4b',
-                        opacity: 1,
-                        zIndex: -200
+                        backgroundColor: '#ffb552',
+                        opacity: 1
                     }}
                 ></Box>
                 <Box
                     className="floating-circle"
                     sx={{
                         position: 'absolute',
+                        zIndex: -100,
                         top: '-5%',
                         left: '-10%',
                         width: '600px',
                         height: '600px',
                         borderRadius: '50%',
                         backgroundColor: '#fda547',
-                        opacity: 0.6,
-                        zIndex: -200
+                        opacity: 1
                     }}
                 ></Box>
                 <Box
                     className="floating-circle"
                     sx={{
                         position: 'absolute',
+                        zIndex: -100,
                         top: '90%',
                         right: '-15%',
                         width: '520px',
                         height: '520px',
                         borderRadius: '50%',
                         backgroundColor: '#94cf98',
-                        opacity: 0.6,
-                        zIndex: -200
+                        opacity: 1
                     }}
                 ></Box>
                 <Box
-                    className={`${Styles.floatingFlower}`}
+                    className="floating-flower"
                     sx={{
                         position: 'absolute',
+                        zIndex: -100,
                         bottom: '20%',
                         left: '10%',
                         width: '80px',
@@ -281,22 +317,22 @@ const PetsView: React.FC = () => {
                         backgroundImage: 'url(/img/florAzul.png)',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
-                        opacity: 0.7,
-                        zIndex: -200
+                        opacity: 1
                     }}
                 ></Box>
                 <Box
+                    className="floating-flower"
                     sx={{
                         position: 'absolute',
-                        top: '30%',
+                        zIndex: -100,
+                        top: '16%',
                         right: '-6%',
                         width: '500px',
                         height: '500px',
                         backgroundImage: 'url(/img/florAzul.png)',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
-                        opacity: 0.7,
-                        zIndex: -200
+                        opacity: 1
                     }}
                 ></Box>
 

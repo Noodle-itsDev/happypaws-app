@@ -411,8 +411,8 @@ const CalendarUser: React.FC = () => {
             <header style={{}}>
                 <HeaderBar></HeaderBar>
             </header>
-            <main style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", width: "100vw" }}>
-                <Grid style={{ backgroundColor: "#abddf13b", padding: "10px 40px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", borderRadius: "40px", boxShadow: "0px 20px 20px 20px #00000029", marginTop: "8vh" }}>
+            <main style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "140vh", width: "100vw" }}>
+                <Grid style={{ backgroundColor: "#abddf13b", padding: "10px 40px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", borderRadius: "40px", boxShadow: "0px 20px 20px 20px #00000029", marginTop: "1vh" }}>
                     <div style={{ maxWidth: '100vh', margin: '0 auto', marginTop: '15vh', width: '65vw' }}>
                         {error && <div style={{ color: 'red' }}>{error}</div>}
                         {success && <div style={{ color: 'green' }}>{success}</div>}
@@ -598,72 +598,72 @@ const CalendarUser: React.FC = () => {
                     className="floating-circle"
                     sx={{
                         position: 'absolute',
+                        zIndex: -100,
                         bottom: '10%',
                         right: '10%',
                         width: '100px',
                         height: '100px',
                         borderRadius: '50%',
-                        backgroundColor: '#104b4b',
-                        opacity: 1,
-                        zIndex: -200
+                        backgroundColor: '#ffb552',
+                        opacity: 1
                     }}
                 ></Box>
                 <Box
                     className="floating-circle"
                     sx={{
                         position: 'absolute',
+                        zIndex: -100,
                         top: '-5%',
                         left: '-10%',
                         width: '600px',
                         height: '600px',
                         borderRadius: '50%',
                         backgroundColor: '#fda547',
-                        opacity: 0.6,
-                        zIndex: -200
+                        opacity: 1
                     }}
                 ></Box>
                 <Box
                     className="floating-circle"
                     sx={{
                         position: 'absolute',
+                        zIndex: -100,
                         top: '90%',
                         right: '-15%',
                         width: '520px',
                         height: '520px',
                         borderRadius: '50%',
                         backgroundColor: '#94cf98',
-                        opacity: 0.6,
-                        zIndex: -200
-                    }}
-                ></Box>
-                <Box
-                    className={`${Styles.floatingFlower}`}
-                    sx={{
-                        position: 'absolute',
-                        bottom: '20%',
-                        right: '10%',
-                        width: '80px',
-                        height: '80px',
-                        backgroundImage: 'url(/img/florAzul.png)',
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        opacity: 0.7,
-                        zIndex: -200
+                        opacity: 1
                     }}
                 ></Box>
                 <Box
                     className="floating-flower"
                     sx={{
                         position: 'absolute',
-                        top: '30%',
-                        left: '-6%',
+                        zIndex: -100,
+                        bottom: '20%',
+                        left: '10%',
+                        width: '80px',
+                        height: '80px',
+                        backgroundImage: 'url(/img/florAzul.png)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        opacity: 1
+                    }}
+                ></Box>
+                <Box
+                    className="floating-flower"
+                    sx={{
+                        position: 'absolute',
+                        zIndex: -100,
+                        top: '16%',
+                        right: '-6%',
                         width: '500px',
                         height: '500px',
                         backgroundImage: 'url(/img/florAzul.png)',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
-                        opacity: 0.7,
-                        zIndex: -200
+                        opacity: 1
                     }}
                 ></Box>
             </main>

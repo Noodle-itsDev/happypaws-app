@@ -30,7 +30,7 @@ const ChatContainer = styled.div`
 `;
 
 const ChatButton = styled.button`
-  background-color: #4a5568;
+  background-color: #1da69d;
   color: white;
   border: none;
   border-radius: 50%;
@@ -46,13 +46,12 @@ const ChatButton = styled.button`
   position: relative; 
 `;
 
-const ChatButtonTransparent = styled.button`
+const ChatButtonOverlay = styled.div`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  border: none;
   background: transparent;
   cursor: pointer;
   border-radius: 50%;
@@ -91,7 +90,7 @@ const ChatModal = styled.div<{ isOpen: boolean }>`
 
 const ChatHeader = styled.div`
   padding: 16px;
-  background-color: #4a5568;
+  background-color: #1da69d;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -246,7 +245,7 @@ const ChatAssistant: React.FC = () => {
                 <ChatBubble style={{ backgroundColor: "#104b4b" }} isVisible={!state.isOpen}>
                     ¿Te puedo ayudar en algo?
                 </ChatBubble>
-                <ChatButtonTransparent onClick={toggleChat} />
+                <ChatButtonOverlay onClick={toggleChat} />
             </ChatButton>
 
             <ChatModal isOpen={state.isOpen}>
