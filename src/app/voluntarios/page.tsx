@@ -10,6 +10,7 @@ import Footer from "@/_components/footerCom/footer";
 import RotatingImage from "@/_components/flowerComAnimated/flowerComAnimated";
 import HeaderBar from "@/_components/headerBarPublic/headerBarPublic/headerBar";
 import FooterPublic from "@/_components/FooterPublic/footerPublic";
+import ChatAssistant from "@/_components/iaCom/iaCom";
 
 // Registrar los plugins de GSAP
 gsap.registerPlugin(ScrollTrigger);
@@ -87,6 +88,7 @@ const VolunteersView: React.FC = () => {
                             />
                         </div>
                     </section>
+
                 </main>
                 <footer>
                 <FooterPublic></FooterPublic>

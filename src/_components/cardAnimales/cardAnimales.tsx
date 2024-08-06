@@ -45,7 +45,7 @@ interface ImgMediaCardProps {
   learnMoreButtonColor?: string;
 }
 
-const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
+const ImgMediaCardShelter: React.FC<ImgMediaCardProps> = ({
   id,
   nombre,
   especie,
@@ -181,7 +181,7 @@ const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
           alignItems: 'center',
           justifyContent: 'center',
           margin: '5% auto',
-          width: { xs: '90vw', sm: '80vw', md: '60vw', lg: '40vw' },
+          width: { xs: '90vw', sm: '80vw', md: '60vw', lg: '60vw' },
           height: 'auto',
           maxHeight: '90vh',
           overflowY: 'auto',
@@ -194,7 +194,7 @@ const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
             flexDirection: { xs: 'column', sm: 'row' },
             gap: { xs: '2vw', sm: '5vw' },
             alignItems: 'center',
-            padding: { xs: '20px', sm: '40px', md: '40px', lg: '60px' },
+            padding: { xs: '20px', sm: '40px', md: '40px', lg: '30px' },
             borderRadius: '30px',
           }}>
             <Box sx={{
@@ -228,28 +228,28 @@ const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
                 <Typography variant='h4' sx={{ fontFamily: "system-ui", fontWeight: "bold", color: "#104b4b", mb: 2 }}>
                   {nombre}
                 </Typography>
-                <Typography hidden variant="body1" sx={{ fontFamily: "system-ui", mb: 1 }}>
+                <Typography  variant="body1" sx={{ fontFamily: "system-ui", mb: 1 }}>
                   <strong>Especie:</strong> {especie}
                 </Typography>
-                <Typography hidden variant="body1" sx={{ fontFamily: "system-ui", mb: 1 }}>
+                <Typography  variant="body1" sx={{ fontFamily: "system-ui", mb: 1 }}>
                   <strong>Raza:</strong> {raza}
                 </Typography>
-                <Typography hidden variant="body1" sx={{ fontFamily: "system-ui", mb: 1 }}>
+                <Typography  variant="body1" sx={{ fontFamily: "system-ui", mb: 1 }}>
                   <strong>Género:</strong> {genero}
                 </Typography>
                 <Typography variant="body1" sx={{ fontFamily: "system-ui", mb: 1 }}>
                   <strong>Edad:</strong> {edad} años
                 </Typography>
-                <Typography hidden variant="body1" sx={{ fontFamily: "system-ui", mb: 1 }}>
+                <Typography  variant="body1" sx={{ fontFamily: "system-ui", mb: 1 }}>
                   <strong>Estado:</strong> {estado}
                 </Typography>
-                <Typography hidden variant="body1" sx={{ fontFamily: "system-ui", mb: 1 }}>
+                <Typography  variant="body1" sx={{ fontFamily: "system-ui", mb: 1 }}>
                   <strong>Chip:</strong> {chip ? numeroChip : 'No'}
                 </Typography>
-                <Typography hidden variant="body1" sx={{ fontFamily: "system-ui", mb: 1 }}>
+                <Typography  variant="body1" sx={{ fontFamily: "system-ui", mb: 1 }}>
                   <strong>Tratamientos:</strong> {tratamientos}
                 </Typography>
-                <Typography hidden variant="body1" sx={{ fontFamily: "system-ui", mb: 1 }}>
+                <Typography  variant="body1" sx={{ fontFamily: "system-ui", mb: 1 }}>
                   <strong>Alergias:</strong> {alergias}
                 </Typography>
                 <Typography variant="body1" sx={{ fontFamily: "system-ui", mb: 1 }}>
@@ -261,58 +261,15 @@ const ImgMediaCard: React.FC<ImgMediaCardProps> = ({
                 <Typography hidden variant="body1" sx={{ fontFamily: "system-ui", mb: 1 }}>
                   <strong>Incidentes:</strong> {incidentes}
                 </Typography>
-                <Button variant="contained" color="primary" onClick={handleAdoptOpen} sx={{ marginTop: 2 }}>Adoptar</Button>
               </Box>
             </Box>
           </Box>
         </Box>
       </Modal>
 
-      <Modal open={adoptModalOpen} onClose={handleAdoptClose}>
-
-        <Box >
-          <Box sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            padding: '20px',
-            backgroundColor: 'white',
-            margin: '5% auto',
-            width: { xs: '50%', sm: '50%', md: '30%' },
-            maxHeight: '90vh',
-            overflowY: 'auto',
-            borderRadius: 2,
-            outline: 'none',
-            fontFamily: "system-ui",
-          }}>
-            <CardMedia
-              component="img"
-              alt={nombre}
-              image={imagen}
-              sx={{
-                height: 150,
-                width: 150,
-                borderRadius: '50%',
-                objectFit: 'cover',
-                marginBottom: 2,
-              }}
-            />
-            <Typography variant="h6" component="h2" gutterBottom sx={{ fontFamily: "system-ui" }}>
-              Adoptar a {nombre}
-            </Typography>
-            <Typography variant="body1" sx={{ textAlign: 'center', fontFamily: "system-ui" }}>
-              Muchas gracias por ponerte en contacto con nosotros, en breve recibirás respuesta a tu solicitud.
-            </Typography>
-            <Button variant="contained" color="primary" onClick={handleAdoptClose} sx={{ marginTop: 2, fontFamily: "system-ui" }}>
-              Cerrar
-            </Button>
-          </Box>
-        </Box>
-
-      </Modal>
 
     </Box>
   );
 };
 
-export default ImgMediaCard;
+export default ImgMediaCardShelter;

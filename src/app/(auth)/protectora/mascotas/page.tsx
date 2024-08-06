@@ -12,19 +12,30 @@ import CreateMascota from '@/_components/formPet/formPet';
 import UpdateMascota from '@/_components/formPetUpdate/formPetUpdate';
 import HeaderBar from '@/_components/headerBarPrivateProtectora/headerBarPrivateProtectora/headerBar';
 import FooterPrivate from '@/_components/FooterPrivate/footerPublic';
+import ImgMediaCardShelter from '@/_components/cardAnimales/cardAnimales';
+import ChatAssistant from '@/_components/iaCom/iaCom';
 
 interface Mascota {
-    socializacion: string;
-    informacionComportamiento: string;
-    title: string;
-    imagen: string;
     id: number;
     nombre: string;
     especie: string;
     raza: string;
     genero: string;
     edad: number;
-    comportamiento: string;
+    chip: boolean;
+    numeroChip: string;
+    estado: string;
+    vacunado: boolean;
+    esterilizacion: boolean;
+    desparasitacionInterna: boolean;
+    desparasitacionExterna: boolean;
+    tratamientos: string;
+    alergias: string;
+    socializacion: string;
+    informacionComportamiento: string;
+    incidentes: string;
+    fecha_defuncion: Date;
+    imagen: string;
 }
 
 const PetsView: React.FC = () => {
@@ -140,7 +151,7 @@ const PetsView: React.FC = () => {
             <header>
                 <HeaderBar></HeaderBar>
             </header>
-            <main style={{ overflow: "hidden", height: "100vh" }}>
+            <main style={{ overflow: "hidden",minHeight: "100vh",height: "auto" }}>
                 <Grid container spacing={6} padding={10}>
                     <Grid item xs={12} md={3}>
                         <Box mb={2}>
@@ -173,7 +184,7 @@ const PetsView: React.FC = () => {
                             <Grid container columnSpacing={0} rowSpacing={2} columnGap={-5}>
                                 {currentItems.map((mascota) => (
                                     <Grid item xs={12} sm={6} md={3} key={mascota.id}>
-                                        <ImgMediaCard
+                                        <ImgMediaCardShelter
                                             nombre={mascota.nombre}
                                             informacionComportamiento={mascota.informacionComportamiento}
                                             imagen={mascota.imagen}
@@ -181,8 +192,20 @@ const PetsView: React.FC = () => {
                                             edad={mascota.edad}
                                             socializacion={mascota.socializacion}
                                             shareButtonLabel="Share"
-                                            learnMoreButtonLabel="Learn More"
-                                        />
+                                            learnMoreButtonLabel="Learn More" id={0} 
+                                            raza={mascota.raza} 
+                                            genero={mascota.genero} 
+                                            chip={mascota.chip} 
+                                            numeroChip={mascota.numeroChip} 
+                                            estado={mascota.estado} 
+                                            vacunado={mascota.vacunado} 
+                                            esterilizacion={mascota.esterilizacion} 
+                                            desparasitacionInterna={mascota.desparasitacionInterna} 
+                                            desparasitacionExterna={mascota.desparasitacionExterna} 
+                                            tratamientos={mascota.tratamientos} 
+                                            alergias={mascota.alergias} 
+                                            incidentes={mascota.incidentes}
+                                            fecha_defuncion={mascota.fecha_defuncion}                                        />
                                     </Grid>
                                 ))}
                             </Grid>
@@ -295,8 +318,7 @@ const PetsView: React.FC = () => {
                         opacity: 1
                     }}
                 ></Box>
-
-
+                <ChatAssistant/>
             </main>
 
 

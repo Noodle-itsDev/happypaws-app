@@ -19,6 +19,7 @@ import SimpleBottomNavigation from "@/_components/navigation/navigationNavBar";
 import { Button, Grid, TextField } from "@mui/material";
 import HeaderBar from "@/_components/headerBarPrivateUsuario/headerBar";
 import FooterPrivate from "@/_components/FooterPrivate/footerPublic";
+import ChatAssistant from "@/_components/iaCom/iaCom";
 
 interface Usuario {
     idUsuario: string;
@@ -666,6 +667,7 @@ const CalendarUser: React.FC = () => {
                         opacity: 1
                     }}
                 ></Box>
+                <ChatAssistant/>
             </main>
             <footer>
                 <FooterPrivate></FooterPrivate>

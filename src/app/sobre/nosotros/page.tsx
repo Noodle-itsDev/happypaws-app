@@ -11,6 +11,7 @@ import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import Styles from './about.module.css';
 import HeaderBar from '@/_components/headerBarPublic/headerBarPublic/headerBar';
 import FooterPublic from '@/_components/FooterPublic/footerPublic';
+import ChatAssistant from '@/_components/iaCom/iaCom';
 
 // Registro del plugin ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);

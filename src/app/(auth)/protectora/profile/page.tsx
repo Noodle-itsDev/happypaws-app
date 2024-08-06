@@ -14,6 +14,7 @@ import NotificationCardShelter from "@/_components/cardNotificationShelter/cardN
 import EventChips from "@/_components/chipsComponent/chipsComponent";
 import HeaderBar from "@/_components/headerBarPrivateProtectora/headerBarPrivateProtectora/headerBar";
 import FooterPrivate from "@/_components/FooterPrivate/footerPublic";
+import ChatAssistant from "@/_components/iaCom/iaCom";
 
 interface UserData {
     nombre: string;
@@ -258,7 +259,7 @@ const UserProfile: React.FC = () => {
 
     return (
         <>
-            <header style={{ position: "fixed", top: 0, zIndex: 9999 }}>
+            <header>
                 <HeaderBar></HeaderBar>
             </header>
             <main
@@ -591,6 +592,7 @@ const UserProfile: React.FC = () => {
                         zIndex: -200
                     }}
                 ></Box>
+                <ChatAssistant/>
             </main>
             <footer>
                 <FooterPrivate></FooterPrivate>

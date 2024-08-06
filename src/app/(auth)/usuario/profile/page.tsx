@@ -90,56 +90,6 @@ const UserProfile: React.FC = () => {
 
     const [eventos, setEventos] = useState<Evento[]>([]);
 
-    // useEffect(() => {
-    //     const fetchEventos = async () => {
-    //         try {
-    //             const token = localStorage.getItem("authToken");
-    //             const usuarioJSON = localStorage.getItem("user");
-
-    //             if (!token || !usuarioJSON) {
-    //                 console.error('Token or user not found in localStorage');
-    //                 localStorage.removeItem('authToken');
-    //                 localStorage.removeItem('user');
-    //                 location.href = "/signup";
-    //                 return;
-    //             }
-
-    //             const usuario = JSON.parse(usuarioJSON);
-    //             const protectoras = usuario.protectoras;
-    //             const usuarioId = usuario.idUsuario;
-
-    //             // if (protectoras.length != 0) {
-    //             //     localStorage.removeItem('authToken');
-    //             //     localStorage.removeItem('user');
-    //             //     location.href = "/signup"
-    //             //     return;
-    //             // }
-    //             console.log("EVENTOS ALL");
-    //             const response = await axios.get(`http://194.164.165.239:8080/api/eventos/all`, {
-    //                 headers: {
-    //                     'Content-Type': 'application/json',
-    //                     'Authorization': `Bearer ${token}`,
-    //                 }
-    //             });
-    //             console.log(response);
-    //             const eventosData = response.data.map((evento: any) => ({
-    //                 tipoEvento: evento.tipoEvento,
-    //                 nombreUsuario: evento.usuario.nombre,
-    //                 nombreMascota: evento.mascota.nombre,
-    //                 nombreEvento: evento.nombreEvento,
-    //                 fecha: evento.fechaInicio,
-    //                 estado: evento.estado
-    //             }));
-
-    //             setEventos(eventosData);
-    //         } catch (error) {
-    //             console.error("Error fetching eventos", error);
-    //         }
-    //     };
-
-    //     fetchEventos();
-    // }, []);
-
     const [userData, setUserData] = useState<UserData>({
         nombre: "",
         apellidos: "",

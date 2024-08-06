@@ -13,11 +13,12 @@ import { Box } from '@mui/system';
 import HeaderBar from '@/_components/headerBarPublic/headerBarPublic/headerBar';
 import FooterPublic from '@/_components/FooterPublic/footerPublic';
 import axios from 'axios';
+import ChatAssistant from '@/_components/iaCom/iaCom';
 
 const ContactPage: React.FC = () => {
 
-    function handleSubmit(){
-    
+    function handleSubmit() {
+
         const nombre = (document.getElementById('nombre') as HTMLInputElement).value;
         const correo = (document.getElementById('email') as HTMLInputElement).value;
         const telefono = (document.getElementById('telefono') as HTMLInputElement).value;
@@ -199,7 +200,7 @@ const ContactPage: React.FC = () => {
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <Button type="submit" variant="contained" fullWidth style={{ backgroundColor: "#104b4b" }}  onClick={handleSubmit}>
+                                            <Button type="submit" variant="contained" fullWidth style={{ backgroundColor: "#104b4b" }} onClick={handleSubmit}>
                                                 Enviar
                                             </Button>
                                         </Grid>
@@ -319,7 +320,6 @@ const ContactPage: React.FC = () => {
                         opacity: 1
                     }}
                 ></Box>
-
 
             </main>
             <footer style={{ textAlign: "center", position: "relative", zIndex: "10" }}>

@@ -13,6 +13,7 @@ import PrimarySearchAppBar from '@/_components/header/headerGradient';
 import { SelectChangeEvent } from '@mui/material/Select';
 import HeaderBar from '@/_components/headerBarPublic/headerBarPublic/headerBar';
 import FooterPublic from '@/_components/FooterPublic/footerPublic';
+import ChatAssistant from '@/_components/iaCom/iaCom';
 
 interface Errors {
     email?: string;

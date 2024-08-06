@@ -8,6 +8,7 @@ import FilterAccordion from '@/_components/filterAccordion/filterAccordion';
 import ChatAssistant from '@/_components/iaCom/iaCom';
 import HeaderBar from '@/_components/headerBarPrivateUsuario/headerBar';
 import FooterPrivate from '@/_components/FooterPrivate/footerPublic';
+import ImgMediaCardShelter from '@/_components/cardAnimalesProtectora/cardAnimales';
 
 interface Mascota {
     id: number;
@@ -160,47 +161,7 @@ const PetsView: React.FC = () => {
         return <Typography color="error">{error}</Typography>;
     }
 
-    useEffect(() => {
-        gsap.utils.toArray('.animate-scroll').forEach((section: unknown) => {
-            const element = section as HTMLElement;
-
-            gsap.fromTo(element,
-                { opacity: 0, y: 100 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 1,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: element,
-                        start: 'top 80%',
-                        end: 'bottom 60%',
-                        scrub: true,
-                        toggleActions: 'play none none reverse'
-                    }
-                }
-            );
-        });
-
-        gsap.to('.floating-circle', {
-            y: 20,
-            rotation: 360,
-            duration: 5,
-            repeat: -1,
-            yoyo: true,
-            ease: 'sine.inOut'
-        });
-
-        gsap.to('.floating-flower', {
-            y: 10,
-            duration: 2,
-            yoyo: true,
-            repeat: -1,
-            ease: 'sine.inOut'
-        });
-    }, []);
-
-
+    
     return (
         <>
             <header>
@@ -216,7 +177,7 @@ const PetsView: React.FC = () => {
                             <Grid container columnSpacing={0} rowSpacing={2} columnGap={-5}>
                                 {currentItems.map((mascota) => (
                                     <Grid item xs={12} sm={6} md={3} key={mascota.id}>
-                                        <ImgMediaCard
+                                        <ImgMediaCardShelter
                                             id={mascota.id}
                                             alergias={mascota.alergias}
                                             incidentes={mascota.incidentes}
@@ -335,7 +296,7 @@ const PetsView: React.FC = () => {
                         opacity: 1
                     }}
                 ></Box>
-
+                
             </main>
 
             <footer>

@@ -20,6 +20,7 @@ import CircleButton from "@/_components/floatings/circleFloat/circleFloat";
 import RotatingButton from "@/_components/buttonColors/buttonFlower";
 import HeaderBar from "@/_components/headerBarPublic/headerBarPublic/headerBar";
 import FooterPublic from "@/_components/FooterPublic/footerPublic";
+import ChatAssistant from "@/_components/iaCom/iaCom";
 const FloatingText = lazy(
   () => import("@/Animations/textAnimatio/textAnimation")
 );

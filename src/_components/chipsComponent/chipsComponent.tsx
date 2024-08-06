@@ -47,7 +47,7 @@ const EventChips: React.FC = () => {
         fetchEvents();
     }, []);
 
-    const validEvents = events.filter(event => event.estado !== 'No asistido' && event.tipoEvento == "Voluntariado");
+    const validEvents = events.filter(event => event.estado === "Asistido");
 
     console.log(events, validEvents);
 

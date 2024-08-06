@@ -157,8 +157,8 @@ const CreateMascota: React.FC = () => {
                                 label="Especie"
                                 size="medium"
                             >
-                                <MenuItem value="Felinos">Felinos</MenuItem>
-                                <MenuItem value="Caninos">Caninos</MenuItem>
+                                <MenuItem value="Felino">Felino</MenuItem>
+                                <MenuItem value="Canino">Canino</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>
