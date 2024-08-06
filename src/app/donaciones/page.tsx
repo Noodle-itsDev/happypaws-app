@@ -151,7 +151,7 @@ export default function ContainedButtons() {
         if (!email) newErrors.email = "El correo electrónico es requerido.";
         if (!donationType) newErrors.donationType = "Debe seleccionar un tipo de donación.";
         if (donationType === 'otros' && !otherDetails) newErrors.otherDetails = "Debe especificar otros detalles.";
-        if (wordCount < 20) newErrors.comments = "El comentario debe tener al menos 20 palabras.";
+        if (wordCount < 5) newErrors.comments = "El comentario debe tener al menos 20 palabras.";
         if (!isCommentRelevant(comments)) newErrors.comments = "El comentario debe estar relacionado con temas de protectora, comida o pienso.";
 
         if (Object.keys(newErrors).length === 0) {
